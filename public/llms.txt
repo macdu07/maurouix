@@ -1,0 +1,26 @@
+# MauroUIX
+
+> Mauricio Correa (MauroUIX) is a freelance web designer and UI/UX developer
+> based in Colombia with over 10 years of experience. He specializes in
+> WordPress development with Bricks Builder, UI/UX design in Figma, and
+> corporate identity design for B2B companies in the automotive, logistics,
+> and e-commerce sectors.
+
+## Services
+- Web Interface Design (UI/UX)
+- Creative Website Development (WordPress, Bricks Builder, Figma)
+- Corporate Identity & Branding
+
+## Portfolio
+- [AutoVenz](https://maurouix.com/proyectos/autovenz): B2B automotive parts distributor
+- [Indireca](https://maurouix.com/proyectos/indireca): Colombian auto parts e-commerce
+- [Inversiones GC](https://maurouix.com/proyectos/inversiones-gc): Industrial motor distributor
+- [Imporlasca](https://maurouix.com/proyectos/imporlasca): International trade & logistics
+- [Encanto Amatista](https://maurouix.com/proyectos/encanto-amatista): Jewelry e-commerce boutique
+- [Daca Trader](https://maurouix.com/proyectos/dacatrader): B2B motor import company
+
+## Contact
+- Email: contacto@maurouix.com
+- WhatsApp: +57 302 372 5631
+- LinkedIn: https://linkedin.com/in/mcorread
+- Website: https://maurouix.com
