@@ -2,7 +2,7 @@
 
 Portfolio personal de Mauricio Correa, diseñador web y desarrollador UI/UX.
 
-**Sitio:** [maurouix.co](https://maurouix.co)
+**Sitio:** [maurouix.com](https://maurouix.com)
 
 ## Stack
 
@@ -38,12 +38,12 @@ public/
 
 ## Comandos
 
-| Comando            | Acción                                  |
-| :----------------- | :-------------------------------------- |
-| `npm install`      | Instala dependencias                    |
-| `npm run dev`      | Servidor local en `localhost:4321`      |
-| `npm run build`    | Build de producción en `./dist/`        |
-| `npm run preview`  | Preview del build antes de desplegar    |
+| Comando           | Acción                               |
+| :---------------- | :----------------------------------- |
+| `npm install`     | Instala dependencias                 |
+| `npm run dev`     | Servidor local en `localhost:4321`   |
+| `npm run build`   | Build de producción en `./dist/`     |
+| `npm run preview` | Preview del build antes de desplegar |
 
 ## Tema
 
