@@ -1,0 +1,53 @@
+---
+import { projects } from '../data/projects';
+---
+
+<section id="work" class="section-pad relative z-10">
+  <p class="section-label reveal-up">Portfolio</p>
+  <h2 class="font-display font-black text-[clamp(2rem,5vw,5rem)] tracking-tight leading-tight mb-16 reveal-up">
+    SELECTED<br/>WORK
+  </h2>
+
+  <ul class="projects-list list-none">
+    {projects.map((project, i) => (
+      <li class="project-item reveal-up" data-index={i}>
+        <div class="project-title-row py-8 md:py-10" data-accordion-trigger>
+          <div class="flex items-baseline gap-4 md:gap-8">
+            <span class="font-mono text-[0.7rem] text-[var(--color-muted)] tracking-[0.2em]">
+              {project.num}
+            </span>
+            <div class="flex-1">
+              <h3 class="project-title font-display font-semibold text-[clamp(1.3rem,3vw,3rem)] tracking-tight leading-tight transition-all duration-300">
+                {project.title}
+              </h3>
+              <p class="font-mono text-[0.7rem] tracking-[0.1em] text-[var(--color-muted)] mt-2 uppercase">
+                {project.meta}
+              </p>
+            </div>
+            <span class="accordion-icon font-mono text-[var(--color-muted)] text-xl transition-transform duration-300 hidden md:block">
+              +
+            </span>
+          </div>
+        </div>
+
+        <div class="project-panel" data-accordion-panel>
+          <div class="pb-10 pl-0 md:pl-[calc(0.7rem+2rem+8px)]">
+            <p class="font-body text-base md:text-lg leading-relaxed text-[var(--color-fg)] opacity-80 max-w-[65ch] mb-6">
+              {project.description}
+            </p>
+            <div class="flex flex-wrap gap-2 mb-6">
+              {project.tags.map((tag: string) => (
+                <span class="font-mono text-[0.65rem] tracking-[0.1em] uppercase px-3 py-1 border border-[rgba(245,245,245,0.1)] text-[var(--color-muted)]">
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <a href={`/proyectos/${project.slug}`} class="link-accent font-mono text-[0.75rem] tracking-[0.15em] uppercase">
+              [ {project.cta} → ]
+            </a>
+          </div>
+        </div>
+      </li>
+    ))}
+  </ul>
+</section>

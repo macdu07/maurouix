@@ -1,0 +1,100 @@
+---
+const socials = [
+  { label: 'Instagram', url: 'https://www.instagram.com/mcorread/' },
+  { label: 'LinkedIn', url: 'https://www.linkedin.com/in/mcorread/' },
+  { label: 'Facebook', url: 'https://web.facebook.com/MauricioCorreaD' },
+];
+---
+
+<section id="contact" class="section-pad relative z-10 pb-24">
+  <p class="section-label reveal-up">Hablemos</p>
+  <h2 class="font-display font-black text-[clamp(2rem,5vw,5rem)] tracking-tight leading-tight mb-16 reveal-up">
+    COLABOREMOS
+  </h2>
+
+  <div class="reveal-up">
+    <p class="font-mono text-[0.7rem] tracking-[0.25em] uppercase text-[var(--color-muted)] mb-4">
+      Email
+    </p>
+    <div class="flex flex-wrap items-center gap-4 md:gap-6 mb-12">
+      <a
+        href="mailto:contacto@maurouix.com"
+        class="font-display font-black text-[clamp(1.5rem,4vw,4.5rem)] tracking-tight text-[var(--color-fg)] no-underline hover:text-[var(--color-accent)] transition-colors duration-300 break-all"
+      >
+        contacto@maurouix.com
+      </a>
+      <button
+        id="copy-email-btn"
+        class="copy-btn"
+        data-email="contacto@maurouix.com"
+        aria-label="Copiar email"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+        </svg>
+        <span id="copy-label">Copiar</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="reveal-up mb-12">
+    <p class="font-mono text-[0.7rem] tracking-[0.25em] uppercase text-[var(--color-muted)] mb-4">
+      WhatsApp
+    </p>
+    <a
+      href="https://wa.me/573023725631"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="font-display font-bold text-xl md:text-2xl tracking-tight text-[var(--color-fg)] no-underline hover:text-[var(--color-accent)] transition-colors duration-300"
+    >
+      +57 302 372 5631
+    </a>
+  </div>
+
+  <div class="reveal-up">
+    <p class="font-mono text-[0.7rem] tracking-[0.25em] uppercase text-[var(--color-muted)] mb-6">
+      Social
+    </p>
+    <div class="flex flex-wrap gap-6 md:gap-10">
+      {socials.map((social) => (
+        <a
+          href={social.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="font-mono text-sm tracking-[0.1em] uppercase text-[var(--color-fg)] opacity-60 hover:opacity-100 hover:text-[var(--color-accent)] underline underline-offset-4 decoration-[rgba(245,245,245,0.2)] hover:decoration-[var(--color-accent)] transition-all duration-300"
+        >
+          {social.label}
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <div class="reveal-up mt-16">
+    <a
+      href="https://s3.maurouix.com/docs/HV_Mauricio%20Correa%20D.pdf"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="cv-download-btn group inline-flex items-center gap-3 px-6 py-4 border border-[var(--color-accent)] text-[var(--color-accent)] hover:bg-[var(--color-accent)] hover:text-[var(--color-bg)] transition-all duration-300"
+    >
+      <svg class="cv-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path class="cv-arrow" d="M12 5v14"/>
+        <path class="cv-arrow" d="m19 12-7 7-7-7"/>
+        <path d="M5 21h14"/>
+      </svg>
+      <span class="font-mono text-[0.75rem] tracking-[0.15em] uppercase">Descargar CV</span>
+    </a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="pad-x py-8 relative z-10 border-t border-[rgba(245,245,245,0.06)]">
+  <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+    <p class="font-mono text-[0.65rem] tracking-[0.15em] uppercase text-[var(--color-muted)]">
+      © 2026 MauroUIX — Todos los derechos reservados
+    </p>
+    <p class="font-mono text-[0.65rem] tracking-[0.15em] uppercase text-[var(--color-muted)]">
+      Cada diseño cuenta una historia. ¿Cuál es la tuya?
+    </p>
+  </div>
+</footer>

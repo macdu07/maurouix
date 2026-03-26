@@ -1,0 +1,67 @@
+---
+const skills = [
+  'Figma', 'WordPress', 'Bricks Builder', 'UI/UX Design', 'Diseño Gráfico', 'Identidad Corporativa'
+];
+
+const pillars = [
+  {
+    title: 'Innovación Creativa',
+    description: 'Diseños modernos y únicos que hacen destacar tu marca.'
+  },
+  {
+    title: 'Experiencia del Usuario',
+    description: 'Diseño web intuitivo y fácil de usar para una navegación fluida.'
+  },
+  {
+    title: 'Personalización Única',
+    description: 'Soluciones que reflejan la identidad y valores de cada cliente.'
+  },
+  {
+    title: 'Calidad y Detalle',
+    description: 'Atención meticulosa a cada detalle para un resultado impecable.'
+  }
+];
+---
+
+<section id="about" class="section-pad relative z-10">
+  <p class="section-label reveal-up">Sobre Mí</p>
+  <h2 class="font-display font-black text-[clamp(2rem,5vw,5rem)] tracking-tight leading-tight mb-16 reveal-up">
+    MI<br/>FILOSOFÍA
+  </h2>
+
+  <div class="max-w-[65ch] reveal-up">
+    <p class="font-body text-lg md:text-xl leading-relaxed text-[var(--color-fg)] opacity-85 mb-8">
+      Hola, soy Mauricio Correa — diseñador gráfico y web con más de una década de experiencia transformando ideas en experiencias visuales impactantes y funcionales.
+    </p>
+    <p class="font-body text-lg md:text-xl leading-relaxed text-[var(--color-fg)] opacity-85 mb-16">
+      Mi objetivo es ayudar a contar historias a través del diseño, creando soluciones que reflejen la identidad única de cada cliente y conecten con su audiencia de manera significativa.
+    </p>
+  </div>
+
+  <!-- Pilares -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 reveal-up">
+    {pillars.map((pillar) => (
+      <div class="border border-[rgba(245,245,245,0.08)] p-6 md:p-8">
+        <h3 class="font-display font-bold text-base md:text-lg tracking-tight text-[var(--color-fg)] mb-3">
+          {pillar.title}
+        </h3>
+        <p class="font-body text-sm md:text-base leading-relaxed text-[var(--color-muted)]">
+          {pillar.description}
+        </p>
+      </div>
+    ))}
+  </div>
+
+  <div class="reveal-up">
+    <p class="font-mono text-[0.7rem] tracking-[0.25em] uppercase text-[var(--color-muted)] mb-6">
+      Herramientas & Tecnologías
+    </p>
+    <div class="flex flex-wrap gap-3">
+      {skills.map((skill) => (
+        <span class="font-mono text-[0.7rem] tracking-[0.1em] uppercase px-4 py-2 border border-[rgba(245,245,245,0.08)] text-[var(--color-fg)] opacity-70 hover:opacity-100 hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] transition-all duration-300 cursor-default">
+          {skill}
+        </span>
+      ))}
+    </div>
+  </div>
+</section>

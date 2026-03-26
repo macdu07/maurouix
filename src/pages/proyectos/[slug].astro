@@ -1,0 +1,275 @@
+---
+import '../../styles/global.css';
+import Header from '../../components/Header.astro';
+import { projects } from '../../data/projects';
+import type { Project } from '../../data/projects';
+
+export function getStaticPaths() {
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const currentIndex = projects.findIndex((p) => p.slug === project.slug);
+const prevProject = currentIndex > 0 ? projects[currentIndex - 1] : null;
+const nextProject = currentIndex < projects.length - 1 ? projects[currentIndex + 1] : null;
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={`${project.title} — ${project.meta} · MauroUIX`} />
+    <title>{project.title} · MauroUIX</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  </head>
+  <body>
+    <div class="grid-bg" id="grid-bg"></div>
+
+    <Header />
+
+    <main>
+      <!-- ── Hero del proyecto ── -->
+      <section class="section-pad pt-[10rem] md:pt-[12rem] relative z-10">
+        <div class="mb-4 reveal-up">
+          <a href="/#work" class="nav-link inline-flex items-center gap-2">
+            ← Volver al portafolio
+          </a>
+        </div>
+
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mt-12 mb-0">
+          <div class="reveal-up">
+            <span class="font-mono text-[0.7rem] text-[var(--color-muted)] tracking-[0.2em] block mb-4">
+              {project.num}
+            </span>
+            <h1 class="font-display font-black text-[clamp(2.5rem,7vw,7rem)] tracking-tight leading-none">
+              {project.title}
+            </h1>
+          </div>
+
+          <div class="flex flex-col items-start md:items-end gap-2 reveal-up">
+            <p class="font-mono text-[0.7rem] tracking-[0.1em] text-[var(--color-muted)] uppercase">
+              {project.meta}
+            </p>
+            {project.year && (
+              <p class="font-mono text-[0.7rem] tracking-[0.1em] text-[var(--color-muted)] uppercase">
+                {project.year}
+              </p>
+            )}
+            {project.url && (
+              <a
+                href={project.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="link-accent font-mono text-[0.7rem] tracking-[0.1em] uppercase mt-2"
+              >
+                [ Ver sitio en vivo ↗ ]
+              </a>
+            )}
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- ── Tags ── -->
+      <section class="pad-x py-10 relative z-10">
+        <div class="flex flex-wrap gap-2 reveal-up">
+          {project.tags.map((tag) => (
+            <span class="font-mono text-[0.65rem] tracking-[0.1em] uppercase px-3 py-1 border border-[rgba(245,245,245,0.1)] text-[var(--color-muted)]">
+              {tag}
+            </span>
+          ))}
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- ── Overview ── -->
+      {project.overview && (
+        <section class="section-pad relative z-10">
+          <p class="section-label reveal-up">Proyecto</p>
+          <p class="font-body text-[clamp(1.1rem,2vw,1.5rem)] leading-relaxed text-[var(--color-fg)] opacity-80 max-w-[70ch] reveal-up">
+            {project.overview}
+          </p>
+        </section>
+      )}
+
+      <!-- ── Challenge ── -->
+      {project.challenge && (
+        <>
+          <div class="section-divider"></div>
+          <section class="section-pad relative z-10">
+            <p class="section-label reveal-up">Desafío</p>
+            <p class="font-body text-[clamp(1.1rem,2vw,1.5rem)] leading-relaxed text-[var(--color-fg)] opacity-80 max-w-[70ch] reveal-up">
+              {project.challenge}
+            </p>
+          </section>
+        </>
+      )}
+
+      <!-- ── Features ── -->
+      {project.features && project.features.length > 0 && (
+        <>
+          <div class="section-divider"></div>
+          <section class="section-pad relative z-10">
+            <p class="section-label reveal-up">Lo que construimos</p>
+            <ul class="list-none mt-0 max-w-[65ch] space-y-0">
+              {project.features.map((feature) => (
+                <li class="feature-item reveal-up">
+                  <span class="feature-arrow">→</span>
+                  <span class="font-body text-base md:text-lg leading-relaxed text-[var(--color-fg)] opacity-80">
+                    {feature}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        </>
+      )}
+
+      <div class="section-divider"></div>
+
+      <!-- ── CTA ── -->
+      <section class="section-pad relative z-10">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+          <div class="reveal-up">
+            <p class="section-label">¿Tienes un proyecto similar?</p>
+            <h2 class="font-display font-black text-[clamp(1.8rem,4vw,4rem)] tracking-tight leading-tight">
+              Hablemos.<br/>
+              <span class="text-[var(--color-accent)]">Hagámoslo realidad.</span>
+            </h2>
+          </div>
+          <div class="flex flex-col gap-4 reveal-up">
+            {project.url && (
+              <a
+                href={project.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="link-accent font-mono text-[0.75rem] tracking-[0.15em] uppercase"
+              >
+                [ Ver sitio en vivo ↗ ]
+              </a>
+            )}
+            <a href="/#contact" class="link-accent font-mono text-[0.75rem] tracking-[0.15em] uppercase">
+              [ Contactar → ]
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider"></div>
+
+      <!-- ── Navegación entre proyectos ── -->
+      <nav class="pad-x py-12 relative z-10">
+        <div class="flex justify-between items-center">
+          <div class="reveal-up">
+            {prevProject ? (
+              <a href={`/proyectos/${prevProject.slug}`} class="project-nav-link group">
+                <span class="font-mono text-[0.65rem] tracking-[0.2em] uppercase text-[var(--color-muted)] block mb-2">
+                  ← Anterior
+                </span>
+                <span class="font-display font-semibold text-[clamp(0.9rem,2vw,1.3rem)] tracking-tight group-hover:text-[var(--color-accent)] transition-colors duration-300">
+                  {prevProject.title}
+                </span>
+              </a>
+            ) : (
+              <span></span>
+            )}
+          </div>
+
+          <div class="text-right reveal-up">
+            {nextProject ? (
+              <a href={`/proyectos/${nextProject.slug}`} class="project-nav-link group">
+                <span class="font-mono text-[0.65rem] tracking-[0.2em] uppercase text-[var(--color-muted)] block mb-2">
+                  Siguiente →
+                </span>
+                <span class="font-display font-semibold text-[clamp(0.9rem,2vw,1.3rem)] tracking-tight group-hover:text-[var(--color-accent)] transition-colors duration-300">
+                  {nextProject.title}
+                </span>
+              </a>
+            ) : (
+              <a href="/#work" class="project-nav-link group">
+                <span class="font-mono text-[0.65rem] tracking-[0.2em] uppercase text-[var(--color-muted)] block mb-2">
+                  Ver todos →
+                </span>
+                <span class="font-display font-semibold text-[clamp(0.9rem,2vw,1.3rem)] tracking-tight group-hover:text-[var(--color-accent)] transition-colors duration-300">
+                  Portfolio
+                </span>
+              </a>
+            )}
+          </div>
+        </div>
+      </nav>
+
+      <!-- ── Footer mínimo ── -->
+      <footer class="pad-x pad-y-sm border-t border-[rgba(245,245,245,0.06)] relative z-10">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4 py-6">
+          <span class="font-mono text-[0.65rem] tracking-[0.15em] uppercase text-[var(--color-muted)]">
+            © 2025 MauroUIX
+          </span>
+          <a href="/" class="font-display font-black text-sm tracking-tight hover:text-[var(--color-accent)] transition-colors duration-300">
+            MAUROUIX
+          </a>
+        </div>
+      </footer>
+    </main>
+
+    <script>
+      import { gsap } from 'gsap';
+      import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      // ── Grid parallax ──
+      gsap.to('#grid-bg', {
+        backgroundPosition: '30px 200px',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: 'body',
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: 1.5,
+        },
+      });
+
+      // ── Scroll reveals ──
+      gsap.utils.toArray<HTMLElement>('.reveal-up').forEach((el) => {
+        gsap.to(el, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 88%',
+          },
+        });
+      });
+
+      // ── Header blur on scroll ──
+      const header = document.querySelector('header');
+      if (header) {
+        ScrollTrigger.create({
+          start: '100px top',
+          onEnter: () => {
+            (header as HTMLElement).style.background = 'rgba(13,13,13,0.85)';
+            (header as HTMLElement).style.backdropFilter = 'blur(12px)';
+          },
+          onLeaveBack: () => {
+            (header as HTMLElement).style.background = '';
+            (header as HTMLElement).style.backdropFilter = '';
+          },
+        });
+      }
+    </script>
+  </body>
+</html>

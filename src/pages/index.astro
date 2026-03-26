@@ -1,0 +1,310 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Projects from '../components/Projects.astro';
+import Services from '../components/Services.astro';
+import Philosophy from '../components/Philosophy.astro';
+import Contact from '../components/Contact.astro';
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="MauroUIX — Diseñador Web & Desarrollador UI/UX. Transformando ideas en experiencias digitales." />
+    <title>MauroUIX — Diseñador Web & Desarrollador UI/UX</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  </head>
+  <body>
+    <!-- Animated background grid -->
+    <div class="grid-bg" id="grid-bg"></div>
+
+    <Header />
+
+    <main>
+      <Hero />
+      <div class="section-divider"></div>
+      <Projects />
+      <div class="section-divider"></div>
+      <Services />
+      <div class="section-divider"></div>
+      <Philosophy />
+      <div class="section-divider"></div>
+      <Contact />
+    </main>
+
+    <!-- GSAP Scripts -->
+    <script>
+      import { gsap } from 'gsap';
+      import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      // ─────────────────────────────────────
+      // 1. HERO — Letter-by-letter reveal
+      // ─────────────────────────────────────
+      function initHeroReveal() {
+        const heroEl = document.getElementById('hero-text');
+        if (!heroEl) return;
+
+        const text = heroEl.textContent || '';
+        heroEl.innerHTML = '';
+
+        // Split into words, then chars
+        const words = text.split(' ');
+        words.forEach((word, wi) => {
+          const wordSpan = document.createElement('span');
+          wordSpan.className = 'word';
+
+          for (let i = 0; i < word.length; i++) {
+            const charSpan = document.createElement('span');
+            charSpan.className = 'char';
+            charSpan.textContent = word[i];
+            wordSpan.appendChild(charSpan);
+          }
+
+          heroEl.appendChild(wordSpan);
+
+          // Add space between words (not after the last one)
+          if (wi < words.length - 1) {
+            const space = document.createElement('span');
+            space.className = 'word';
+            space.innerHTML = '&nbsp;';
+            heroEl.appendChild(space);
+          }
+        });
+
+        // Animate each character
+        const chars = heroEl.querySelectorAll('.char');
+        gsap.fromTo(
+          chars,
+          {
+            opacity: 0,
+            y: 40,
+            rotateX: -90,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            rotateX: 0,
+            duration: 0.6,
+            ease: 'power3.out',
+            stagger: 0.025,
+            delay: 0.3,
+          }
+        );
+      }
+
+      // ─────────────────────────────────────
+      // 2. Scroll Reveal for sections
+      // ─────────────────────────────────────
+      function initScrollReveals() {
+        const hash = window.location.hash;
+        const hashTarget = hash ? document.querySelector(hash) : null;
+
+        const revealEls = document.querySelectorAll('.reveal-up');
+        revealEls.forEach((el) => {
+          // If navigated with hash, instantly reveal elements inside the target section
+          if (hashTarget && (hashTarget === el || hashTarget.contains(el))) {
+            gsap.set(el, { opacity: 1, y: 0 });
+            return;
+          }
+          gsap.fromTo(
+            el,
+            { opacity: 0, y: 30 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              ease: 'power2.out',
+              scrollTrigger: {
+                trigger: el,
+                start: 'top 88%',
+                toggleActions: 'play none none none',
+              },
+            }
+          );
+        });
+      }
+
+      // ─────────────────────────────────────
+      // 3. Background grid parallax
+      // ─────────────────────────────────────
+      function initGridParallax() {
+        const gridBg = document.getElementById('grid-bg');
+        if (!gridBg) return;
+
+        gsap.to(gridBg, {
+          backgroundPosition: '30px 200px',
+          ease: 'none',
+          scrollTrigger: {
+            trigger: document.body,
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 1.5,
+          },
+        });
+      }
+
+      // ─────────────────────────────────────
+      // 4. Project accordion
+      // ─────────────────────────────────────
+      function initAccordion() {
+        const triggers = document.querySelectorAll('[data-accordion-trigger]');
+
+        triggers.forEach((trigger) => {
+          trigger.addEventListener('click', () => {
+            const item = trigger.closest('.project-item');
+            if (!item) return;
+            const panel = item.querySelector('[data-accordion-panel]') as HTMLElement;
+            const icon = item.querySelector('.accordion-icon');
+            if (!panel) return;
+
+            const isOpen = panel.style.height !== '0px' && panel.style.height !== '';
+
+            // Close all other panels
+            document.querySelectorAll('[data-accordion-panel]').forEach((p) => {
+              const pEl = p as HTMLElement;
+              if (pEl !== panel) {
+                gsap.to(pEl, { height: 0, duration: 0.4, ease: 'power2.inOut' });
+                const pItem = pEl.closest('.project-item');
+                const pIcon = pItem?.querySelector('.accordion-icon');
+                if (pIcon) {
+                  pIcon.textContent = '+';
+                  gsap.to(pIcon, { rotation: 0, duration: 0.3 });
+                }
+              }
+            });
+
+            if (isOpen) {
+              // Close this panel
+              gsap.to(panel, { height: 0, duration: 0.4, ease: 'power2.inOut' });
+              if (icon) {
+                icon.textContent = '+';
+                gsap.to(icon, { rotation: 0, duration: 0.3 });
+              }
+            } else {
+              // Open this panel
+              gsap.set(panel, { height: 'auto' });
+              const fullHeight = panel.offsetHeight;
+              gsap.fromTo(
+                panel,
+                { height: 0 },
+                { height: fullHeight, duration: 0.5, ease: 'power2.out' }
+              );
+              if (icon) {
+                icon.textContent = '−';
+                gsap.to(icon, { rotation: 180, duration: 0.3 });
+              }
+            }
+          });
+        });
+      }
+
+      // ─────────────────────────────────────
+      // 5. Header scroll styling
+      // ─────────────────────────────────────
+      function initHeaderScroll() {
+        const header = document.getElementById('site-header');
+        if (!header) return;
+
+        ScrollTrigger.create({
+          trigger: document.body,
+          start: '100px top',
+          onEnter: () => {
+            header.style.backgroundColor = 'rgba(13,13,13,0.85)';
+            header.style.backdropFilter = 'blur(12px)';
+            header.style.webkitBackdropFilter = 'blur(12px)';
+          },
+          onLeaveBack: () => {
+            header.style.backgroundColor = 'transparent';
+            header.style.backdropFilter = 'none';
+            header.style.webkitBackdropFilter = 'none';
+          },
+        });
+      }
+
+      // ─────────────────────────────────────
+      // 6. Copy email
+      // ─────────────────────────────────────
+      function initCopyEmail() {
+        const btn = document.getElementById('copy-email-btn');
+        const label = document.getElementById('copy-label');
+        if (!btn || !label) return;
+
+        btn.addEventListener('click', async () => {
+          const email = btn.getAttribute('data-email') || '';
+          try {
+            await navigator.clipboard.writeText(email);
+            label.textContent = '¡Copiado!';
+            btn.classList.add('copied');
+            setTimeout(() => {
+              label.textContent = 'Copiar';
+              btn.classList.remove('copied');
+            }, 2000);
+          } catch {
+            label.textContent = 'Error';
+            setTimeout(() => { label.textContent = 'Copiar'; }, 2000);
+          }
+        });
+      }
+
+      // ─────────────────────────────────────
+      // 7. Mobile menu
+      // ─────────────────────────────────────
+      function initMobileMenu() {
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        if (!btn || !menu) return;
+
+        let isOpen = false;
+        btn.addEventListener('click', () => {
+          isOpen = !isOpen;
+          if (isOpen) {
+            menu.style.height = menu.scrollHeight + 'px';
+          } else {
+            menu.style.height = '0';
+          }
+        });
+
+        // Close on link click
+        menu.querySelectorAll('a').forEach((link) => {
+          link.addEventListener('click', () => {
+            isOpen = false;
+            menu.style.height = '0';
+          });
+        });
+      }
+
+      // ─── Initialize everything ───
+      document.addEventListener('DOMContentLoaded', () => {
+        initHeroReveal();
+        initScrollReveals();
+        initGridParallax();
+        initAccordion();
+        initHeaderScroll();
+        initCopyEmail();
+        initMobileMenu();
+
+        // Scroll to hash after everything is ready
+        const hash = window.location.hash;
+        if (hash) {
+          const target = document.querySelector(hash) as HTMLElement;
+          if (target) {
+            // Jump to top instantly (bypass CSS smooth scroll)
+            document.documentElement.style.scrollBehavior = 'auto';
+            window.scrollTo(0, 0);
+            // Restore smooth scroll and navigate to target
+            requestAnimationFrame(() => {
+              document.documentElement.style.scrollBehavior = '';
+              target.scrollIntoView({ behavior: 'smooth' });
+            });
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

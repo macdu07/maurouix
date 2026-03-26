@@ -1,0 +1,146 @@
+export interface Project {
+  num: string;
+  slug: string;
+  title: string;
+  meta: string;
+  description: string;
+  tags: string[];
+  cta: string;
+  year?: string;
+  url?: string;
+  overview?: string;
+  challenge?: string;
+  features?: string[];
+}
+
+export const projects: Project[] = [
+  {
+    num: '01',
+    slug: 'autovenz',
+    title: 'AUTOVENZ',
+    meta: 'Diseño Web  ·  Imagen Corporativa',
+    description: 'Empresa que impulsa el futuro del mercado automotriz e industrial con soluciones innovadoras. Desarrollo de una presencia web que refleja su visión de futuro y liderazgo en el sector.',
+    tags: ['WordPress', 'Bricks Builder', 'Figma', 'Branding'],
+    cta: 'Ver Proyecto',
+    url: 'https://autovenz.com',
+    overview: 'AutoVenz es un distribuidor B2B de repuestos automotrices e industriales con presencia en múltiples segmentos: vehículos de pasajeros, transporte de carga, maquinaria industrial, transporte público/privado y equipo marino. Su propuesta se diferencia por un enfoque en sostenibilidad, I+D continuo y una cadena de suministro global integrada. El reto fue construir una presencia digital que proyectara innovación y confianza frente a distribuidores con mayor visibilidad en el mercado.',
+    challenge: 'AutoVenz necesitaba un sitio que hablara con claridad a un público B2B técnico y exigente, comunicando simultáneamente su diversidad de portafolio y su posicionamiento como socio estratégico a largo plazo. El diseño debía transmitir solidez corporativa sin perder modernidad.',
+    features: [
+      'Hero de pantalla completa con imagen de fondo automotriz y mensajes de marca de alto impacto',
+      'Mega-menú de navegación con subcategorías de marca y selector de idioma EN/ES',
+      'Cards de categoría de producto con efectos glassmorphic y transiciones hover',
+      'Cinco segmentos de mercado: vehículos, carga, maquinaria, transporte y marina',
+      'Carrusel de marcas asociadas para reforzar credibilidad y portafolio',
+      'Sección de video embebido con estética atmosférica oscura',
+      'Menú off-canvas para mobile con acordeón de categorías',
+      'Paleta oscura con gradientes en púrpura profundo como acento de marca',
+    ],
+  },
+  {
+    num: '02',
+    slug: 'indireca',
+    title: 'INDIRECA',
+    meta: 'Diseño Web  ·  UI/UX',
+    description: 'Distribuidor colombiano de motores y autopartes con garantía. Diseño de una presencia digital que transmite confianza, expertise y facilita la conversión de talleres y negocios del sector automotriz.',
+    tags: ['WordPress', 'Bricks Builder', 'Figma', 'UI/UX'],
+    cta: 'Ver Proyecto',
+    url: 'https://indireca.com',
+    overview: 'Indireca S.A.S. es un distribuidor colombiano especializado en motores nuevos y reconstruidos, autopartes (suspensión, turbos, culatas y más) con cobertura de garantía y envíos seguros a nivel nacional. Atienden talleres, empresas y conductores en los segmentos personal, comercial, industrial y marino. El reto fue construir un sitio que acompañara todo el ciclo de compra: desde el descubrimiento hasta la cotización.',
+    challenge: 'El cliente necesitaba un catálogo digital funcional y fácil de navegar para un portafolio amplio y técnico. El sitio debía generar confianza en compradores B2B y B2C simultáneamente, destacando la garantía y el soporte posventa como diferenciadores clave.',
+    features: [
+      'Hero con video de fondo y overlay que comunica inmediatamente la propuesta de valor',
+      'Mega menú de navegación con catálogos desplegables de motores y autopartes',
+      'Contadores animados con métricas clave de la empresa',
+      'Cards de diferenciadores: garantía, envío rápido, cobertura nacional',
+      'Blog con carrusel de artículos educativos sobre mantenimiento automotriz',
+      'Lazy-loading optimizado para rendimiento con catálogo de productos extenso',
+      'Formulario de cotización integrado para solicitudes B2B',
+    ],
+  },
+  {
+    num: '03',
+    slug: 'inversiones-gc',
+    title: 'INVERSIONES GC',
+    meta: 'Diseño Web  ·  Imagen Corporativa',
+    description: 'Importadora y distribuidora de motores industriales, automotrices y marítimos con más de 15 años de experiencia. Diseño corporativo que proyecta confiabilidad y liderazgo en el sector.',
+    tags: ['WordPress', 'Figma', 'UI/UX', 'Branding'],
+    cta: 'Ver Proyecto',
+    url: 'https://inversiones-gc.com',
+    overview: 'Inversiones GC fue fundada en 2010 por Alejandro Carrasco con el objetivo de importar y distribuir motores de alta calidad para los sectores automotriz, industrial y marítimo. Con más de 15 años en el mercado, más de 2.000 motores vendidos anualmente y 4+ alianzas estratégicas internacionales, la empresa se posiciona como referente de confiabilidad y experiencia en Colombia.',
+    challenge: 'Comunicar la profundidad de un portafolio técnico y la solidez de 15 años de trayectoria a través de un diseño moderno que no perdiera la calidez humana del equipo fundador. El sitio debía atraer tanto a empresas industriales como a clientes del sector transporte.',
+    features: [
+      'Hero con fotografía industrial de alto impacto y overlay con gradiente oscuro',
+      'Tarjetas de métricas clave: 15+ años, 2.000+ motores/año, 4+ alianzas',
+      'Cuatro categorías de producto: transporte público/privado, carga liviana/mediana/pesada, maquinaria industrial y marino',
+      'Sección de alianzas internacionales con logos de proveedores estratégicos',
+      'Tipografía Satoshi con jerarquía visual clara para contenido técnico',
+      'Smooth scrolling con Lenis.js para experiencia de navegación fluida',
+      'Menú offcanvas para mobile con integración de redes sociales',
+    ],
+  },
+  {
+    num: '04',
+    slug: 'imporlasca',
+    title: 'IMPORLASCA',
+    meta: 'Diseño Web  ·  UI/UX',
+    description: 'Aliado de comercio internacional y logística con 15+ años de experiencia. Diseño que simplifica una propuesta de valor compleja y posiciona a la empresa como puerta de entrada al comercio global.',
+    tags: ['WordPress', 'Bricks Builder', 'Figma', 'UI/UX'],
+    cta: 'Ver Proyecto',
+    url: 'https://imporlasca.com',
+    overview: 'Importadora Las Carolinas opera desde 2008 como agente de compras y aliado logístico para empresas que quieren importar desde EE.UU., China, Japón, India, Turquía, Dubai y Brasil. Sus servicios cubren todo el ciclo: sourcing, verificación de calidad, gestión aduanera, almacenamiento y entrega puerta a puerta. El reto fue simplificar visualmente una propuesta de valor compleja y global.',
+    challenge: 'El cliente ofrecía cuatro servicios diferenciados con múltiples mercados de origen. Había que comunicar ese alcance global sin abrumar al visitante, usando el diseño como herramienta de claridad y confianza.',
+    features: [
+      'Hero carousel de múltiples slides con mensajes clave sobre comercio global simplificado',
+      'Cards de servicio numeradas con badges en gradiente dorado',
+      'Cuatro pilares visuales: Agente de Compras, Logística, Verificación de Calidad y Marca Privada',
+      'Efectos glassmorphism con backdrop-blur en contenedores de información',
+      'Tipografía Figtree con rangos de peso 300–900 para jerarquía editorial clara',
+      'Galería visual de proyectos de importación realizados',
+      'Diseño mobile-first con navegación offcanvas y fondos con textura',
+    ],
+  },
+  {
+    num: '05',
+    slug: 'encanto-amatista',
+    title: 'ENCANTO AMATISTA',
+    meta: 'Diseño Web  ·  E-Commerce',
+    description: 'Boutique de joyería en acero inoxidable y bañado en rodio para uso cotidiano. Diseño elegante y minimalista que traduce la identidad de la marca en una experiencia de compra envolvente.',
+    tags: ['WordPress', 'WooCommerce', 'Figma', 'UI/UX'],
+    cta: 'Ver Proyecto',
+    url: 'https://encantoamatista.com',
+    overview: 'Encanto Amatista es una boutique de accesorios colombiana especializada en joyería antialérgica de acero inoxidable y bañado en rodio. Ofrece más de 100 productos organizados por categoría (anillos, aretes, cadenas, pulseras), programa de mayoristas, asesoría personalizada por WhatsApp y envío gratuito desde $300.000 COP. El objetivo fue crear una experiencia de compra que enamore desde el primer scroll.',
+    challenge: 'Traducir la personalidad femenina, elegante y cercana de la marca en un e-commerce funcional y conversional. El diseño debía equilibrar la presentación aspiracional del producto con la facilidad de navegación y compra, especialmente en mobile.',
+    features: [
+      'Hero de gran formato con fotografía de producto lifestyle y CTAs de impacto',
+      'Carruseles de colecciones destacadas y nuevas llegadas con navegación táctil',
+      'Navegación por categoría de joya: anillos, aretes, cadenas, pulseras y más',
+      'Cards de producto con precio, botón "Agregar al carrito" y descuentos por volumen',
+      'Sección de testimonios de clientes para reforzar la confianza',
+      'Integración con WhatsApp para asesoría personalizada',
+      'Paleta púrpura elegante (#675699) con tipografías Philosopher + Mulish',
+      'Diseño responsive con menú deslizable y contador de carrito en header',
+    ],
+  },
+  {
+    num: '06',
+    slug: 'dacatrader',
+    title: 'DACA TRADER',
+    meta: 'Diseño Web  ·  UI/UX',
+    description: 'Presencia digital para empresa especializada en importación de motores nuevos y usados desde China y Dubai. Diseño moderno que proyecta confianza y liderazgo B2B.',
+    tags: ['WordPress', 'Figma', 'UI/UX', 'Branding'],
+    cta: 'Ver Proyecto',
+    year: '2024',
+    url: 'https://dacatrader.com',
+    overview: 'Daca Trader INC es una empresa fundada en 2023 con más de 10 años de experiencia acumulada en la industria de importación de motores. Operan como puente entre proveedores de China y Dubai y empresas latinoamericanas que necesitan motores nuevos y usados de alta calidad. El reto fue crear una presencia digital que transmitiera confianza, profesionalismo y liderazgo en un mercado B2B altamente competitivo.',
+    challenge: 'El cliente necesitaba posicionarse como un socio estratégico confiable frente a empresas con mayor trayectoria digital. El sitio debía comunicar su propuesta de valor de forma clara, generar credibilidad y facilitar el contacto con prospectos internacionales.',
+    features: [
+      'Hero slideshow con imágenes de alto impacto y CTAs de conversión',
+      'Tarjetas glassmorphic con efectos de blur para destacar servicios clave',
+      'Indicadores de confianza: calificación 4.9 y 10+ años de experiencia',
+      'Cuatro bloques de servicio: Sourcing, Control de Calidad, Gestión de Importación e Inspección',
+      'Animaciones de scroll progresivas para revelar contenido',
+      'Navegación responsive con menú hamburguesa para mobile',
+      'Sección "About" centrada en la historia y expertise del fundador',
+    ],
+  },
+];

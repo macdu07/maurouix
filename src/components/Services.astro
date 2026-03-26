@@ -1,0 +1,42 @@
+---
+const services = [
+  {
+    num: '01',
+    title: 'Diseño de Interfaces Web (UI/UX)',
+    description: 'Diseño web intuitivo y fácil de usar para una navegación fluida. Interfaces que equilibran estética y funcionalidad.'
+  },
+  {
+    num: '02',
+    title: 'Desarrollo de Sitios Web Creativos',
+    description: 'Diseños modernos y únicos que hacen destacar tu marca. Desarrollo con las mejores herramientas del mercado.'
+  },
+  {
+    num: '03',
+    title: 'Conceptualización de Imagen Corporativa',
+    description: 'Soluciones personalizadas que reflejan la identidad y valores del cliente. Desde el logotipo hasta la presencia digital completa.'
+  }
+];
+---
+
+<section id="services" class="section-pad relative z-10">
+  <p class="section-label reveal-up">Lo que hago</p>
+  <h2 class="font-display font-black text-[clamp(2rem,5vw,5rem)] tracking-tight leading-tight mb-16 reveal-up">
+    SERVICIOS
+  </h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+    {services.map((service) => (
+      <div class="reveal-up">
+        <span class="font-mono text-[0.7rem] text-[var(--color-accent)] tracking-[0.2em] mb-4 block">
+          {service.num}
+        </span>
+        <h3 class="font-display font-bold text-xl md:text-2xl tracking-tight text-[var(--color-fg)] mb-4 leading-tight">
+          {service.title}
+        </h3>
+        <p class="font-body text-base leading-relaxed text-[var(--color-muted)]">
+          {service.description}
+        </p>
+      </div>
+    ))}
+  </div>
+</section>
