@@ -25,11 +25,53 @@ const nextProject = currentIndex < projects.length - 1 ? projects[currentIndex +
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={`${project.title} — ${project.meta} · MauroUIX`} />
+    <meta name="description" content={project.description} />
     <title>{project.title} · MauroUIX</title>
+    <link rel="canonical" href={`https://maurouix.com/proyectos/${project.slug}`} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={`${project.title} — MauroUIX`} />
+    <meta property="og:description" content={project.description} />
+    <meta property="og:url" content={`https://maurouix.com/proyectos/${project.slug}`} />
+    <meta property="og:type" content="article" />
+    <meta property="og:locale" content="es_CO" />
+    <meta property="og:site_name" content="MauroUIX" />
+    <meta property="og:image" content="https://maurouix.com/og-image.jpg" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={`${project.title} — MauroUIX`} />
+    <meta name="twitter:description" content={project.description} />
+    <meta name="twitter:image" content="https://maurouix.com/og-image.jpg" />
+
+    <!-- JSON-LD -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://maurouix.com" },
+            { "@type": "ListItem", "position": 2, "name": "Proyectos", "item": "https://maurouix.com/#work" },
+            { "@type": "ListItem", "position": 3, "name": project.title }
+          ]
+        },
+        {
+          "@type": "CreativeWork",
+          "name": project.title,
+          "description": project.overview || project.description,
+          "url": `https://maurouix.com/proyectos/${project.slug}`,
+          "author": { "@id": "https://maurouix.com/#person" },
+          ...(project.year ? { "dateCreated": project.year } : {}),
+          ...(project.url ? { "about": { "@type": "WebSite", "url": project.url } } : {}),
+          "keywords": project.tags.join(", "),
+          "inLanguage": "es"
+        }
+      ]
+    })} />
   </head>
   <body>
     <div class="grid-bg" id="grid-bg"></div>
@@ -214,7 +256,7 @@ const nextProject = currentIndex < projects.length - 1 ? projects[currentIndex +
       <footer class="pad-x pad-y-sm border-t border-[rgba(245,245,245,0.06)] relative z-10">
         <div class="flex flex-col md:flex-row justify-between items-center gap-4 py-6">
           <span class="font-mono text-[0.65rem] tracking-[0.15em] uppercase text-[var(--color-muted)]">
-            © 2025 MauroUIX
+            © 2026 MauroUIX
           </span>
           <a href="/" class="font-display font-black text-sm tracking-tight hover:text-[var(--color-accent)] transition-colors duration-300">
             MAUROUIX

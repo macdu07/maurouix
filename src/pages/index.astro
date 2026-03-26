@@ -12,11 +12,78 @@ import Contact from '../components/Contact.astro';
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="MauroUIX — Diseñador Web & Desarrollador UI/UX. Transformando ideas en experiencias digitales." />
+    <meta name="description" content="Portfolio de Mauricio Correa (MauroUIX) — Diseñador Web & Desarrollador UI/UX en Colombia. +10 años creando experiencias digitales para empresas." />
     <title>MauroUIX — Diseñador Web & Desarrollador UI/UX</title>
+    <link rel="canonical" href="https://maurouix.com/" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="MauroUIX — Diseñador Web & Desarrollador UI/UX" />
+    <meta property="og:description" content="Portfolio de Mauricio Correa. +10 años diseñando experiencias digitales para empresas en Colombia." />
+    <meta property="og:url" content="https://maurouix.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_CO" />
+    <meta property="og:site_name" content="MauroUIX" />
+    <meta property="og:image" content="https://maurouix.com/og-image.jpg" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="MauroUIX — Diseñador Web & Desarrollador UI/UX" />
+    <meta name="twitter:description" content="Portfolio de Mauricio Correa. +10 años diseñando experiencias digitales." />
+    <meta name="twitter:image" content="https://maurouix.com/og-image.jpg" />
+
+    <!-- JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://maurouix.com/#website",
+          "url": "https://maurouix.com",
+          "name": "MauroUIX",
+          "description": "Diseñador Web & Desarrollador UI/UX",
+          "inLanguage": "es",
+          "publisher": { "@id": "https://maurouix.com/#person" }
+        },
+        {
+          "@type": "Person",
+          "@id": "https://maurouix.com/#person",
+          "name": "Mauricio Correa",
+          "alternateName": "MauroUIX",
+          "url": "https://maurouix.com",
+          "jobTitle": "Diseñador Web & Desarrollador UI/UX",
+          "description": "Diseñador web y desarrollador UI/UX con más de 10 años de experiencia creando soluciones digitales.",
+          "knowsAbout": ["UI/UX Design", "WordPress", "Bricks Builder", "Figma", "Identidad Corporativa"],
+          "email": "mailto:contacto@maurouix.com",
+          "telephone": "+573023725631",
+          "address": { "@type": "PostalAddress", "addressCountry": "CO" },
+          "sameAs": [
+            "https://www.instagram.com/mcorread",
+            "https://www.linkedin.com/in/mcorread",
+            "https://www.facebook.com/MauricioCorreaD"
+          ]
+        },
+        {
+          "@type": "ProfessionalService",
+          "@id": "https://maurouix.com/#service",
+          "name": "MauroUIX",
+          "url": "https://maurouix.com",
+          "provider": { "@id": "https://maurouix.com/#person" },
+          "areaServed": { "@type": "Country", "name": "Colombia" },
+          "serviceType": [
+            "Diseño de Interfaces Web (UI/UX)",
+            "Desarrollo de Sitios Web Creativos",
+            "Conceptualización de Imagen Corporativa"
+          ],
+          "telephone": "+573023725631",
+          "email": "contacto@maurouix.com"
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
     <!-- Animated background grid -->
