@@ -1,0 +1,145 @@
+<style>
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+
+  .preview-box {
+    width: 100%;
+    aspect-ratio: 16/8;
+    background: #0d0d0d;
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 1rem;
+  }
+
+  .page-sim {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    padding: 14px;
+    background: #0d0d0d;
+  }
+  .bar { background: #1e1e1e; border-radius: 3px; height: 8px; }
+  .bar.accent { background: #00ffd1; }
+  .bar.w80 { width: 80%; }
+  .bar.w60 { width: 60%; }
+  .bar.w40 { width: 40%; }
+  .bar.w50 { width: 50%; }
+  .page-b { background: #0f0f0f; }
+  .page-b .bar { background: #252525; }
+
+  /* Fast — 0.45s total cycle = 0.45s anim + 0.5s pause = 1.2s */
+  .card:hover .fast .p-out { animation: sout 1.8s cubic-bezier(0.77,0,0.175,1) infinite; }
+  .card:hover .fast .p-in  { animation: sin  1.8s cubic-bezier(0.77,0,0.175,1) infinite; }
+  @keyframes sout { 0%,20% { transform:translateX(0)    } 45%,100% { transform:translateX(-100%) } }
+  @keyframes sin  { 0%,20% { transform:translateX(100%) } 45%,100% { transform:translateX(0)    } }
+
+  /* Medium — 0.65s */
+  .card:hover .med .p-out { animation: mout 2.4s cubic-bezier(0.77,0,0.175,1) infinite; }
+  .card:hover .med .p-in  { animation: min  2.4s cubic-bezier(0.77,0,0.175,1) infinite; }
+  @keyframes mout { 0%,15% { transform:translateX(0)    } 55%,100% { transform:translateX(-100%) } }
+  @keyframes min  { 0%,15% { transform:translateX(100%) } 55%,100% { transform:translateX(0)    } }
+
+  /* Slow — 0.9s */
+  .card:hover .slow .p-out { animation: lout 3.2s cubic-bezier(0.77,0,0.175,1) infinite; }
+  .card:hover .slow .p-in  { animation: lin  3.2s cubic-bezier(0.77,0,0.175,1) infinite; }
+  @keyframes lout { 0%,10% { transform:translateX(0)    } 60%,100% { transform:translateX(-100%) } }
+  @keyframes lin  { 0%,10% { transform:translateX(100%) } 60%,100% { transform:translateX(0)    } }
+
+  .tag {
+    display: inline-block;
+    font-size: 0.55rem;
+    font-family: monospace;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 2px;
+    border: 1px solid #ffffff20;
+    color: #909090;
+    margin-bottom: 6px;
+  }
+  .badge-rec {
+    display: inline-block;
+    background: #00ffd1;
+    color: #0d0d0d;
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 2px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+</style>
+
+<h2>¿Qué velocidad se siente mejor?</h2>
+<p class="subtitle">Pasa el cursor sobre cada tarjeta para ver la velocidad real</p>
+
+<div class="cards">
+
+  <!-- Fast -->
+  <div class="card" data-choice="fast" onclick="toggleSelect(this)">
+    <div class="preview-box">
+      <div class="fast" style="position:absolute;inset:0;overflow:hidden">
+        <div class="p-out page-sim" style="position:absolute;inset:0">
+          <div class="bar accent" style="width:45%"></div>
+          <div class="bar w80"></div><div class="bar w60"></div>
+        </div>
+        <div class="p-in page-sim page-b" style="position:absolute;inset:0">
+          <div class="bar accent" style="width:65%"></div>
+          <div class="bar w80"></div><div class="bar w50"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="tag">450ms</div>
+      <h3>A — Rápida</h3>
+      <p>Enérgica y snappy. Siente ágil, casi como una app nativa. Riesgo: puede percibirse abrupta.</p>
+    </div>
+  </div>
+
+  <!-- Medium -->
+  <div class="card" data-choice="medium" onclick="toggleSelect(this)">
+    <div class="preview-box">
+      <div class="med" style="position:absolute;inset:0;overflow:hidden">
+        <div class="p-out page-sim" style="position:absolute;inset:0">
+          <div class="bar accent" style="width:45%"></div>
+          <div class="bar w80"></div><div class="bar w60"></div>
+        </div>
+        <div class="p-in page-sim page-b" style="position:absolute;inset:0">
+          <div class="bar accent" style="width:65%"></div>
+          <div class="bar w80"></div><div class="bar w50"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="tag">650ms</div>
+      <h3>B — Media <span class="badge-rec">Recomendado</span></h3>
+      <p>Balance perfecto. Fluida sin sentirse lenta. La duración estándar de portfolios premium.</p>
+    </div>
+  </div>
+
+  <!-- Slow -->
+  <div class="card" data-choice="slow" onclick="toggleSelect(this)">
+    <div class="preview-box">
+      <div class="slow" style="position:absolute;inset:0;overflow:hidden">
+        <div class="p-out page-sim" style="position:absolute;inset:0">
+          <div class="bar accent" style="width:45%"></div>
+          <div class="bar w80"></div><div class="bar w60"></div>
+        </div>
+        <div class="p-in page-sim page-b" style="position:absolute;inset:0">
+          <div class="bar accent" style="width:65%"></div>
+          <div class="bar w80"></div><div class="bar w50"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="tag">900ms</div>
+      <h3>C — Pausada</h3>
+      <p>Cinematográfica, muy deliberada. Transmite calma y peso. Riesgo: puede sentirse lenta en uso diario.</p>
+    </div>
+  </div>
+
+</div>

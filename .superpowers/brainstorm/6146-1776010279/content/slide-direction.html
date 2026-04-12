@@ -1,0 +1,173 @@
+<style>
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+
+  .preview-box {
+    width: 100%;
+    aspect-ratio: 16/7;
+    background: #111;
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 1rem;
+  }
+
+  .page-sim {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 14px;
+    background: #0d0d0d;
+  }
+  .bar { background: #1e1e1e; border-radius: 3px; height: 8px; }
+  .bar.accent { background: #00ffd1; }
+  .bar.w80 { width: 80%; }
+  .bar.w60 { width: 60%; }
+  .bar.w40 { width: 40%; }
+  .bar.w50 { width: 50%; }
+
+  .page-b { background: #0f0f0f; }
+  .page-b .bar { background: #252525; }
+
+  /* Flecha de navegación */
+  .nav-hint {
+    position: absolute;
+    top: 8px; right: 10px;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #00ffd1;
+    font-family: monospace;
+    opacity: 0.8;
+  }
+
+  /* ── Option A: SIEMPRE IZQUIERDA ── */
+  .preview-always .p-origin { transform: translateX(0); }
+  .preview-always .p-dest   { transform: translateX(100%); }
+
+  .card:hover .preview-always .p-origin { animation: slide-out 2s cubic-bezier(0.77,0,0.175,1) infinite; }
+  .card:hover .preview-always .p-dest   { animation: slide-in  2s cubic-bezier(0.77,0,0.175,1) infinite; }
+
+  @keyframes slide-out { 0%,15% { transform:translateX(0)    } 60%,100% { transform:translateX(-100%) } }
+  @keyframes slide-in  { 0%,15% { transform:translateX(100%) } 60%,100% { transform:translateX(0)    } }
+
+  /* ── Option B: DIRECCIONAL ── */
+  /* Fase 1: ir al proyecto → slide izquierda */
+  /* Fase 2: volver al home → slide derecha    */
+  .preview-dir .p-origin-fwd { transform: translateX(0); }
+  .preview-dir .p-dest-fwd   { transform: translateX(100%); }
+  .preview-dir .p-origin-back { transform: translateX(0); opacity: 0; }
+  .preview-dir .p-dest-back   { transform: translateX(-100%); opacity: 0; }
+
+  .card:hover .preview-dir .p-origin-fwd  { animation: dir-fwd-out  3.8s cubic-bezier(0.77,0,0.175,1) infinite; }
+  .card:hover .preview-dir .p-dest-fwd    { animation: dir-fwd-in   3.8s cubic-bezier(0.77,0,0.175,1) infinite; }
+  .card:hover .preview-dir .p-origin-back { animation: dir-back-out 3.8s cubic-bezier(0.77,0,0.175,1) infinite; }
+  .card:hover .preview-dir .p-dest-back   { animation: dir-back-in  3.8s cubic-bezier(0.77,0,0.175,1) infinite; }
+
+  @keyframes dir-fwd-out  { 0%,10%  { transform:translateX(0);    opacity:1 } 40%,100% { transform:translateX(-100%); opacity:1 } }
+  @keyframes dir-fwd-in   { 0%,10%  { transform:translateX(100%); opacity:1 } 40%,100% { transform:translateX(0);     opacity:1 } }
+  @keyframes dir-back-out { 0%,50%  { opacity:0; transform:translateX(0)    } 51%,60%  { opacity:1; transform:translateX(0)    } 90%,100% { opacity:1; transform:translateX(100%)  } }
+  @keyframes dir-back-in  { 0%,50%  { opacity:0; transform:translateX(-100%)} 51%,60%  { opacity:1; transform:translateX(-100%)} 90%,100% { opacity:1; transform:translateX(0)     } }
+
+  .label-tag {
+    display: inline-block;
+    font-size: 0.55rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-family: monospace;
+    padding: 2px 6px;
+    border-radius: 2px;
+    margin-right: 4px;
+    font-weight: 700;
+  }
+  .tag-forward { background: #00ffd120; color: #00ffd1; border: 1px solid #00ffd140; }
+  .tag-back    { background: #ffffff10; color: #aaa;    border: 1px solid #ffffff20; }
+
+  .badge-rec {
+    display: inline-block;
+    background: #00ffd1;
+    color: #0d0d0d;
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 2px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+</style>
+
+<h2>¿Cómo debe moverse el slide?</h2>
+<p class="subtitle">Pasa el cursor sobre cada opción para ver la animación</p>
+
+<div class="cards">
+
+  <!-- A: Siempre izquierda -->
+  <div class="card" data-choice="always-left" onclick="toggleSelect(this)">
+    <div class="preview-box" style="position:relative;overflow:hidden">
+      <div class="preview-always" style="position:absolute;inset:0">
+        <div class="p-origin page-sim" style="position:absolute;inset:0">
+          <div class="nav-hint">Home →</div>
+          <div class="bar accent" style="width:45%"></div>
+          <div class="bar w80"></div>
+          <div class="bar w60"></div>
+          <div class="bar w40"></div>
+        </div>
+        <div class="p-dest page-sim page-b" style="position:absolute;inset:0">
+          <div class="nav-hint">Proyecto ↗</div>
+          <div class="bar accent" style="width:70%"></div>
+          <div class="bar w80"></div>
+          <div class="bar w50"></div>
+          <div class="bar w40"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Siempre hacia la izquierda</h3>
+      <p>Toda navegación desliza en la misma dirección. Simple, predecible.</p>
+    </div>
+  </div>
+
+  <!-- B: Direccional -->
+  <div class="card" data-choice="directional" onclick="toggleSelect(this)">
+    <div class="preview-box" style="position:relative;overflow:hidden">
+      <div class="preview-dir" style="position:absolute;inset:0">
+        <div class="p-origin-fwd page-sim" style="position:absolute;inset:0">
+          <div class="nav-hint">← Home</div>
+          <div class="bar accent" style="width:45%"></div>
+          <div class="bar w80"></div>
+          <div class="bar w60"></div>
+        </div>
+        <div class="p-dest-fwd page-sim page-b" style="position:absolute;inset:0">
+          <div class="nav-hint">Proyecto →</div>
+          <div class="bar accent" style="width:70%"></div>
+          <div class="bar w80"></div>
+          <div class="bar w50"></div>
+        </div>
+        <div class="p-origin-back page-sim page-b" style="position:absolute;inset:0">
+          <div class="nav-hint">Proyecto →</div>
+          <div class="bar accent" style="width:70%"></div>
+          <div class="bar w80"></div>
+          <div class="bar w50"></div>
+        </div>
+        <div class="p-dest-back page-sim" style="position:absolute;inset:0">
+          <div class="nav-hint">← Home</div>
+          <div class="bar accent" style="width:45%"></div>
+          <div class="bar w80"></div>
+          <div class="bar w60"></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Direccional <span class="badge-rec">Recomendado</span></h3>
+      <p>
+        <span class="label-tag tag-forward">Ir a proyecto</span> desliza a la izquierda.<br>
+        <span class="label-tag tag-back">Volver al home</span> desliza a la derecha.<br>
+        Transmite profundidad espacial — el usuario sabe dónde está.
+      </p>
+    </div>
+  </div>
+
+</div>

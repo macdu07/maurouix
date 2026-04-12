@@ -1,0 +1,194 @@
+<style>
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+
+  .preview-box {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: #0d0d0d;
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 1rem;
+  }
+
+  /* Shared page sim */
+  .page-sim {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px;
+  }
+  .page-sim .bar { background: #1e1e1e; border-radius: 3px; height: 8px; }
+  .page-sim .bar.accent { background: #00ffd1; width: 40%; }
+  .page-sim .bar.w80 { width: 80%; }
+  .page-sim .bar.w60 { width: 60%; }
+  .page-sim .bar.w40 { width: 40%; }
+  .page-sim .bar.w50 { width: 50%; }
+
+  /* PAGE B (destination) */
+  .page-b { background: #0d0d0d; }
+  .page-b .bar { background: #2a2a2a; }
+  .page-b .bar.accent { background: #00ffd1; width: 55%; }
+
+  /* ── Option A: FADE ── */
+  .preview-a .page-a,
+  .preview-a .page-b-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px;
+  }
+  .preview-a .page-b-overlay { opacity: 0; }
+  .card:hover .preview-a .page-a { animation: fade-out 1.6s ease-in-out infinite; }
+  .card:hover .preview-a .page-b-overlay { animation: fade-in 1.6s ease-in-out infinite; }
+  @keyframes fade-out { 0%,30% { opacity:1 } 55%,100% { opacity:0 } }
+  @keyframes fade-in  { 0%,30% { opacity:0 } 55%,100% { opacity:1 } }
+
+  /* ── Option B: CURTAIN ── */
+  .preview-b .curtain {
+    position: absolute;
+    inset: 0;
+    background: #00ffd1;
+    transform: scaleX(0);
+    transform-origin: left;
+    z-index: 2;
+  }
+  .preview-b .page-destination {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px;
+    opacity: 0;
+  }
+  .preview-b .page-origin {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px;
+  }
+  .card:hover .preview-b .curtain { animation: curtain-swipe 2s cubic-bezier(0.77,0,0.175,1) infinite; }
+  .card:hover .preview-b .page-origin { animation: origin-hide 2s ease infinite; }
+  .card:hover .preview-b .page-destination { animation: dest-show 2s ease infinite; }
+
+  @keyframes curtain-swipe {
+    0%    { transform: scaleX(0); transform-origin: left; }
+    35%   { transform: scaleX(1); transform-origin: left; }
+    36%   { transform: scaleX(1); transform-origin: right; }
+    70%   { transform: scaleX(0); transform-origin: right; }
+    100%  { transform: scaleX(0); transform-origin: right; }
+  }
+  @keyframes origin-hide  { 0%,34% { opacity:1 } 35%,100% { opacity:0 } }
+  @keyframes dest-show    { 0%,35% { opacity:0 } 70%,100% { opacity:1 } }
+
+  /* ── Option C: SLIDE ── */
+  .preview-c .slide-origin,
+  .preview-c .slide-dest {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px;
+  }
+  .preview-c .slide-dest { transform: translateX(100%); }
+  .card:hover .preview-c .slide-origin { animation: slide-out-left 1.6s cubic-bezier(0.77,0,0.175,1) infinite; }
+  .card:hover .preview-c .slide-dest   { animation: slide-in-right 1.6s cubic-bezier(0.77,0,0.175,1) infinite; }
+  @keyframes slide-out-left { 0%,20% { transform:translateX(0)    } 55%,100% { transform:translateX(-100%) } }
+  @keyframes slide-in-right { 0%,20% { transform:translateX(100%) } 55%,100% { transform:translateX(0) } }
+
+  .badge-rec {
+    display: inline-block;
+    background: #00ffd1;
+    color: #0d0d0d;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 2px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+</style>
+
+<h2>¿Qué estilo de transición quieres?</h2>
+<p class="subtitle">Pasa el cursor sobre cada opción para ver la animación en vivo</p>
+
+<div class="cards">
+
+  <!-- A: Fade -->
+  <div class="card" data-choice="fade" onclick="toggleSelect(this)">
+    <div class="preview-box preview-a">
+      <div class="page-a page-sim">
+        <div class="bar accent"></div>
+        <div class="bar w80"></div>
+        <div class="bar w60"></div>
+        <div class="bar w40"></div>
+      </div>
+      <div class="page-b-overlay page-sim page-b">
+        <div class="bar accent"></div>
+        <div class="bar w80"></div>
+        <div class="bar w50"></div>
+        <div class="bar w60"></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Fade</h3>
+      <p>Desvanecimiento suave entre páginas. Elegante y discreto. No distrae del contenido.</p>
+    </div>
+  </div>
+
+  <!-- B: Curtain -->
+  <div class="card" data-choice="curtain" onclick="toggleSelect(this)">
+    <div class="preview-box preview-b">
+      <div class="page-origin page-sim">
+        <div class="bar accent"></div>
+        <div class="bar w80"></div>
+        <div class="bar w60"></div>
+        <div class="bar w40"></div>
+      </div>
+      <div class="curtain"></div>
+      <div class="page-destination page-sim page-b">
+        <div class="bar accent"></div>
+        <div class="bar w80"></div>
+        <div class="bar w50"></div>
+        <div class="bar w60"></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Cortina <span class="badge-rec">Recomendado</span></h3>
+      <p>Un overlay con el color acento barre la pantalla. Impactante, editorial. Refuerza la marca.</p>
+    </div>
+  </div>
+
+  <!-- C: Slide -->
+  <div class="card" data-choice="slide" onclick="toggleSelect(this)">
+    <div class="preview-box preview-c">
+      <div class="slide-origin page-sim">
+        <div class="bar accent"></div>
+        <div class="bar w80"></div>
+        <div class="bar w60"></div>
+        <div class="bar w40"></div>
+      </div>
+      <div class="slide-dest page-sim page-b">
+        <div class="bar accent"></div>
+        <div class="bar w80"></div>
+        <div class="bar w50"></div>
+        <div class="bar w60"></div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Slide horizontal</h3>
+      <p>Las páginas se desplazan lateralmente. Dinámico, sensación de profundidad de navegación.</p>
+    </div>
+  </div>
+
+</div>
