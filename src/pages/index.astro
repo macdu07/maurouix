@@ -87,12 +87,15 @@ import Contact from '../components/Contact.astro';
     </script>
   </head>
   <body>
+    <!-- Skip to main content (accessibility) -->
+    <a href="#main-content" class="skip-link">Saltar al contenido</a>
+
     <!-- Animated background grid -->
-    <div class="grid-bg" id="grid-bg"></div>
+    <div class="grid-bg" id="grid-bg" aria-hidden="true"></div>
 
     <Header />
 
-    <main>
+    <main id="main-content">
       <Hero />
       <div class="section-divider"></div>
       <Projects />
@@ -223,37 +226,37 @@ import Contact from '../components/Contact.astro';
       function initAccordion() {
         const triggers = document.querySelectorAll('[data-accordion-trigger]');
 
+        function closePanel(trigger: Element) {
+          const item = trigger.closest('.project-item');
+          if (!item) return;
+          const panel = item.querySelector('[data-accordion-panel]') as HTMLElement;
+          const icon = item.querySelector('.accordion-icon');
+          if (!panel) return;
+          gsap.to(panel, { height: 0, duration: 0.4, ease: 'power2.inOut' });
+          if (icon) {
+            icon.textContent = '+';
+            gsap.to(icon, { rotation: 0, duration: 0.3 });
+          }
+          trigger.setAttribute('aria-expanded', 'false');
+        }
+
         triggers.forEach((trigger) => {
-          trigger.addEventListener('click', () => {
+          const handleOpen = () => {
             const item = trigger.closest('.project-item');
             if (!item) return;
             const panel = item.querySelector('[data-accordion-panel]') as HTMLElement;
             const icon = item.querySelector('.accordion-icon');
             if (!panel) return;
 
-            const isOpen = panel.style.height !== '0px' && panel.style.height !== '';
+            const isOpen = trigger.getAttribute('aria-expanded') === 'true';
 
             // Close all other panels
-            document.querySelectorAll('[data-accordion-panel]').forEach((p) => {
-              const pEl = p as HTMLElement;
-              if (pEl !== panel) {
-                gsap.to(pEl, { height: 0, duration: 0.4, ease: 'power2.inOut' });
-                const pItem = pEl.closest('.project-item');
-                const pIcon = pItem?.querySelector('.accordion-icon');
-                if (pIcon) {
-                  pIcon.textContent = '+';
-                  gsap.to(pIcon, { rotation: 0, duration: 0.3 });
-                }
-              }
+            triggers.forEach((t) => {
+              if (t !== trigger) closePanel(t);
             });
 
             if (isOpen) {
-              // Close this panel
-              gsap.to(panel, { height: 0, duration: 0.4, ease: 'power2.inOut' });
-              if (icon) {
-                icon.textContent = '+';
-                gsap.to(icon, { rotation: 0, duration: 0.3 });
-              }
+              closePanel(trigger);
             } else {
               // Open this panel
               gsap.set(panel, { height: 'auto' });
@@ -267,6 +270,17 @@ import Contact from '../components/Contact.astro';
                 icon.textContent = '−';
                 gsap.to(icon, { rotation: 180, duration: 0.3 });
               }
+              trigger.setAttribute('aria-expanded', 'true');
+            }
+          };
+
+          trigger.addEventListener('click', handleOpen);
+          // Keyboard support (Enter/Space)
+          trigger.addEventListener('keydown', (e: Event) => {
+            const ke = e as KeyboardEvent;
+            if (ke.key === 'Enter' || ke.key === ' ') {
+              e.preventDefault();
+              handleOpen();
             }
           });
         });
@@ -329,29 +343,53 @@ import Contact from '../components/Contact.astro';
         if (!btn || !menu) return;
 
         let isOpen = false;
+
+        function openMenu() {
+          isOpen = true;
+          menu.style.height = menu.scrollHeight + 'px';
+          btn.setAttribute('aria-expanded', 'true');
+          btn.setAttribute('aria-label', 'Cerrar menú de navegación');
+          menu.setAttribute('aria-hidden', 'false');
+        }
+
+        function closeMenu() {
+          isOpen = false;
+          menu.style.height = '0';
+          btn.setAttribute('aria-expanded', 'false');
+          btn.setAttribute('aria-label', 'Abrir menú de navegación');
+          menu.setAttribute('aria-hidden', 'true');
+        }
+
         btn.addEventListener('click', () => {
-          isOpen = !isOpen;
-          if (isOpen) {
-            menu.style.height = menu.scrollHeight + 'px';
-          } else {
-            menu.style.height = '0';
-          }
+          isOpen ? closeMenu() : openMenu();
         });
 
         // Close on link click
         menu.querySelectorAll('a').forEach((link) => {
-          link.addEventListener('click', () => {
-            isOpen = false;
-            menu.style.height = '0';
-          });
+          link.addEventListener('click', closeMenu);
+        });
+
+        // Close on Escape
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && isOpen) closeMenu();
         });
       }
 
       // ─── Initialize everything ───
       document.addEventListener('DOMContentLoaded', () => {
-        initHeroReveal();
-        initScrollReveals();
-        initGridParallax();
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        if (!reducedMotion) {
+          initHeroReveal();
+          initScrollReveals();
+          initGridParallax();
+        } else {
+          // Immediately show all reveal elements without animation
+          document.querySelectorAll('.reveal-up').forEach((el) => {
+            gsap.set(el, { opacity: 1, y: 0 });
+          });
+        }
+
         initAccordion();
         initHeaderScroll();
         initCopyEmail();
@@ -362,14 +400,16 @@ import Contact from '../components/Contact.astro';
         if (hash) {
           const target = document.querySelector(hash) as HTMLElement;
           if (target) {
-            // Jump to top instantly (bypass CSS smooth scroll)
+            // Reset to top instantly so the scroll feels intentional
             document.documentElement.style.scrollBehavior = 'auto';
             window.scrollTo(0, 0);
-            // Restore smooth scroll and navigate to target
-            requestAnimationFrame(() => {
+            // Wait for GSAP + ScrollTrigger to finish initializing, then scroll
+            setTimeout(() => {
+              ScrollTrigger.refresh();
+              const top = target.getBoundingClientRect().top + window.scrollY;
               document.documentElement.style.scrollBehavior = '';
-              target.scrollIntoView({ behavior: 'smooth' });
-            });
+              window.scrollTo({ top, behavior: 'smooth' });
+            }, 100);
           }
         }
       });

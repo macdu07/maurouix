@@ -14,27 +14,34 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="hidden md:flex items-center gap-8">
-      <a href="#work" class="nav-link">Proyectos</a>
-      <a href="#services" class="nav-link">Servicios</a>
-      <a href="#about" class="nav-link">Sobre Mí</a>
-      <a href="#contact" class="nav-link">Contacto</a>
+    <nav class="hidden md:flex items-center gap-8" aria-label="Navegación principal">
+      <a href="/#work" class="nav-link">Proyectos</a>
+      <a href="/#services" class="nav-link">Servicios</a>
+      <a href="/#about" class="nav-link">Sobre Mí</a>
+      <a href="/#contact" class="nav-link">Contacto</a>
     </nav>
 
     <!-- Mobile hamburger -->
-    <button id="mobile-menu-btn" class="md:hidden flex flex-col gap-[5px] p-2 bg-transparent border-none cursor-pointer" aria-label="Menú">
+    <button
+      id="mobile-menu-btn"
+      class="md:hidden flex flex-col gap-[5px] p-2 bg-transparent border-none cursor-pointer"
+      aria-label="Abrir menú de navegación"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <span class="block w-5 h-[1.5px] bg-[var(--color-fg)] transition-all duration-300"></span>
       <span class="block w-5 h-[1.5px] bg-[var(--color-fg)] transition-all duration-300"></span>
       <span class="block w-5 h-[1.5px] bg-[var(--color-fg)] transition-all duration-300"></span>
     </button>
   </div>
 
   <!-- Mobile nav -->
-  <div id="mobile-menu" class="md:hidden overflow-hidden h-0 transition-all duration-500 pad-x">
-    <nav class="flex flex-col gap-6 pb-8 pt-2">
-      <a href="#work" class="nav-link text-base">Proyectos</a>
-      <a href="#services" class="nav-link text-base">Servicios</a>
-      <a href="#about" class="nav-link text-base">Sobre Mí</a>
-      <a href="#contact" class="nav-link text-base">Contacto</a>
+  <div id="mobile-menu" class="md:hidden overflow-hidden h-0 transition-all duration-500 pad-x" aria-hidden="true">
+    <nav class="flex flex-col gap-6 pb-8 pt-2" aria-label="Navegación móvil">
+      <a href="/#work" class="nav-link text-base">Proyectos</a>
+      <a href="/#services" class="nav-link text-base">Servicios</a>
+      <a href="/#about" class="nav-link text-base">Sobre Mí</a>
+      <a href="/#contact" class="nav-link text-base">Contacto</a>
     </nav>
   </div>
 </header>

@@ -137,6 +137,11 @@
   user-select: none;
 }
 
+.project-title-row:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+}
+
 .project-title-row:hover .project-title {
   font-style: italic;
   color: var(--color-accent);
@@ -211,10 +216,15 @@ a.link-accent:hover::after {
   text-decoration: none;
   transition: color 0.3s ease;
   position: relative;
+  border-radius: 2px;
 }
 .nav-link:hover,
 .nav-link:focus {
   color: var(--color-fg);
+}
+.nav-link:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
 }
 .nav-link::after {
   content: "";
@@ -254,6 +264,28 @@ a.link-accent:hover::after {
   transform: translateY(30px);
 }
 
+/* ── Reduced motion: disable all animations ── */
+@media (prefers-reduced-motion: reduce) {
+  .reveal-up {
+    opacity: 1;
+    transform: none;
+    transition: none !important;
+  }
+
+  .grid-bg {
+    display: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* ── Project detail page ── */
 .feature-item {
   display: flex;
@@ -274,6 +306,46 @@ a.link-accent:hover::after {
   text-decoration: none;
   color: var(--color-fg);
   display: block;
+}
+
+/* ── Global focus-visible for interactive elements ── */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* ── Skip link ── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 999;
+  padding: 0.5rem 1rem;
+  background: var(--color-accent);
+  color: var(--color-bg);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  border-radius: 0 0 4px 4px;
+  transition: top 0.2s ease;
+}
+.skip-link:focus {
+  top: 0;
+  outline: none;
+}
+
+/* ── Scroll indicator animation (one-time, not infinite) ── */
+@keyframes scroll-hint {
+  0%, 100% { transform: translateY(0); opacity: 1; }
+  50% { transform: translateY(6px); opacity: 0.5; }
+}
+.scroll-hint {
+  display: inline-block;
+  animation: scroll-hint 1.8s ease-in-out 1.5s 3 forwards;
 }
 
 /* ── CV Download button ── */

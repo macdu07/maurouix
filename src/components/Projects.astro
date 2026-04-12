@@ -11,9 +11,16 @@ import { projects } from '../data/projects';
   <ul class="projects-list list-none">
     {projects.map((project, i) => (
       <li class="project-item reveal-up" data-index={i}>
-        <div class="project-title-row py-8 md:py-10" data-accordion-trigger>
-          <div class="flex items-baseline gap-4 md:gap-8">
-            <span class="font-mono text-[0.7rem] text-[var(--color-muted)] tracking-[0.2em]">
+        <div
+          class="project-title-row py-8 md:py-10 cursor-pointer"
+          data-accordion-trigger
+          role="button"
+          tabindex="0"
+          aria-expanded="false"
+          aria-label={`Ver detalles de ${project.title}`}
+        >
+          <div class="flex items-center gap-4 md:gap-8">
+            <span class="font-mono text-[0.7rem] text-[var(--color-muted)] tracking-[0.2em] flex-shrink-0">
               {project.num}
             </span>
             <div class="flex-1">
@@ -24,7 +31,7 @@ import { projects } from '../data/projects';
                 {project.meta}
               </p>
             </div>
-            <span class="accordion-icon font-mono text-[var(--color-muted)] text-xl transition-transform duration-300 hidden md:block">
+            <span class="accordion-icon font-mono text-[var(--color-muted)] text-xl transition-transform duration-300 flex-shrink-0" aria-hidden="true">
               +
             </span>
           </div>
