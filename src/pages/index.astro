@@ -6,6 +6,7 @@ import Projects from '../components/Projects.astro';
 import Services from '../components/Services.astro';
 import Philosophy from '../components/Philosophy.astro';
 import Contact from '../components/Contact.astro';
+import { ViewTransitions } from 'astro:transitions';
 ---
 
 <html lang="es">
@@ -85,6 +86,7 @@ import Contact from '../components/Contact.astro';
       ]
     }
     </script>
+    <ViewTransitions />
   </head>
   <body>
     <!-- Skip to main content (accessibility) -->
@@ -113,6 +115,22 @@ import Contact from '../components/Contact.astro';
       import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
       gsap.registerPlugin(ScrollTrigger);
+
+      // ─── View Transition lifecycle (set up once per browser session) ───
+      if (!(window as any).__transitionsInit) {
+        (window as any).__transitionsInit = true;
+
+        document.addEventListener('astro:before-preparation', (e: any) => {
+          const from: string = e.from.pathname;
+          const to: string = e.to.pathname;
+          const backward = from.startsWith('/proyectos/') && !to.startsWith('/proyectos/');
+          document.documentElement.dataset.direction = backward ? 'backward' : 'forward';
+        });
+
+        document.addEventListener('astro:before-swap', () => {
+          ScrollTrigger.getAll().forEach((t) => t.kill());
+        });
+      }
 
       // ─────────────────────────────────────
       // 1. HERO — Letter-by-letter reveal
@@ -376,7 +394,7 @@ import Contact from '../components/Contact.astro';
       }
 
       // ─── Initialize everything ───
-      document.addEventListener('DOMContentLoaded', () => {
+      document.addEventListener('astro:page-load', () => {
         const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
         if (!reducedMotion) {
