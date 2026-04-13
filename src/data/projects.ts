@@ -8,6 +8,7 @@ export interface Project {
   cta: string;
   year?: string;
   url?: string;
+  figma?: string;
   overview?: string;
   challenge?: string;
   features?: string[];
@@ -23,6 +24,7 @@ export const projects: Project[] = [
     tags: ['WordPress', 'Bricks Builder', 'Figma', 'Branding'],
     cta: 'Ver Proyecto',
     url: 'https://autovenz.com',
+    figma: 'https://www.figma.com/design/SRrbYHxyYvSUhySUG5dTit/AutoVenz-Website?node-id=11-103&t=jepIORGwEaurC9Pj-1',
     overview: 'AutoVenz es un distribuidor B2B de repuestos automotrices e industriales con presencia en múltiples segmentos: vehículos de pasajeros, transporte de carga, maquinaria industrial, transporte público/privado y equipo marino. Su propuesta se diferencia por un enfoque en sostenibilidad, I+D continuo y una cadena de suministro global integrada. El reto fue construir una presencia digital que proyectara innovación y confianza frente a distribuidores con mayor visibilidad en el mercado.',
     challenge: 'AutoVenz necesitaba un sitio que hablara con claridad a un público B2B técnico y exigente, comunicando simultáneamente su diversidad de portafolio y su posicionamiento como socio estratégico a largo plazo. El diseño debía transmitir solidez corporativa sin perder modernidad.',
     features: [
@@ -45,6 +47,7 @@ export const projects: Project[] = [
     tags: ['WordPress', 'Bricks Builder', 'Figma', 'UI/UX'],
     cta: 'Ver Proyecto',
     url: 'https://indireca.com',
+    figma: 'https://www.figma.com/design/sroSwOZRB1Z4mvlybERVBw/Indireca?node-id=2003-25&t=fxrIaMdEd54PlrKT-1',
     overview: 'Indireca S.A.S. es un distribuidor colombiano especializado en motores nuevos y reconstruidos, autopartes (suspensión, turbos, culatas y más) con cobertura de garantía y envíos seguros a nivel nacional. Atienden talleres, empresas y conductores en los segmentos personal, comercial, industrial y marino. El reto fue construir un sitio que acompañara todo el ciclo de compra: desde el descubrimiento hasta la cotización.',
     challenge: 'El cliente necesitaba un catálogo digital funcional y fácil de navegar para un portafolio amplio y técnico. El sitio debía generar confianza en compradores B2B y B2C simultáneamente, destacando la garantía y el soporte posventa como diferenciadores clave.',
     features: [
@@ -87,6 +90,7 @@ export const projects: Project[] = [
     tags: ['WordPress', 'Bricks Builder', 'Figma', 'UI/UX'],
     cta: 'Ver Proyecto',
     url: 'https://imporlasca.com',
+    figma: 'https://www.figma.com/design/gpG3DxyLrh9dthRRXYUoGL/Importadora-Las-Carolinas?node-id=2006-41&t=NYaseP1qsydpON0N-1',
     overview: 'Importadora Las Carolinas opera desde 2008 como agente de compras y aliado logístico para empresas que quieren importar desde EE.UU., China, Japón, India, Turquía, Dubai y Brasil. Sus servicios cubren todo el ciclo: sourcing, verificación de calidad, gestión aduanera, almacenamiento y entrega puerta a puerta. El reto fue simplificar visualmente una propuesta de valor compleja y global.',
     challenge: 'El cliente ofrecía cuatro servicios diferenciados con múltiples mercados de origen. Había que comunicar ese alcance global sin abrumar al visitante, usando el diseño como herramienta de claridad y confianza.',
     features: [
@@ -131,6 +135,7 @@ export const projects: Project[] = [
     cta: 'Ver Proyecto',
     year: '2024',
     url: 'https://dacatrader.com',
+    figma: 'https://www.figma.com/design/jvl6VAtFPUYQgTXQXWGixU/Daca-Trader?node-id=2002-25&t=ggf0vRM7ecYF2fjv-1',
     overview: 'Daca Trader INC es una empresa fundada en 2023 con más de 10 años de experiencia acumulada en la industria de importación de motores. Operan como puente entre proveedores de China y Dubai y empresas latinoamericanas que necesitan motores nuevos y usados de alta calidad. El reto fue crear una presencia digital que transmitiera confianza, profesionalismo y liderazgo en un mercado B2B altamente competitivo.',
     challenge: 'El cliente necesitaba posicionarse como un socio estratégico confiable frente a empresas con mayor trayectoria digital. El sitio debía comunicar su propuesta de valor de forma clara, generar credibilidad y facilitar el contacto con prospectos internacionales.',
     features: [
