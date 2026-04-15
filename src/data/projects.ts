@@ -62,27 +62,6 @@ export const projects: Project[] = [
   },
   {
     num: '03',
-    slug: 'inversiones-gc',
-    title: 'INVERSIONES GC',
-    meta: 'Diseño Web  ·  Imagen Corporativa',
-    description: 'Importadora y distribuidora de motores industriales, automotrices y marítimos con más de 15 años de experiencia. Diseño corporativo que proyecta confiabilidad y liderazgo en el sector.',
-    tags: ['WordPress', 'Bricks Builder', 'Figma', 'UI/UX', 'Branding'],
-    cta: 'Ver Proyecto',
-    url: 'https://inversiones-gc.com',
-    overview: 'Inversiones GC fue fundada en 2010 por Alejandro Carrasco con el objetivo de importar y distribuir motores de alta calidad para los sectores automotriz, industrial y marítimo. Con más de 15 años en el mercado, más de 2.000 motores vendidos anualmente y 4+ alianzas estratégicas internacionales, la empresa se posiciona como referente de confiabilidad y experiencia en Colombia.',
-    challenge: 'Comunicar la profundidad de un portafolio técnico y la solidez de 15 años de trayectoria a través de un diseño moderno que no perdiera la calidez humana del equipo fundador. El sitio debía atraer tanto a empresas industriales como a clientes del sector transporte.',
-    features: [
-      'Hero con fotografía industrial de alto impacto y overlay con gradiente oscuro',
-      'Tarjetas de métricas clave: 15+ años, 2.000+ motores/año, 4+ alianzas',
-      'Cuatro categorías de producto: transporte público/privado, carga liviana/mediana/pesada, maquinaria industrial y marino',
-      'Sección de alianzas internacionales con logos de proveedores estratégicos',
-      'Tipografía Satoshi con jerarquía visual clara para contenido técnico',
-      'Smooth scrolling con Lenis.js para experiencia de navegación fluida',
-      'Menú offcanvas para mobile con integración de redes sociales',
-    ],
-  },
-  {
-    num: '04',
     slug: 'imporlasca',
     title: 'IMPORLASCA',
     meta: 'Diseño Web  ·  UI/UX',
@@ -104,7 +83,7 @@ export const projects: Project[] = [
     ],
   },
   {
-    num: '05',
+    num: '04',
     slug: 'encanto-amatista',
     title: 'ENCANTO AMATISTA',
     meta: 'Diseño Web  ·  E-Commerce',
@@ -126,7 +105,7 @@ export const projects: Project[] = [
     ],
   },
   {
-    num: '06',
+    num: '05',
     slug: 'dacatrader',
     title: 'DACA TRADER',
     meta: 'Diseño Web  ·  UI/UX',
@@ -149,7 +128,7 @@ export const projects: Project[] = [
     ],
   },
   {
-    num: '07',
+    num: '06',
     slug: 'spartan-helmets',
     title: 'SPARTAN HELMETS',
     meta: 'Diseño Web  ·  E-Commerce',
@@ -171,7 +150,7 @@ export const projects: Project[] = [
     ],
   },
   {
-    num: '08',
+    num: '07',
     slug: 'xsports-helmets',
     title: 'X SPORTS HELMETS',
     meta: 'Diseño Web  ·  E-Commerce',
