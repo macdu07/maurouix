@@ -164,8 +164,6 @@ export const projects: Project[] = [
       'Hero de pantalla completa con propuesta de valor directa y CTA de contacto destacado',
       'Sección de servicios con cards visuales para limpieza comercial y residencial',
       'Indicadores de confianza: reseñas de clientes y áreas de cobertura en Chicagoland',
-      'Formulario de cotización rápida para captura de leads locales',
-      'Integración con Google Maps para mostrar área de cobertura',
       'Paleta limpia en blanco y azul que refuerza la identidad de la marca',
       'Diseño mobile-first optimizado para búsquedas locales y conversión directa',
     ],
