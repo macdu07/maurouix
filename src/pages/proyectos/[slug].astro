@@ -3,7 +3,7 @@ import '../../styles/global.css';
 import Header from '../../components/Header.astro';
 import { projects } from '../../data/projects';
 import type { Project } from '../../data/projects';
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 
 export function getStaticPaths() {
   return projects.map((project) => ({
@@ -74,7 +74,7 @@ const nextProject = currentIndex < projects.length - 1 ? projects[currentIndex +
         }
       ]
     })} />
-    <ViewTransitions />
+    <ClientRouter />
     <!-- Microsoft Clarity -->
     <script type="text/javascript">
       (function(c,l,a,r,i,t,y){
