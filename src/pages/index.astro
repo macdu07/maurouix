@@ -312,28 +312,6 @@ import { ClientRouter } from 'astro:transitions';
         });
       }
 
-      // ─────────────────────────────────────
-      // 5. Header scroll styling
-      // ─────────────────────────────────────
-      function initHeaderScroll() {
-        const header = document.getElementById('site-header');
-        if (!header) return;
-
-        ScrollTrigger.create({
-          trigger: document.body,
-          start: '100px top',
-          onEnter: () => {
-            header.style.backgroundColor = 'rgba(13,13,13,0.85)';
-            header.style.backdropFilter = 'blur(12px)';
-            header.style.webkitBackdropFilter = 'blur(12px)';
-          },
-          onLeaveBack: () => {
-            header.style.backgroundColor = 'transparent';
-            header.style.backdropFilter = 'none';
-            header.style.webkitBackdropFilter = 'none';
-          },
-        });
-      }
 
       // ─────────────────────────────────────
       // 6. Copy email
@@ -417,7 +395,6 @@ import { ClientRouter } from 'astro:transitions';
         }
 
         initAccordion();
-        initHeaderScroll();
         initCopyEmail();
         initMobileMenu();
 
