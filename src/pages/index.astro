@@ -6,7 +6,7 @@ import Projects from '../components/Projects.astro';
 import Services from '../components/Services.astro';
 import Philosophy from '../components/Philosophy.astro';
 import Contact from '../components/Contact.astro';
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 ---
 
 <html lang="es">
@@ -86,7 +86,7 @@ import { ViewTransitions } from 'astro:transitions';
       ]
     }
     </script>
-    <ViewTransitions />
+    <ClientRouter />
     <!-- Microsoft Clarity -->
     <script type="text/javascript">
       (function(c,l,a,r,i,t,y){
