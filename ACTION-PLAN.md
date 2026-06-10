@@ -136,7 +136,7 @@ Proyecto (dinámico):
       "telephone": "+573023725631",
       "address": { "@type": "PostalAddress", "addressCountry": "CO" },
       "sameAs": [
-        "https://www.instagram.com/mcorread",
+        "https://www.instagram.com/maurouix",
         "https://www.linkedin.com/in/mcorread",
         "https://www.facebook.com/MauricioCorreaD"
       ]

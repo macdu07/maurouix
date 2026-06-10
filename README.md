@@ -54,5 +54,5 @@ public/
 
 - **Email:** contacto@maurouix.com
 - **WhatsApp:** +57 302 372 5631
-- **Instagram:** [@mcorread](https://www.instagram.com/mcorread/)
+- **Instagram:** [@maurouix](https://www.instagram.com/maurouix)
 - **LinkedIn:** [/in/mcorread](https://www.linkedin.com/in/mcorread/)

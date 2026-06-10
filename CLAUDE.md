@@ -48,5 +48,5 @@ src/
 - **Nombre**: MauroUIX (antes MCD Studio)
 - **Email**: contacto@maurouix.com
 - **WhatsApp**: +57 302 372 5631
-- **Redes**: Instagram @mcorread · LinkedIn /in/mcorread · Facebook /MauricioCorreaD
+- **Redes**: Instagram @maurouix · LinkedIn /in/mcorread · Facebook /MauricioCorreaD
 - **Dominio**: maurouix.co

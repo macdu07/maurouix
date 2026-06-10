@@ -37,7 +37,7 @@ Sin backend, sin CMS, sin frameworks de componentes reactivos.
 
 - Email: soporte@maurouix.com
 - WhatsApp: +57 302 372 5631
-- Instagram: @mcorread
+- Instagram: @maurouix
 - LinkedIn: /in/mcorread
 - Facebook: /MauricioCorreaD
 - Dominio: maurouix.co
