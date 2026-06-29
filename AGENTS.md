@@ -5,7 +5,7 @@ Guía para agentes de IA que trabajen en este repositorio.
 ## Contexto del proyecto
 
 Mini portfolio de una sola página para Mauricio Correa (MauroUIX).
-Stack: **Astro 5 + Tailwind CSS v4 + GSAP**.
+Stack: **Astro 5 + Tailwind CSS v4 + GSAP + Lenis por CDN**.
 Sin backend, sin CMS, sin frameworks de componentes reactivos.
 
 ## Reglas clave
@@ -14,7 +14,7 @@ Sin backend, sin CMS, sin frameworks de componentes reactivos.
 
 - Mantener el español en todos los textos visibles del sitio.
 - Respetar el sistema de diseño claro: fondo marfil `#F4EFE6`, acento principal verde esmeralda profundo `#063F35`, detalle dorado suave `#C8A45D`, negro suave `#171717` y tipografías definidas en `global.css`.
-- Agregar animaciones únicamente con GSAP (ya incluido vía CDN). Centralizar la lógica en el `<script>` de `src/pages/index.astro`.
+- Agregar animaciones de interfaz con GSAP. Para la sensación de scroll suave físico, usar Lenis por CDN integrado con el ticker de GSAP.
 - Usar clases de Tailwind v4 para estilos; agregar clases custom en `src/styles/global.css` si son reutilizables.
 - Mantener cada sección en su propio componente (`src/components/`).
 
