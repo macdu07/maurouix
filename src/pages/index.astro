@@ -176,6 +176,9 @@ import { ClientRouter } from 'astro:transitions';
 
         // Animate each character
         const chars = heroEl.querySelectorAll('.char');
+        heroEl.classList.remove('hero-text-pending');
+        heroEl.classList.add('hero-text-ready');
+
         gsap.fromTo(
           chars,
           {
@@ -471,6 +474,12 @@ import { ClientRouter } from 'astro:transitions';
           initScrollReveals();
           initAmbientMotion();
         } else {
+          const heroEl = document.getElementById('hero-text');
+          if (heroEl) {
+            heroEl.classList.remove('hero-text-pending');
+            heroEl.classList.add('hero-text-ready');
+          }
+
           // Immediately show all reveal elements without animation
           document.querySelectorAll('.reveal-up').forEach((el) => {
             gsap.set(el, { opacity: 1, y: 0 });
