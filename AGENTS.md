@@ -13,7 +13,7 @@ Sin backend, sin CMS, sin frameworks de componentes reactivos.
 ### Lo que SÍ hacer
 
 - Mantener el español en todos los textos visibles del sitio.
-- Respetar el sistema de diseño: fondo `#0d0d0d`, acento `#00ffd1`, tipografías definidas en `global.css`.
+- Respetar el sistema de diseño claro: fondo marfil `#F4EFE6`, acento principal verde esmeralda profundo `#063F35`, detalle dorado suave `#C8A45D`, negro suave `#171717` y tipografías definidas en `global.css`.
 - Agregar animaciones únicamente con GSAP (ya incluido vía CDN). Centralizar la lógica en el `<script>` de `src/pages/index.astro`.
 - Usar clases de Tailwind v4 para estilos; agregar clases custom en `src/styles/global.css` si son reutilizables.
 - Mantener cada sección en su propio componente (`src/components/`).

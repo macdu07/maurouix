@@ -19,7 +19,7 @@ import { ClientRouter } from 'astro:transitions';
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800;900&family=Figtree:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" />
 
     <!-- Open Graph -->
     <meta property="og:title" content="MauroUIX — Diseñador Web & Desarrollador UI/UX" />
@@ -100,7 +100,7 @@ import { ClientRouter } from 'astro:transitions';
     <!-- Skip to main content (accessibility) -->
     <a href="#main-content" class="skip-link">Saltar al contenido</a>
 
-    <!-- Animated background grid -->
+    <!-- Ambient brand background -->
     <div class="grid-bg" id="grid-bg" aria-hidden="true"></div>
 
     <Header />
@@ -228,26 +228,89 @@ import { ClientRouter } from 'astro:transitions';
       }
 
       // ─────────────────────────────────────
-      // 3. Background grid parallax
+      // 3. Ambient background motion
       // ─────────────────────────────────────
-      function initGridParallax() {
+      function initAmbientMotion() {
         const gridBg = document.getElementById('grid-bg');
-        if (!gridBg) return;
+        const heroMark = document.querySelector('.brand-mark-hero');
 
-        gsap.to(gridBg, {
-          backgroundPosition: '30px 200px',
-          ease: 'none',
-          scrollTrigger: {
-            trigger: document.body,
-            start: 'top top',
-            end: 'bottom bottom',
-            scrub: 1.5,
-          },
+        if (gridBg) {
+          window.addEventListener('pointermove', (event) => {
+            const x = (event.clientX / window.innerWidth - 0.5) * 18;
+            const y = (event.clientY / window.innerHeight - 0.5) * 18;
+            gsap.to(gridBg, {
+              x,
+              y,
+              duration: 1.8,
+              ease: 'power3.out',
+            });
+          }, { passive: true });
+        }
+
+        if (heroMark) {
+          gsap.to(heroMark, {
+            y: 80,
+            rotation: 2,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: '#hero',
+              start: 'top top',
+              end: 'bottom top',
+              scrub: 1.2,
+            },
+          });
+        }
+      }
+
+      // ─────────────────────────────────────
+      // 4. Smooth anchor scrolling
+      // ─────────────────────────────────────
+      function initSmoothAnchors() {
+        if ((window as any).__smoothAnchorsInit) return;
+        (window as any).__smoothAnchorsInit = true;
+
+        const easeOutQuart = (t: number) => 1 - Math.pow(1 - t, 4);
+
+        function smoothScrollTo(targetY: number) {
+          const startY = window.scrollY;
+          const distance = targetY - startY;
+          const duration = Math.min(1100, Math.max(520, Math.abs(distance) * 0.55));
+          const start = performance.now();
+
+          function step(now: number) {
+            const progress = Math.min(1, (now - start) / duration);
+            window.scrollTo(0, startY + distance * easeOutQuart(progress));
+            if (progress < 1) requestAnimationFrame(step);
+          }
+
+          requestAnimationFrame(step);
+        }
+
+        document.addEventListener('click', (event) => {
+          const link = (event.target as Element).closest('a[href*="#"]') as HTMLAnchorElement | null;
+          if (!link) return;
+
+          const url = new URL(link.href);
+          if (url.pathname !== window.location.pathname || !url.hash) return;
+
+          const target = document.querySelector(url.hash) as HTMLElement | null;
+          if (!target) return;
+
+          event.preventDefault();
+          const header = document.getElementById('site-header');
+          const offset = (header?.offsetHeight || 0) + 18;
+          const top = target.getBoundingClientRect().top + window.scrollY - offset;
+          history.pushState(null, '', url.hash);
+          if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            window.scrollTo(0, Math.max(0, top));
+          } else {
+            smoothScrollTo(Math.max(0, top));
+          }
         });
       }
 
       // ─────────────────────────────────────
-      // 4. Project accordion
+      // 5. Project accordion
       // ─────────────────────────────────────
       function initAccordion() {
         const triggers = document.querySelectorAll('[data-accordion-trigger]');
@@ -321,10 +384,30 @@ import { ClientRouter } from 'astro:transitions';
         const label = document.getElementById('copy-label');
         if (!btn || !label) return;
 
+        function copyWithFallback(text: string) {
+          const textarea = document.createElement('textarea');
+          textarea.value = text;
+          textarea.setAttribute('readonly', '');
+          textarea.style.position = 'fixed';
+          textarea.style.opacity = '0';
+          document.body.appendChild(textarea);
+          textarea.select();
+          document.execCommand('copy');
+          textarea.remove();
+        }
+
         btn.addEventListener('click', async () => {
           const email = btn.getAttribute('data-email') || '';
           try {
-            await navigator.clipboard.writeText(email);
+            if (navigator.clipboard?.writeText) {
+              try {
+                await navigator.clipboard.writeText(email);
+              } catch {
+                copyWithFallback(email);
+              }
+            } else {
+              copyWithFallback(email);
+            }
             label.textContent = '¡Copiado!';
             btn.classList.add('copied');
             setTimeout(() => {
@@ -386,7 +469,7 @@ import { ClientRouter } from 'astro:transitions';
         if (!reducedMotion) {
           initHeroReveal();
           initScrollReveals();
-          initGridParallax();
+          initAmbientMotion();
         } else {
           // Immediately show all reveal elements without animation
           document.querySelectorAll('.reveal-up').forEach((el) => {
@@ -397,6 +480,7 @@ import { ClientRouter } from 'astro:transitions';
         initAccordion();
         initCopyEmail();
         initMobileMenu();
+        initSmoothAnchors();
 
         // Scroll to hash after everything is ready
         const hash = window.location.hash;
