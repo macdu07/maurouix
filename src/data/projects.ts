@@ -6,6 +6,7 @@ export interface Project {
   description: string;
   tags: string[];
   cta: string;
+  hidden?: boolean;
   year?: string;
   url?: string;
   figma?: string;
@@ -46,6 +47,7 @@ export const projects: Project[] = [
     description: 'Distribuidor colombiano de motores y autopartes con garantía. Diseño de una presencia digital que transmite confianza, expertise y facilita la conversión de talleres y negocios del sector automotriz.',
     tags: ['WordPress', 'Bricks Builder', 'Figma', 'UI/UX'],
     cta: 'Ver Proyecto',
+    hidden: true,
     url: 'https://indireca.com',
     figma: 'https://www.figma.com/design/sroSwOZRB1Z4mvlybERVBw/Indireca?node-id=2003-25&t=fxrIaMdEd54PlrKT-1',
     overview: 'Indireca S.A.S. es un distribuidor colombiano especializado en motores nuevos y reconstruidos, autopartes (suspensión, turbos, culatas y más) con cobertura de garantía y envíos seguros a nivel nacional. Atienden talleres, empresas y conductores en los segmentos personal, comercial, industrial y marino. El reto fue construir un sitio que acompañara todo el ciclo de compra: desde el descubrimiento hasta la cotización.',
@@ -68,6 +70,7 @@ export const projects: Project[] = [
     description: 'Aliado de comercio internacional y logística con 15+ años de experiencia. Diseño que simplifica una propuesta de valor compleja y posiciona a la empresa como puerta de entrada al comercio global.',
     tags: ['WordPress', 'Bricks Builder', 'Figma', 'UI/UX'],
     cta: 'Ver Proyecto',
+    hidden: true,
     url: 'https://imporlasca.com',
     figma: 'https://www.figma.com/design/gpG3DxyLrh9dthRRXYUoGL/Importadora-Las-Carolinas?node-id=2006-41&t=NYaseP1qsydpON0N-1',
     overview: 'Importadora Las Carolinas opera desde 2008 como agente de compras y aliado logístico para empresas que quieren importar desde EE.UU., China, Japón, India, Turquía, Dubai y Brasil. Sus servicios cubren todo el ciclo: sourcing, verificación de calidad, gestión aduanera, almacenamiento y entrega puerta a puerta. El reto fue simplificar visualmente una propuesta de valor compleja y global.',
@@ -227,3 +230,5 @@ export const projects: Project[] = [
     ],
   },
 ];
+
+export const visibleProjects = projects.filter((project) => !project.hidden);

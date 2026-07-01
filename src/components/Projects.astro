@@ -1,5 +1,5 @@
 ---
-import { projects } from '../data/projects';
+import { visibleProjects } from '../data/projects';
 ---
 
 <section id="work" class="section-pad relative z-10">
@@ -9,7 +9,7 @@ import { projects } from '../data/projects';
   </h2>
 
   <ul class="projects-list list-none">
-    {projects.map((project, i) => (
+    {visibleProjects.map((project, i) => (
       <li class="project-item reveal-up" data-index={i}>
         <div
           class="project-title-row py-8 md:py-10 cursor-pointer"
