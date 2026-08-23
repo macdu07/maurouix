@@ -405,7 +405,7 @@
 }
 
 .hero-collage .project-media__frame {
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 3 / 2;
 }
 
 .hero-collage__label {
@@ -591,7 +591,7 @@
 
 .projects-preview__stage {
   position: relative;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 3 / 2;
 }
 
 .projects-preview__item {
@@ -609,7 +609,7 @@
 }
 
 .projects-preview__item .project-media__frame {
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 3 / 2;
 }
 
 .projects-preview__counter {
@@ -992,7 +992,7 @@ a.link-accent:hover::after {
 }
 
 .case-hero__media .project-media__frame {
-  aspect-ratio: 16 / 8.5;
+  aspect-ratio: 3 / 2;
 }
 
 .case-copy {
@@ -1064,7 +1064,7 @@ a.link-accent:hover::after {
 }
 
 .case-gallery__wide .project-media__frame {
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 3 / 2;
 }
 
 .case-gallery__mobile {
@@ -1073,7 +1073,7 @@ a.link-accent:hover::after {
 }
 
 .case-gallery__mobile .project-media__frame {
-  aspect-ratio: 390 / 844;
+  aspect-ratio: 887 / 1920;
 }
 
 .case-cta__inner {
@@ -1245,7 +1245,7 @@ button:focus-visible {
   }
 
   .project-entry__media .project-media__frame {
-    aspect-ratio: 16 / 10;
+    aspect-ratio: 3 / 2;
   }
 
   .project-entry.is-active {
@@ -1385,7 +1385,7 @@ button:focus-visible {
   }
 
   .case-hero__media .project-media__frame {
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 3 / 2;
   }
 
   .case-copy__lead {

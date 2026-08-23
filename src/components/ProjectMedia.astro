@@ -1,5 +1,5 @@
 ---
-import { Picture } from 'astro:assets';
+import { Image } from 'astro:assets';
 import type { ProjectMedia } from '../data/projects';
 
 interface Props {
@@ -19,14 +19,14 @@ const {
   showCaption = true,
   sizes = '(min-width: 1024px) 65vw, 100vw',
 } = Astro.props;
-const widths = media.variant === 'mobile' ? [320, 390] : [480, 768, 1200, 1440];
+const widths = media.variant === 'mobile' ? [320, 390, 768] : [480, 768, 1200, 1440, 1920];
 ---
 
 <figure class={`project-media ${media.variant === 'mobile' ? 'project-media--mobile' : ''} ${className}`}>
   <div class="project-media__frame">
-    <Picture
+    <Image
       src={media.src}
-      formats={['avif', 'webp']}
+      format="webp"
       widths={widths}
       sizes={sizes}
       alt={media.alt}
