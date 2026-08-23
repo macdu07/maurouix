@@ -1,0 +1,37 @@
+---
+interface Props {
+  slug: string;
+  title: string;
+  url?: string;
+  figma?: string;
+  compact?: boolean;
+  showCaseLink?: boolean;
+}
+
+const {
+  slug,
+  title,
+  url,
+  figma,
+  compact = false,
+  showCaseLink = true,
+} = Astro.props;
+---
+
+<div class={`project-actions ${compact ? 'project-actions--compact' : ''}`}>
+  {showCaseLink && (
+    <a href={`/proyectos/${slug}`} class="button button--primary" aria-label={`Ver caso de estudio de ${title}`}>
+      Ver caso
+    </a>
+  )}
+  {url && (
+    <a href={url} target="_blank" rel="noopener noreferrer" class="button button--secondary">
+      Visitar sitio<span class="sr-only"> de {title}, abre en otra pestaña</span>
+    </a>
+  )}
+  {figma && (
+    <a href={figma} target="_blank" rel="noopener noreferrer" class="button button--text">
+      Ver en Figma<span class="sr-only">, abre en otra pestaña</span>
+    </a>
+  )}
+</div>

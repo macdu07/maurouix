@@ -1,0 +1,40 @@
+---
+import { Picture } from 'astro:assets';
+import type { ProjectMedia } from '../data/projects';
+
+interface Props {
+  media: ProjectMedia;
+  class?: string;
+  imageClass?: string;
+  priority?: boolean;
+  showCaption?: boolean;
+  sizes?: string;
+}
+
+const {
+  media,
+  class: className = '',
+  imageClass = '',
+  priority = false,
+  showCaption = true,
+  sizes = '(min-width: 1024px) 65vw, 100vw',
+} = Astro.props;
+const widths = media.variant === 'mobile' ? [320, 390] : [480, 768, 1200, 1440];
+---
+
+<figure class={`project-media ${media.variant === 'mobile' ? 'project-media--mobile' : ''} ${className}`}>
+  <div class="project-media__frame">
+    <Picture
+      src={media.src}
+      formats={['avif', 'webp']}
+      widths={widths}
+      sizes={sizes}
+      alt={media.alt}
+      loading={priority ? 'eager' : 'lazy'}
+      fetchpriority={priority ? 'high' : 'auto'}
+      decoding="async"
+      class={`project-media__image ${imageClass}`}
+    />
+  </div>
+  {showCaption && <figcaption class="project-media__caption">{media.caption}</figcaption>}
+</figure>

@@ -1,7 +1,7 @@
 ---
 ---
 
-<header id="site-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-500 border-b border-[var(--color-border)] bg-[rgba(244,239,230,0.82)] backdrop-blur-[14px]">
+<header id="site-header" class="fixed top-0 left-0 w-full z-50 transition-[background-color,box-shadow] duration-500 border-b border-[var(--color-border)] bg-[rgba(244,239,230,0.82)] backdrop-blur-[14px]">
   <div class="flex items-center justify-between pad-x pad-y-sm">
     <!-- Logo -->
     <div class="flex items-center">
@@ -15,30 +15,69 @@
       <a href="/#work" class="nav-link">Proyectos</a>
       <a href="/#services" class="nav-link">Servicios</a>
       <a href="/#about" class="nav-link">Sobre Mí</a>
-      <a href="/#contact" class="nav-link">Contacto</a>
+      <a href="/#contact" class="nav-link nav-link--cta">Hablemos</a>
     </nav>
 
     <!-- Mobile hamburger -->
     <button
       id="mobile-menu-btn"
-      class="md:hidden flex flex-col gap-[5px] p-2 bg-transparent border-none cursor-pointer"
+      class="mobile-menu-button md:hidden flex flex-col gap-[5px] bg-transparent border-none cursor-pointer"
       aria-label="Abrir menú de navegación"
       aria-expanded="false"
       aria-controls="mobile-menu"
     >
-      <span class="block w-5 h-[1.5px] bg-[var(--color-accent)] transition-all duration-300"></span>
-      <span class="block w-5 h-[1.5px] bg-[var(--color-accent)] transition-all duration-300"></span>
-      <span class="block w-5 h-[1.5px] bg-[var(--color-accent)] transition-all duration-300"></span>
+      <span class="block w-5 h-[1.5px] bg-[var(--color-accent)] transition-transform duration-300"></span>
+      <span class="block w-5 h-[1.5px] bg-[var(--color-accent)] transition-transform duration-300"></span>
+      <span class="block w-5 h-[1.5px] bg-[var(--color-accent)] transition-transform duration-300"></span>
     </button>
   </div>
 
   <!-- Mobile nav -->
-  <div id="mobile-menu" class="md:hidden overflow-hidden h-0 transition-all duration-500 pad-x" aria-hidden="true">
+  <div id="mobile-menu" class="md:hidden overflow-hidden pad-x" aria-hidden="true" hidden>
     <nav class="flex flex-col gap-6 pb-8 pt-2" aria-label="Navegación móvil">
       <a href="/#work" class="nav-link text-base">Proyectos</a>
       <a href="/#services" class="nav-link text-base">Servicios</a>
       <a href="/#about" class="nav-link text-base">Sobre Mí</a>
-      <a href="/#contact" class="nav-link text-base">Contacto</a>
+      <a href="/#contact" class="nav-link nav-link--cta text-base">Hablemos</a>
     </nav>
   </div>
 </header>
+
+<script>
+  function initSharedMobileMenu() {
+    const btn = document.getElementById('mobile-menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    if (!btn || !menu || btn.dataset.initialized === 'true') return;
+    btn.dataset.initialized = 'true';
+
+    let isOpen = false;
+    const openMenu = () => {
+      isOpen = true;
+      menu.hidden = false;
+      menu.style.height = '0px';
+      requestAnimationFrame(() => { menu.style.height = menu.scrollHeight + 'px'; });
+      btn.setAttribute('aria-expanded', 'true');
+      btn.setAttribute('aria-label', 'Cerrar menú de navegación');
+      menu.setAttribute('aria-hidden', 'false');
+    };
+    const closeMenu = () => {
+      isOpen = false;
+      menu.style.height = '0px';
+      btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute('aria-label', 'Abrir menú de navegación');
+      menu.setAttribute('aria-hidden', 'true');
+      window.setTimeout(() => { if (!isOpen) menu.hidden = true; }, 520);
+    };
+
+    btn.addEventListener('click', () => { isOpen ? closeMenu() : openMenu(); });
+    menu.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && isOpen) {
+        closeMenu();
+        btn.focus();
+      }
+    });
+  }
+
+  document.addEventListener('astro:page-load', initSharedMobileMenu);
+</script>

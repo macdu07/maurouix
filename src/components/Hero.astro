@@ -1,28 +1,62 @@
 ---
+import { visibleProjects } from '../data/projects';
+import ProjectMedia from './ProjectMedia.astro';
+
+const featuredProjects = visibleProjects.filter((project) => project.cover).slice(0, 3);
 ---
 
-<section id="hero" class="min-h-screen flex items-center section-pad relative z-10 pt-32 overflow-hidden">
+<section id="hero" class="hero section-pad relative z-10">
   <img
     src="/brand/monograma.png"
     alt=""
-    class="brand-mark brand-mark-hero absolute right-[5vw] top-[18vh] -z-10 hidden md:block"
+    class="brand-mark brand-mark-hero hero__mark"
     aria-hidden="true"
   />
-  <div class="w-full max-w-[72rem]">
-    <p class="section-label eyebrow-rule reveal-up">Diseño Web & Desarrollo UI/UX</p>
-    <h1
-      id="hero-text"
-      class="hero-text-pending font-display font-semibold text-[clamp(2.9rem,9vw,9.5rem)] leading-[0.86] text-[var(--color-accent)]"
-    >
-      Transformando Ideas en Experiencias Digitales
-    </h1>
-    <div class="mt-12 reveal-up max-w-[58ch] border-l border-[var(--color-gold)] pl-6">
-      <p class="font-body text-lg md:text-xl text-[var(--color-fg)]">
-        +10 años creando soluciones visuales que conectan marcas con su audiencia.
+
+  <div class="hero__grid">
+    <div class="hero__copy">
+      <p class="section-label eyebrow-rule reveal-up">Diseño Web & Desarrollo UI/UX</p>
+      <h1 id="hero-text" class="hero-title hero-text-pending font-display">
+        Transformando ideas en experiencias digitales
+      </h1>
+      <p class="hero__intro reveal-up">
+        Diseño interfaces y construyo sitios que convierten una identidad en una experiencia clara, memorable y lista para crecer.
       </p>
-      <p class="font-mono text-[0.75rem] tracking-[0.12em] uppercase text-[var(--color-muted)] mt-8">
-        Desliza para explorar <span class="scroll-hint ml-2" aria-hidden="true">↓</span>
+      <div class="hero__actions reveal-up">
+        <a href="/#work" class="button button--primary">Ver proyectos</a>
+        <a href="/#contact" class="button button--secondary">Hablemos</a>
+      </div>
+      <p class="hero__experience reveal-up">
+        <strong>+10 años</strong>
+        <span>creando soluciones digitales para marcas y empresas.</span>
       </p>
     </div>
+
+    <div class="hero-collage" aria-label="Selección de proyectos recientes">
+      {featuredProjects.map((project, index) => (
+        <a
+          href={`/proyectos/${project.slug}`}
+          class={`hero-collage__item hero-collage__item--${index + 1}`}
+          data-hero-media
+          aria-label={`Ver caso de estudio de ${project.title}`}
+        >
+          <ProjectMedia
+            media={project.cover!}
+            priority={index === 0}
+            showCaption={false}
+            sizes="(min-width: 1024px) 38vw, 78vw"
+          />
+          <span class="hero-collage__label">
+            <span>{project.num}</span>
+            <strong>{project.title}</strong>
+          </span>
+        </a>
+      ))}
+    </div>
   </div>
+
+  <a href="/#work" class="hero__scroll" aria-label="Ir a proyectos destacados">
+    <span>Explorar</span>
+    <span class="hero__scroll-line" aria-hidden="true"></span>
+  </a>
 </section>

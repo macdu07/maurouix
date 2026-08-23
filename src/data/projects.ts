@@ -1,3 +1,37 @@
+import type { ImageMetadata } from 'astro';
+
+import autovenzCover from '../assets/projects/autovenz/cover.png';
+import autovenzDetail from '../assets/projects/autovenz/detail.png';
+import autovenzMobile from '../assets/projects/autovenz/mobile.png';
+import encantoCover from '../assets/projects/encanto-amatista/cover.png';
+import encantoDetail from '../assets/projects/encanto-amatista/detail.png';
+import encantoMobile from '../assets/projects/encanto-amatista/mobile.png';
+import dacaCover from '../assets/projects/dacatrader/cover.png';
+import dacaDetail from '../assets/projects/dacatrader/detail.png';
+import dacaMobile from '../assets/projects/dacatrader/mobile.png';
+import spartanCover from '../assets/projects/spartan-helmets/cover.png';
+import spartanDetail from '../assets/projects/spartan-helmets/detail.png';
+import spartanMobile from '../assets/projects/spartan-helmets/mobile.png';
+import chanellCover from '../assets/projects/chanell-clean-co/cover.png';
+import chanellDetail from '../assets/projects/chanell-clean-co/detail.png';
+import chanellMobile from '../assets/projects/chanell-clean-co/mobile.png';
+import xsportsCover from '../assets/projects/xsports-helmets/cover.png';
+import xsportsDetail from '../assets/projects/xsports-helmets/detail.png';
+import xsportsMobile from '../assets/projects/xsports-helmets/mobile.png';
+import tdbCover from '../assets/projects/tdb-uniforms/cover.png';
+import tdbDetail from '../assets/projects/tdb-uniforms/detail.png';
+import tdbMobile from '../assets/projects/tdb-uniforms/mobile.png';
+import weCareCover from '../assets/projects/we-care-master-service/cover.png';
+import weCareDetail from '../assets/projects/we-care-master-service/detail.png';
+import weCareMobile from '../assets/projects/we-care-master-service/mobile.png';
+
+export interface ProjectMedia {
+  src: ImageMetadata;
+  alt: string;
+  caption: string;
+  variant: 'desktop' | 'detail' | 'mobile';
+}
+
 export interface Project {
   num: string;
   slug: string;
@@ -13,6 +47,8 @@ export interface Project {
   overview?: string;
   challenge?: string;
   features?: string[];
+  cover?: ProjectMedia;
+  gallery?: ProjectMedia[];
 }
 
 export const projects: Project[] = [
@@ -37,6 +73,11 @@ export const projects: Project[] = [
       'Sección de video embebido con estética atmosférica oscura',
       'Menú off-canvas para mobile con acordeón de categorías',
       'Paleta oscura con gradientes en púrpura profundo como acento de marca',
+    ],
+    cover: { src: autovenzCover, alt: 'Página principal de AutoVenz en escritorio', caption: 'Portada del sitio web de AutoVenz', variant: 'desktop' },
+    gallery: [
+      { src: autovenzDetail, alt: 'Sección de propuesta de valor de AutoVenz', caption: 'Sistema de contenido y propuesta de valor', variant: 'detail' },
+      { src: autovenzMobile, alt: 'Página principal de AutoVenz en un teléfono móvil', caption: 'Experiencia responsive de AutoVenz', variant: 'mobile' },
     ],
   },
   {
@@ -106,6 +147,11 @@ export const projects: Project[] = [
       'Paleta púrpura elegante (#675699) con tipografías Philosopher + Mulish',
       'Diseño responsive con menú deslizable y contador de carrito en header',
     ],
+    cover: { src: encantoCover, alt: 'Página principal de Encanto Amatista en escritorio', caption: 'Portada del e-commerce Encanto Amatista', variant: 'desktop' },
+    gallery: [
+      { src: encantoDetail, alt: 'Categorías de producto de Encanto Amatista', caption: 'Exploración de categorías y colecciones', variant: 'detail' },
+      { src: encantoMobile, alt: 'Página principal de Encanto Amatista en un teléfono móvil', caption: 'Experiencia de compra en móvil', variant: 'mobile' },
+    ],
   },
   {
     num: '05',
@@ -129,6 +175,11 @@ export const projects: Project[] = [
       'Navegación responsive con menú hamburguesa para mobile',
       'Sección "About" centrada en la historia y expertise del fundador',
     ],
+    cover: { src: dacaCover, alt: 'Página principal de Daca Trader en escritorio', caption: 'Portada corporativa de Daca Trader', variant: 'desktop' },
+    gallery: [
+      { src: dacaDetail, alt: 'Servicios de importación de Daca Trader', caption: 'Presentación de servicios y capacidades', variant: 'detail' },
+      { src: dacaMobile, alt: 'Página principal de Daca Trader en un teléfono móvil', caption: 'Experiencia responsive de Daca Trader', variant: 'mobile' },
+    ],
   },
   {
     num: '06',
@@ -151,6 +202,11 @@ export const projects: Project[] = [
       'Optimización de rendimiento con lazy loading y formato WebP para imágenes',
       'Diseño responsive con navegación mobile adaptada al catálogo completo',
     ],
+    cover: { src: spartanCover, alt: 'Página principal de Spartan Helmets en escritorio', caption: 'Portada del e-commerce Spartan Helmets', variant: 'desktop' },
+    gallery: [
+      { src: spartanDetail, alt: 'Categorías de equipamiento de Spartan Helmets', caption: 'Arquitectura visual del catálogo', variant: 'detail' },
+      { src: spartanMobile, alt: 'Página principal de Spartan Helmets en un teléfono móvil', caption: 'Experiencia móvil de Spartan Helmets', variant: 'mobile' },
+    ],
   },
   {
     num: '07',
@@ -169,6 +225,11 @@ export const projects: Project[] = [
       'Indicadores de confianza: reseñas de clientes y áreas de cobertura en Chicagoland',
       'Paleta limpia en blanco y azul que refuerza la identidad de la marca',
       'Diseño mobile-first optimizado para búsquedas locales y conversión directa',
+    ],
+    cover: { src: chanellCover, alt: 'Página principal de Chanell Clean Co en escritorio', caption: 'Portada de servicios de Chanell Clean Co', variant: 'desktop' },
+    gallery: [
+      { src: chanellDetail, alt: 'Sección de propuesta de valor de Chanell Clean Co', caption: 'Argumentos de confianza y diferenciación', variant: 'detail' },
+      { src: chanellMobile, alt: 'Página principal de Chanell Clean Co en un teléfono móvil', caption: 'Experiencia móvil orientada a conversión', variant: 'mobile' },
     ],
   },
   {
@@ -192,6 +253,11 @@ export const projects: Project[] = [
       'Lazy loading y optimización de imágenes para rendimiento en mobile',
       'Diseño responsive con grid adaptativo para galería de productos',
     ],
+    cover: { src: xsportsCover, alt: 'Página principal de X Sports Helmets en escritorio', caption: 'Portada del catálogo X Sports Helmets', variant: 'desktop' },
+    gallery: [
+      { src: xsportsDetail, alt: 'Catálogo de cascos de X Sports Helmets', caption: 'Presentación de producto y contenido', variant: 'detail' },
+      { src: xsportsMobile, alt: 'Página principal de X Sports Helmets en un teléfono móvil', caption: 'Experiencia móvil de producto', variant: 'mobile' },
+    ],
   },
   {
     num: '09',
@@ -210,6 +276,11 @@ export const projects: Project[] = [
       'Diseño responsive optimizado para compras desde dispositivos móviles',
       'Navegación intuitiva y categorización clara de productos',
     ],
+    cover: { src: tdbCover, alt: 'Página principal de TDB Uniforms en escritorio', caption: 'Portada del e-commerce TDB Uniforms', variant: 'desktop' },
+    gallery: [
+      { src: tdbDetail, alt: 'Colecciones y atributos de TDB Uniforms', caption: 'Sistema de categorías y beneficios', variant: 'detail' },
+      { src: tdbMobile, alt: 'Página principal de TDB Uniforms en un teléfono móvil', caption: 'Experiencia responsive de TDB Uniforms', variant: 'mobile' },
+    ],
   },
   {
     num: '10',
@@ -227,6 +298,11 @@ export const projects: Project[] = [
       'Interfaz y botones de llamado a la acción (CTAs) orientados a la generación de leads',
       'Estructura clara de servicios residenciales y comerciales',
       'Diseño completamente responsive para asegurar una correcta visualización en todos los dispositivos',
+    ],
+    cover: { src: weCareCover, alt: 'Página principal de We Care Master Service en escritorio', caption: 'Portada de servicios de We Care Master Service', variant: 'desktop' },
+    gallery: [
+      { src: weCareDetail, alt: 'Servicios de limpieza de We Care Master Service', caption: 'Presentación del portafolio de servicios', variant: 'detail' },
+      { src: weCareMobile, alt: 'Página principal de We Care Master Service en un teléfono móvil', caption: 'Experiencia móvil de servicios', variant: 'mobile' },
     ],
   },
 ];

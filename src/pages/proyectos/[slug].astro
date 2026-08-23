@@ -1,6 +1,8 @@
 ---
 import '../../styles/global.css';
 import Header from '../../components/Header.astro';
+import ProjectActions from '../../components/ProjectActions.astro';
+import ProjectMedia from '../../components/ProjectMedia.astro';
 import { visibleProjects } from '../../data/projects';
 import type { Project } from '../../data/projects';
 import { ClientRouter } from 'astro:transitions';
@@ -85,60 +87,44 @@ const nextProject = currentIndex < visibleProjects.length - 1 ? visibleProjects[
     </script>
   </head>
   <body>
-    <div class="grid-bg" id="grid-bg"></div>
+    <a href="#project-content" class="skip-link">Saltar al contenido</a>
+    <div class="grid-bg" id="grid-bg" aria-hidden="true"></div>
 
     <Header />
 
-    <main>
-      <!-- ── Hero del proyecto ── -->
-      <section class="section-pad pt-[10rem] md:pt-[12rem] relative z-10">
-        <div class="mb-4 reveal-up">
-          <a href="/#work" class="nav-link inline-flex items-center gap-2">
-            ← Volver al portafolio
-          </a>
-        </div>
+    <main id="project-content">
+      <!-- ── Hero editorial del proyecto ── -->
+      <section class="case-hero section-pad relative z-10">
+        <a href="/#work" class="case-back reveal-up">Volver al portafolio</a>
 
-        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mt-12 mb-0">
+        <div class="case-hero__heading">
           <div class="reveal-up">
-            <span class="font-mono text-[0.7rem] text-[var(--color-gold)] tracking-[0.18em] block mb-4">
-              {project.num}
-            </span>
-            <h1 class="font-display font-semibold text-[clamp(3rem,8vw,8rem)] text-[var(--color-accent)] leading-[0.85]">
-              {project.title}
-            </h1>
+            <span class="case-number">{project.num}</span>
+            <h1>{project.title}</h1>
           </div>
-
-          <div class="flex flex-col items-start md:items-end gap-2 reveal-up">
-            <p class="font-mono text-[0.7rem] tracking-[0.1em] text-[var(--color-muted)] uppercase">
-              {project.meta}
-            </p>
-            {project.year && (
-              <p class="font-mono text-[0.7rem] tracking-[0.1em] text-[var(--color-muted)] uppercase">
-                {project.year}
-              </p>
-            )}
-            {project.url && (
-              <a
-                href={project.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="link-accent font-mono text-[0.7rem] tracking-[0.1em] uppercase mt-2"
-              >
-                [ Ver sitio en vivo ↗ ]
-              </a>
-            )}
-            {project.figma && (
-              <a
-                href={project.figma}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="link-accent font-mono text-[0.7rem] tracking-[0.1em] uppercase"
-              >
-                [ Ver diseño en Figma ↗ ]
-              </a>
-            )}
+          <div class="case-hero__meta reveal-up">
+            <p>{project.meta}</p>
+            {project.year && <p>{project.year}</p>}
+            <ProjectActions
+              slug={project.slug}
+              title={project.title}
+              url={project.url}
+              figma={project.figma}
+              showCaseLink={false}
+            />
           </div>
         </div>
+
+        {project.cover && (
+          <div class="case-hero__media reveal-media" data-parallax-media>
+            <ProjectMedia
+              media={project.cover}
+              priority
+              showCaption={false}
+              sizes="100vw"
+            />
+          </div>
+        )}
       </section>
 
       <div class="section-divider"></div>
@@ -158,9 +144,9 @@ const nextProject = currentIndex < visibleProjects.length - 1 ? visibleProjects[
 
       <!-- ── Overview ── -->
       {project.overview && (
-        <section class="section-pad relative z-10">
-          <p class="section-label reveal-up">Proyecto</p>
-          <p class="font-body text-[clamp(1.1rem,2vw,1.5rem)] leading-relaxed text-[var(--color-fg)] max-w-[70ch] reveal-up">
+        <section class="case-copy section-pad relative z-10">
+          <h2 class="section-label reveal-up">Proyecto</h2>
+          <p class="case-copy__lead reveal-up">
             {project.overview}
           </p>
         </section>
@@ -170,9 +156,9 @@ const nextProject = currentIndex < visibleProjects.length - 1 ? visibleProjects[
       {project.challenge && (
         <>
           <div class="section-divider"></div>
-          <section class="section-pad relative z-10">
-            <p class="section-label reveal-up">Desafío</p>
-            <p class="font-body text-[clamp(1.1rem,2vw,1.5rem)] leading-relaxed text-[var(--color-fg)] max-w-[70ch] reveal-up">
+          <section class="case-copy case-copy--offset section-pad relative z-10">
+            <h2 class="section-label reveal-up">Desafío</h2>
+            <p class="case-copy__lead reveal-up">
               {project.challenge}
             </p>
           </section>
@@ -183,12 +169,11 @@ const nextProject = currentIndex < visibleProjects.length - 1 ? visibleProjects[
       {project.features && project.features.length > 0 && (
         <>
           <div class="section-divider"></div>
-          <section class="section-pad relative z-10">
-            <p class="section-label reveal-up">Lo que construimos</p>
+          <section class="case-features section-pad relative z-10">
+            <h2 class="section-label reveal-up">Lo que construimos</h2>
             <ul class="list-none mt-0 max-w-[65ch] space-y-0">
               {project.features.map((feature) => (
                 <li class="feature-item reveal-up">
-                  <span class="feature-arrow">→</span>
                   <span class="font-body text-base md:text-lg leading-relaxed text-[var(--color-fg)]">
                     {feature}
                   </span>
@@ -199,41 +184,40 @@ const nextProject = currentIndex < visibleProjects.length - 1 ? visibleProjects[
         </>
       )}
 
+      {project.gallery && project.gallery.length > 0 && (
+        <>
+          <div class="section-divider"></div>
+          <section class="case-gallery section-pad relative z-10" aria-labelledby="gallery-title">
+            <div class="case-gallery__heading reveal-up">
+              <p class="section-label">Vista del proyecto</p>
+              <h2 id="gallery-title">Diseñado para cada pantalla.</h2>
+            </div>
+            <div class="case-gallery__grid">
+              {project.gallery.map((media) => (
+                <ProjectMedia
+                  media={media}
+                  class={`reveal-media ${media.variant === 'mobile' ? 'case-gallery__mobile' : 'case-gallery__wide'}`}
+                  sizes={media.variant === 'mobile' ? '(min-width: 1024px) 30vw, 86vw' : '(min-width: 1024px) 80vw, 94vw'}
+                />
+              ))}
+            </div>
+          </section>
+        </>
+      )}
+
       <div class="section-divider"></div>
 
       <!-- ── CTA ── -->
-      <section class="section-pad relative z-10">
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+      <section class="case-cta section-pad relative z-10">
+        <div class="case-cta__inner">
           <div class="reveal-up">
             <p class="section-label">¿Tienes un proyecto similar?</p>
-            <h2 class="font-display font-semibold text-[clamp(2.4rem,5vw,5rem)] text-[var(--color-accent)] leading-[0.9]">
-              Hablemos.<br/>
-              <span class="text-[var(--color-fg)]">Hagámoslo realidad.</span>
-            </h2>
+            <h2>Hablemos.<br/><span>Hagámoslo realidad.</span></h2>
           </div>
-          <div class="flex flex-col gap-4 reveal-up">
-            {project.url && (
-              <a
-                href={project.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="link-accent font-mono text-[0.75rem] tracking-[0.15em] uppercase"
-              >
-                [ Ver sitio en vivo ↗ ]
-              </a>
-            )}
-            {project.figma && (
-              <a
-                href={project.figma}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="link-accent font-mono text-[0.75rem] tracking-[0.15em] uppercase"
-              >
-                [ Ver diseño en Figma ↗ ]
-              </a>
-            )}
-            <a href="/#contact" class="link-accent font-mono text-[0.75rem] tracking-[0.15em] uppercase">
-              [ Contactar → ]
+          <div class="project-actions reveal-up">
+            <a href="mailto:contacto@maurouix.com" class="button button--primary">Escríbeme</a>
+            <a href="https://wa.me/573023725631" target="_blank" rel="noopener noreferrer" class="button button--secondary">
+              WhatsApp<span class="sr-only">, abre en otra pestaña</span>
             </a>
           </div>
         </div>
@@ -248,7 +232,7 @@ const nextProject = currentIndex < visibleProjects.length - 1 ? visibleProjects[
             {prevProject ? (
               <a href={`/proyectos/${prevProject.slug}`} class="project-nav-link group">
                 <span class="font-mono text-[0.65rem] tracking-[0.2em] uppercase text-[var(--color-muted)] block mb-2">
-                  ← Anterior
+                  Proyecto anterior
                 </span>
                 <span class="font-display font-semibold text-[clamp(1.2rem,2vw,1.8rem)] group-hover:text-[var(--color-accent)] transition-colors duration-300">
                   {prevProject.title}
@@ -263,7 +247,7 @@ const nextProject = currentIndex < visibleProjects.length - 1 ? visibleProjects[
             {nextProject ? (
               <a href={`/proyectos/${nextProject.slug}`} class="project-nav-link group">
                 <span class="font-mono text-[0.65rem] tracking-[0.2em] uppercase text-[var(--color-muted)] block mb-2">
-                  Siguiente →
+                  Proyecto siguiente
                 </span>
                 <span class="font-display font-semibold text-[clamp(1.2rem,2vw,1.8rem)] group-hover:text-[var(--color-accent)] transition-colors duration-300">
                   {nextProject.title}
@@ -272,7 +256,7 @@ const nextProject = currentIndex < visibleProjects.length - 1 ? visibleProjects[
             ) : (
               <a href="/#work" class="project-nav-link group">
                 <span class="font-mono text-[0.65rem] tracking-[0.2em] uppercase text-[var(--color-muted)] block mb-2">
-                  Ver todos →
+                  Ver todos los proyectos
                 </span>
                 <span class="font-display font-semibold text-[clamp(1.2rem,2vw,1.8rem)] group-hover:text-[var(--color-accent)] transition-colors duration-300">
                   Portfolio
@@ -289,7 +273,7 @@ const nextProject = currentIndex < visibleProjects.length - 1 ? visibleProjects[
           <span class="font-mono text-[0.65rem] tracking-[0.15em] uppercase text-[var(--color-muted)]">
             © 2026 MauroUIX
           </span>
-          <a href="/" class="font-display font-semibold text-xl text-[var(--color-accent)] hover:text-[var(--color-gold)] transition-colors duration-300">
+          <a href="/" class="font-display font-semibold text-xl text-[var(--color-accent)] hover:text-[var(--color-fg)] transition-colors duration-300">
             MAUROUIX
           </a>
         </div>
@@ -322,7 +306,9 @@ const nextProject = currentIndex < visibleProjects.length - 1 ? visibleProjects[
         const gridBg = document.getElementById('grid-bg');
         if (!gridBg) return;
 
-        window.addEventListener('pointermove', (event) => {
+        const previousHandler = (window as any).__ambientPointerHandler;
+        if (previousHandler) window.removeEventListener('pointermove', previousHandler);
+        const pointerHandler = (event: PointerEvent) => {
           const x = (event.clientX / window.innerWidth - 0.5) * 14;
           const y = (event.clientY / window.innerHeight - 0.5) * 14;
           gsap.to(gridBg, {
@@ -331,7 +317,17 @@ const nextProject = currentIndex < visibleProjects.length - 1 ? visibleProjects[
             duration: 1.8,
             ease: 'power3.out',
           });
-        }, { passive: true });
+        };
+        (window as any).__ambientPointerHandler = pointerHandler;
+        window.addEventListener('pointermove', pointerHandler, { passive: true });
+
+        document.querySelectorAll<HTMLElement>('[data-parallax-media]').forEach((media) => {
+          gsap.to(media.querySelector('img'), {
+            yPercent: 5,
+            ease: 'none',
+            scrollTrigger: { trigger: media, start: 'top bottom', end: 'bottom top', scrub: 1.1 },
+          });
+        });
       }
 
       // ─── Page initialization (runs after every navigation) ───
@@ -359,8 +355,18 @@ const nextProject = currentIndex < visibleProjects.length - 1 ? visibleProjects[
               }
             );
           });
+
+          gsap.utils.toArray<HTMLElement>('.reveal-media').forEach((el) => {
+            gsap.fromTo(el,
+              { clipPath: 'inset(9% 0 9% 0)', opacity: 0.78, y: 24 },
+              {
+                clipPath: 'inset(0% 0 0% 0)', opacity: 1, y: 0, duration: 0.9, ease: 'power3.out',
+                scrollTrigger: { trigger: el, start: 'top 86%', toggleActions: 'play none none none' },
+              }
+            );
+          });
         } else {
-          document.querySelectorAll('.reveal-up').forEach((el) => {
+          document.querySelectorAll('.reveal-up, .reveal-media').forEach((el) => {
             gsap.set(el, { opacity: 1, y: 0 });
           });
         }

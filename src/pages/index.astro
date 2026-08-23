@@ -141,7 +141,7 @@ import { ClientRouter } from 'astro:transitions';
       }
 
       // ─────────────────────────────────────
-      // 1. HERO — Letter-by-letter reveal
+      // 1. HERO — Word-by-word editorial reveal
       // ─────────────────────────────────────
       function initHeroReveal() {
         const heroEl = document.getElementById('hero-text');
@@ -150,19 +150,11 @@ import { ClientRouter } from 'astro:transitions';
         const text = heroEl.textContent || '';
         heroEl.innerHTML = '';
 
-        // Split into words, then chars
         const words = text.split(' ');
         words.forEach((word, wi) => {
           const wordSpan = document.createElement('span');
           wordSpan.className = 'word';
-
-          for (let i = 0; i < word.length; i++) {
-            const charSpan = document.createElement('span');
-            charSpan.className = 'char';
-            charSpan.textContent = word[i];
-            wordSpan.appendChild(charSpan);
-          }
-
+          wordSpan.textContent = word;
           heroEl.appendChild(wordSpan);
 
           // Add space between words (not after the last one)
@@ -174,27 +166,30 @@ import { ClientRouter } from 'astro:transitions';
           }
         });
 
-        // Animate each character
-        const chars = heroEl.querySelectorAll('.char');
         heroEl.classList.remove('hero-text-pending');
         heroEl.classList.add('hero-text-ready');
 
         gsap.fromTo(
-          chars,
+          heroEl.querySelectorAll('.word'),
           {
             opacity: 0,
-            y: 40,
-            rotateX: -90,
+            yPercent: 110,
+            rotateX: -16,
           },
           {
             opacity: 1,
-            y: 0,
+            yPercent: 0,
             rotateX: 0,
-            duration: 0.6,
+            duration: 0.85,
             ease: 'power3.out',
-            stagger: 0.025,
-            delay: 0.3,
+            stagger: 0.08,
+            delay: 0.18,
           }
+        );
+
+        gsap.fromTo('[data-hero-media]',
+          { opacity: 0, y: 34, clipPath: 'inset(12% 0 0 0)' },
+          { opacity: 1, y: 0, clipPath: 'inset(0% 0 0 0)', duration: 0.9, stagger: 0.1, ease: 'power3.out', delay: 0.35 }
         );
       }
 
@@ -238,7 +233,9 @@ import { ClientRouter } from 'astro:transitions';
         const heroMark = document.querySelector('.brand-mark-hero');
 
         if (gridBg) {
-          window.addEventListener('pointermove', (event) => {
+          const previousHandler = (window as any).__ambientPointerHandler;
+          if (previousHandler) window.removeEventListener('pointermove', previousHandler);
+          const pointerHandler = (event: PointerEvent) => {
             const x = (event.clientX / window.innerWidth - 0.5) * 18;
             const y = (event.clientY / window.innerHeight - 0.5) * 18;
             gsap.to(gridBg, {
@@ -247,7 +244,9 @@ import { ClientRouter } from 'astro:transitions';
               duration: 1.8,
               ease: 'power3.out',
             });
-          }, { passive: true });
+          };
+          (window as any).__ambientPointerHandler = pointerHandler;
+          window.addEventListener('pointermove', pointerHandler, { passive: true });
         }
 
         if (heroMark) {
@@ -263,6 +262,19 @@ import { ClientRouter } from 'astro:transitions';
             },
           });
         }
+
+        document.querySelectorAll<HTMLElement>('[data-hero-media]').forEach((media, index) => {
+          gsap.to(media, {
+            y: index % 2 === 0 ? -28 : 24,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: '#hero',
+              start: 'top top',
+              end: 'bottom top',
+              scrub: 1.1,
+            },
+          });
+        });
       }
 
       // ─────────────────────────────────────
@@ -313,68 +325,61 @@ import { ClientRouter } from 'astro:transitions';
       }
 
       // ─────────────────────────────────────
-      // 5. Project accordion
+      // 5. Editorial project showcase
       // ─────────────────────────────────────
-      function initAccordion() {
-        const triggers = document.querySelectorAll('[data-accordion-trigger]');
+      function initProjectShowcase() {
+        const entries = Array.from(document.querySelectorAll<HTMLElement>('[data-project-entry]'));
+        const previews = Array.from(document.querySelectorAll<HTMLElement>('[data-project-preview]'));
+        if (!entries.length || !previews.length) return;
 
-        function closePanel(trigger: Element) {
-          const item = trigger.closest('.project-item');
-          if (!item) return;
-          const panel = item.querySelector('[data-accordion-panel]') as HTMLElement;
-          const icon = item.querySelector('.accordion-icon');
-          if (!panel) return;
-          gsap.to(panel, { height: 0, duration: 0.4, ease: 'power2.inOut' });
-          if (icon) {
-            icon.textContent = '+';
-            gsap.to(icon, { rotation: 0, duration: 0.3 });
-          }
-          trigger.setAttribute('aria-expanded', 'false');
-        }
-
-        triggers.forEach((trigger) => {
-          const handleOpen = () => {
-            const item = trigger.closest('.project-item');
-            if (!item) return;
-            const panel = item.querySelector('[data-accordion-panel]') as HTMLElement;
-            const icon = item.querySelector('.accordion-icon');
-            if (!panel) return;
-
-            const isOpen = trigger.getAttribute('aria-expanded') === 'true';
-
-            // Close all other panels
-            triggers.forEach((t) => {
-              if (t !== trigger) closePanel(t);
+        let activeIndex = 0;
+        const activate = (index: number) => {
+          if (index === activeIndex && previews[index]?.classList.contains('is-active')) return;
+          activeIndex = index;
+          previews.forEach((preview, previewIndex) => {
+            const active = previewIndex === index;
+            preview.classList.toggle('is-active', active);
+            gsap.to(preview, {
+              autoAlpha: active ? 1 : 0,
+              scale: active ? 1 : 1.025,
+              clipPath: active ? 'inset(0% 0 0 0)' : 'inset(7% 0 7% 0)',
+              duration: 0.5,
+              ease: 'power3.out',
+              overwrite: true,
             });
-
-            if (isOpen) {
-              closePanel(trigger);
-            } else {
-              // Open this panel
-              gsap.set(panel, { height: 'auto' });
-              const fullHeight = panel.offsetHeight;
-              gsap.fromTo(
-                panel,
-                { height: 0 },
-                { height: fullHeight, duration: 0.5, ease: 'power2.out' }
-              );
-              if (icon) {
-                icon.textContent = '−';
-                gsap.to(icon, { rotation: 180, duration: 0.3 });
-              }
-              trigger.setAttribute('aria-expanded', 'true');
-            }
-          };
-
-          trigger.addEventListener('click', handleOpen);
-          // Keyboard support (Enter/Space)
-          trigger.addEventListener('keydown', (e: Event) => {
-            const ke = e as KeyboardEvent;
-            if (ke.key === 'Enter' || ke.key === ' ') {
-              e.preventDefault();
-              handleOpen();
-            }
           });
+          entries.forEach((entry, entryIndex) => entry.classList.toggle('is-active', entryIndex === index));
+        };
+
+        const media = gsap.matchMedia();
+        media.add('(min-width: 1024px) and (prefers-reduced-motion: no-preference)', () => {
+          entries.forEach((entry, index) => {
+            entry.addEventListener('pointerenter', () => activate(index));
+            entry.addEventListener('focusin', () => activate(index));
+            ScrollTrigger.create({
+              trigger: entry,
+              start: 'top 58%',
+              end: 'bottom 42%',
+              onEnter: () => activate(index),
+              onEnterBack: () => activate(index),
+            });
+          });
+        });
+      }
+
+      function initMediaReveals() {
+        document.querySelectorAll<HTMLElement>('.reveal-media').forEach((media) => {
+          gsap.fromTo(media,
+            { clipPath: 'inset(10% 0 10% 0)', y: 24, opacity: 0.75 },
+            {
+              clipPath: 'inset(0% 0 0% 0)',
+              y: 0,
+              opacity: 1,
+              duration: 0.9,
+              ease: 'power3.out',
+              scrollTrigger: { trigger: media, start: 'top 86%', toggleActions: 'play none none none' },
+            }
+          );
         });
       }
 
@@ -436,7 +441,9 @@ import { ClientRouter } from 'astro:transitions';
 
         function openMenu() {
           isOpen = true;
-          menu.style.height = menu.scrollHeight + 'px';
+          menu.hidden = false;
+          menu.style.height = '0px';
+          requestAnimationFrame(() => { menu.style.height = menu.scrollHeight + 'px'; });
           btn.setAttribute('aria-expanded', 'true');
           btn.setAttribute('aria-label', 'Cerrar menú de navegación');
           menu.setAttribute('aria-hidden', 'false');
@@ -444,10 +451,13 @@ import { ClientRouter } from 'astro:transitions';
 
         function closeMenu() {
           isOpen = false;
-          menu.style.height = '0';
+          menu.style.height = '0px';
           btn.setAttribute('aria-expanded', 'false');
           btn.setAttribute('aria-label', 'Abrir menú de navegación');
           menu.setAttribute('aria-hidden', 'true');
+          window.setTimeout(() => {
+            if (!isOpen) menu.hidden = true;
+          }, 520);
         }
 
         btn.addEventListener('click', () => {
@@ -486,9 +496,9 @@ import { ClientRouter } from 'astro:transitions';
           });
         }
 
-        initAccordion();
+        initProjectShowcase();
+        if (!reducedMotion) initMediaReveals();
         initCopyEmail();
-        initMobileMenu();
         initSmoothAnchors();
 
         // Scroll to hash after everything is ready

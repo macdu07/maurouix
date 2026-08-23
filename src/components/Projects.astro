@@ -1,60 +1,79 @@
 ---
 import { visibleProjects } from '../data/projects';
+import ProjectActions from './ProjectActions.astro';
+import ProjectMedia from './ProjectMedia.astro';
 ---
 
-<section id="work" class="section-pad relative z-10">
-  <p class="section-label eyebrow-rule reveal-up">Portfolio</p>
-  <h2 class="font-display font-semibold text-[clamp(3rem,6vw,6rem)] leading-[0.9] text-[var(--color-accent)] mb-16 reveal-up">
-    Proyectos<br/>destacados
-  </h2>
+<section id="work" class="projects-section section-pad relative z-10">
+  <div class="projects-heading">
+    <div>
+      <p class="section-label eyebrow-rule reveal-up">Portfolio seleccionado</p>
+      <h2 class="section-title reveal-up">Proyectos que se pueden explorar.</h2>
+    </div>
+    <p class="projects-heading__note reveal-up">
+      Cada caso conecta el concepto, las decisiones de interfaz y el sitio real. Sin pasos ocultos.
+    </p>
+  </div>
 
-  <ul class="projects-list list-none">
-    {visibleProjects.map((project, i) => (
-      <li class="project-item reveal-up" data-index={i}>
-        <div
-          class="project-title-row py-8 md:py-10 cursor-pointer"
-          data-accordion-trigger
-          role="button"
-          tabindex="0"
-          aria-expanded="false"
-          aria-label={`Ver detalles de ${project.title}`}
-        >
-          <div class="flex items-center gap-4 md:gap-8">
-            <span class="font-mono text-[0.7rem] text-[var(--color-gold)] tracking-[0.18em] flex-shrink-0">
-              {project.num}
-            </span>
-            <div class="flex-1">
-              <h3 class="project-title font-display font-semibold text-[clamp(2rem,4vw,4rem)] leading-[0.95] text-[var(--color-fg)] transition-all duration-300">
-                {project.title}
-              </h3>
-              <p class="font-mono text-[0.7rem] tracking-[0.1em] text-[var(--color-muted)] mt-3 uppercase">
-                {project.meta}
-              </p>
-            </div>
-            <span class="accordion-icon font-mono text-[var(--color-muted)] text-xl transition-transform duration-300 flex-shrink-0" aria-hidden="true">
-              +
-            </span>
+  <div class="projects-showcase">
+    <div class="projects-preview" aria-hidden="true">
+      <div class="projects-preview__stage">
+        {visibleProjects.map((project, index) => project.cover && (
+          <div class={`projects-preview__item ${index === 0 ? 'is-active' : ''}`} data-project-preview={index}>
+            <ProjectMedia
+              media={project.cover}
+              priority={index === 0}
+              showCaption={false}
+              sizes="(min-width: 1024px) 50vw, 100vw"
+            />
+            <span class="projects-preview__counter">{project.num} / {String(visibleProjects.length).padStart(2, '0')}</span>
           </div>
-        </div>
+        ))}
+      </div>
+    </div>
 
-        <div class="project-panel" data-accordion-panel>
-          <div class="pb-10 pl-0 md:pl-[calc(0.7rem+2rem+8px)]">
-            <p class="font-body text-base md:text-lg leading-relaxed text-[var(--color-fg)] max-w-[65ch] mb-6">
-              {project.description}
-            </p>
-            <div class="flex flex-wrap gap-2 mb-6">
-              {project.tags.map((tag: string) => (
-                <span class="tag-pill font-mono text-[0.65rem] tracking-[0.1em] uppercase px-3 py-1">
-                  {tag}
-                </span>
-              ))}
-            </div>
-            <a href={`/proyectos/${project.slug}`} class="link-accent font-mono text-[0.75rem] tracking-[0.15em] uppercase">
-              [ {project.cta} → ]
-            </a>
+    <div class="projects-index" aria-label="Proyectos destacados">
+      {visibleProjects.map((project, index) => (
+        <article class="project-entry reveal-up" data-project-entry={index}>
+          {project.cover && (
+            <ProjectMedia
+              media={project.cover}
+              class="project-entry__media"
+              showCaption={false}
+              sizes="(max-width: 1023px) 92vw, 1px"
+            />
+          )}
+          <div class="project-entry__topline">
+            <span>{project.num}</span>
+            <span>{project.meta}</span>
           </div>
-        </div>
-      </li>
-    ))}
-  </ul>
+          <h3 class="project-entry__title">{project.title}</h3>
+          <p class="project-entry__description">{project.description}</p>
+          <div class="project-entry__tags" aria-label={`Tecnologías utilizadas en ${project.title}`}>
+            {project.tags.slice(0, 4).map((tag) => <span>{tag}</span>)}
+          </div>
+          <ProjectActions
+            slug={project.slug}
+            title={project.title}
+            url={project.url}
+            compact
+          />
+        </article>
+      ))}
+    </div>
+  </div>
+
+  <aside class="conversion-panel reveal-up" aria-labelledby="conversion-title">
+    <div>
+      <p class="section-label">El próximo puede ser el tuyo</p>
+      <h2 id="conversion-title">¿Tienes un proyecto en mente?</h2>
+    </div>
+    <p>Conversemos sobre el objetivo, la experiencia y la forma más clara de llevarlo a la web.</p>
+    <div class="project-actions">
+      <a href="mailto:contacto@maurouix.com" class="button button--light">Escríbeme</a>
+      <a href="https://wa.me/573023725631" target="_blank" rel="noopener noreferrer" class="button button--ghost-light">
+        WhatsApp<span class="sr-only">, abre en otra pestaña</span>
+      </a>
+    </div>
+  </aside>
 </section>
