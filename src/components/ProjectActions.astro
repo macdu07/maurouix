@@ -6,6 +6,7 @@ interface Props {
   figma?: string;
   compact?: boolean;
   showCaseLink?: boolean;
+  active?: boolean;
 }
 
 const {
@@ -15,12 +16,19 @@ const {
   figma,
   compact = false,
   showCaseLink = true,
+  active = false,
 } = Astro.props;
 ---
 
 <div class={`project-actions ${compact ? 'project-actions--compact' : ''}`}>
   {showCaseLink && (
-    <a href={`/proyectos/${slug}`} class="button button--primary" aria-label={`Ver caso de estudio de ${title}`}>
+    <a
+      href={`/proyectos/${slug}`}
+      class="button button--primary"
+      aria-label={`Ver caso de estudio de ${title}`}
+      data-project-case-link
+      aria-current={active ? 'true' : undefined}
+    >
       Ver caso
     </a>
   )}

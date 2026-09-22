@@ -6,7 +6,7 @@
     <!-- Logo -->
     <div class="flex items-center">
       <a href="/" class="inline-flex items-center text-[var(--color-accent)] no-underline" aria-label="Inicio Mauricio Correa">
-        <img src="/brand/logotipo.png" alt="Mauricio Correa - UI/UX Web Designer & Web Developer" class="brand-logo-header" />
+        <img src="/brand/logotipo.png" alt="Mauricio Correa — diseñador web y desarrollador UI/UX" class="brand-logo-header" />
       </a>
     </div>
 
@@ -41,13 +41,66 @@
       <a href="/#contact" class="nav-link nav-link--cta text-base">Hablemos</a>
     </nav>
   </div>
+
+  <div class="site-progress" aria-hidden="true">
+    <span id="site-progress-bar" data-progress-bar></span>
+  </div>
 </header>
 
 <script>
+  function registerPageCleanup(cleanup: () => void) {
+    const cleanups = ((window as any).__maurouixPageCleanups ||= []) as Array<() => void>;
+    cleanups.push(cleanup);
+  }
+
+  function initSiteProgress() {
+    const bar = document.querySelector<HTMLElement>('[data-progress-bar]');
+    if (!bar) return;
+    if (bar.dataset.initialized === 'true') {
+      window.dispatchEvent(new Event('resize'));
+      return;
+    }
+    const previousCleanup = (window as any).__siteProgressCleanup as (() => void) | undefined;
+    previousCleanup?.();
+    bar.dataset.initialized = 'true';
+
+    let ticking = false;
+    let frameId: number | null = null;
+    const update = () => {
+      const root = document.documentElement;
+      const scrollable = root.scrollHeight - window.innerHeight;
+      const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
+      bar.style.transform = `scaleX(${Math.min(1, Math.max(0, progress))})`;
+      ticking = false;
+      frameId = null;
+    };
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      frameId = requestAnimationFrame(update);
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', update, { passive: true });
+    update();
+    const cleanup = () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', update);
+      if (frameId !== null) cancelAnimationFrame(frameId);
+      if ((window as any).__siteProgressCleanup === cleanup) {
+        delete (window as any).__siteProgressCleanup;
+      }
+    };
+    (window as any).__siteProgressCleanup = cleanup;
+    registerPageCleanup(cleanup);
+  }
+
   function initSharedMobileMenu() {
     const btn = document.getElementById('mobile-menu-btn');
     const menu = document.getElementById('mobile-menu');
     if (!btn || !menu || btn.dataset.initialized === 'true') return;
+    const previousCleanup = (window as any).__mobileMenuCleanup as (() => void) | undefined;
+    previousCleanup?.();
     btn.dataset.initialized = 'true';
 
     let isOpen = false;
@@ -69,15 +122,31 @@
       window.setTimeout(() => { if (!isOpen) menu.hidden = true; }, 520);
     };
 
-    btn.addEventListener('click', () => { isOpen ? closeMenu() : openMenu(); });
-    menu.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
-    document.addEventListener('keydown', (event) => {
+    const onButtonClick = () => { isOpen ? closeMenu() : openMenu(); };
+    const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape' && isOpen) {
         closeMenu();
         btn.focus();
       }
-    });
+    };
+    btn.addEventListener('click', onButtonClick);
+    const links = Array.from(menu.querySelectorAll<HTMLAnchorElement>('a'));
+    links.forEach((link) => link.addEventListener('click', closeMenu));
+    document.addEventListener('keydown', onKeyDown);
+    const cleanup = () => {
+      btn.removeEventListener('click', onButtonClick);
+      links.forEach((link) => link.removeEventListener('click', closeMenu));
+      document.removeEventListener('keydown', onKeyDown);
+      if ((window as any).__mobileMenuCleanup === cleanup) {
+        delete (window as any).__mobileMenuCleanup;
+      }
+    };
+    (window as any).__mobileMenuCleanup = cleanup;
+    registerPageCleanup(cleanup);
   }
 
-  document.addEventListener('astro:page-load', initSharedMobileMenu);
+  document.addEventListener('astro:page-load', () => {
+    initSiteProgress();
+    initSharedMobileMenu();
+  });
 </script>

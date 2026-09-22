@@ -40,6 +40,7 @@ export interface Project {
   description: string;
   tags: string[];
   cta: string;
+  featured?: boolean;
   hidden?: boolean;
   year?: string;
   url?: string;
@@ -60,6 +61,7 @@ export const projects: Project[] = [
     description: 'Empresa que impulsa el futuro del mercado automotriz e industrial con soluciones innovadoras. Desarrollo de una presencia web que refleja su visión de futuro y liderazgo en el sector.',
     tags: ['WordPress', 'Bricks Builder', 'Figma', 'Branding'],
     cta: 'Ver Proyecto',
+    featured: true,
     url: 'https://autovenz.com',
     figma: 'https://www.figma.com/design/SRrbYHxyYvSUhySUG5dTit/AutoVenz-Website?node-id=11-103&t=jepIORGwEaurC9Pj-1',
     overview: 'AutoVenz es un distribuidor B2B de repuestos automotrices e industriales con presencia en múltiples segmentos: vehículos de pasajeros, transporte de carga, maquinaria industrial, transporte público/privado y equipo marino. Su propuesta se diferencia por un enfoque en sostenibilidad, I+D continuo y una cadena de suministro global integrada. El reto fue construir una presencia digital que proyectara innovación y confianza frente a distribuidores con mayor visibilidad en el mercado.',
@@ -134,6 +136,7 @@ export const projects: Project[] = [
     description: 'Boutique de joyería en acero inoxidable y bañado en rodio para uso cotidiano. Diseño elegante y minimalista que traduce la identidad de la marca en una experiencia de compra envolvente.',
     tags: ['WordPress', 'Bricks Builder', 'WooCommerce', 'Figma', 'UI/UX'],
     cta: 'Ver Proyecto',
+    featured: true,
     url: 'https://encantoamatista.com',
     overview: 'Encanto Amatista es una boutique de accesorios colombiana especializada en joyería antialérgica de acero inoxidable y bañado en rodio. Ofrece más de 100 productos organizados por categoría (anillos, aretes, cadenas, pulseras), programa de mayoristas, asesoría personalizada por WhatsApp y envío gratuito desde $300.000 COP. El objetivo fue crear una experiencia de compra que enamore desde el primer scroll.',
     challenge: 'Traducir la personalidad femenina, elegante y cercana de la marca en un e-commerce funcional y conversional. El diseño debía equilibrar la presentación aspiracional del producto con la facilidad de navegación y compra, especialmente en mobile.',
@@ -161,6 +164,7 @@ export const projects: Project[] = [
     description: 'Presencia digital para empresa especializada en importación de motores nuevos y usados desde China y Dubai. Diseño moderno que proyecta confianza y liderazgo B2B.',
     tags: ['WordPress', 'Bricks Builder', 'Figma', 'UI/UX', 'Branding'],
     cta: 'Ver Proyecto',
+    featured: true,
     year: '2024',
     url: 'https://dacatrader.com',
     figma: 'https://www.figma.com/design/jvl6VAtFPUYQgTXQXWGixU/Daca-Trader?node-id=2002-25&t=ggf0vRM7ecYF2fjv-1',
@@ -189,6 +193,7 @@ export const projects: Project[] = [
     description: 'Marca de equipamiento protector para motociclistas con certificaciones DOT, ECE y CE. Diseño y desarrollo de un e-commerce robusto que combina identidad de marca fuerte con una experiencia de compra funcional y orientada a la conversión.',
     tags: ['WordPress', 'WooCommerce', 'Divi', 'Figma', 'UI/UX'],
     cta: 'Ver Proyecto',
+    featured: true,
     url: 'https://myspartanhelmets.com',
     overview: 'Spartan es una marca de equipamiento de seguridad para motociclistas que ofrece cascos con certificaciones internacionales (DOT, ECE 22.06, CE), chaquetas, botas, guantes, pantalones, maletas y accesorios. Su propuesta se diferencia por la combinación de certificaciones de seguridad, innovación en diseño y comodidad. El proyecto fue desarrollado durante mi trabajo como desarrollador web en Naikka.',
     challenge: 'Crear una tienda online que comunicara confianza y seguridad sin sacrificar la identidad audaz de la marca. El catálogo extenso de productos requería un sistema de navegación por categorías eficiente, filtros avanzados y una experiencia de compra optimizada especialmente en dispositivos móviles.',
@@ -216,6 +221,7 @@ export const projects: Project[] = [
     description: 'Empresa de limpieza comercial y residencial con cobertura en el área de Chicagoland. Diseño de una presencia web profesional que transmite confianza, orden y una propuesta de servicio clara para clientes locales.',
     tags: ['WordPress', 'Bricks Builder', 'Figma', 'UI/UX'],
     cta: 'Ver Proyecto',
+    featured: true,
     url: 'https://chanellcleanco.com',
     overview: 'Chanell Clean Co es una empresa de limpieza profesional con sede en Orland Park, IL, que atiende el área metropolitana de Chicago. Ofrecen servicios de limpieza comercial y residencial con un equipo comprometido con la satisfacción del cliente y la generación de ambientes más saludables. El reto fue construir una presencia digital que proyectara profesionalismo, confiabilidad y facilidad de contacto para captar clientes locales.',
     challenge: 'El cliente necesitaba diferenciarse en un mercado local competitivo a través de un sitio que generara confianza desde el primer vistazo. El diseño debía comunicar limpieza, orden y profesionalismo, y facilitar la solicitud de cotizaciones tanto desde desktop como desde mobile.',
@@ -308,3 +314,4 @@ export const projects: Project[] = [
 ];
 
 export const visibleProjects = projects.filter((project) => !project.hidden);
+export const featuredProjects = visibleProjects.filter((project) => project.featured);

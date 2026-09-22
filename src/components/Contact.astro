@@ -1,85 +1,60 @@
 ---
-const socials = [
-  { label: 'Instagram', url: 'https://www.instagram.com/maurouix' },
-  { label: 'LinkedIn', url: 'https://www.linkedin.com/in/mcorread/' },
-  { label: 'Facebook', url: 'https://web.facebook.com/MauricioCorreaD' },
-];
+import { siteContact } from '../data/site';
 ---
 
-<section id="contact" class="section-pad relative z-10 pb-24">
-  <p class="section-label eyebrow-rule reveal-up">Hablemos</p>
-  <h2 class="font-display font-semibold text-[clamp(3rem,6vw,6rem)] leading-[0.9] text-[var(--color-accent)] mb-16 reveal-up">
-    Colaboremos
-  </h2>
-
-  <div class="reveal-up">
-    <p class="font-mono text-[0.7rem] tracking-[0.18em] uppercase text-[var(--color-muted)] mb-4">
-      Email
-    </p>
-    <div class="flex flex-wrap items-center gap-4 md:gap-6 mb-12">
-      <a
-        href="mailto:contacto@maurouix.com"
-        class="font-display font-semibold text-[clamp(2rem,5vw,5rem)] text-[var(--color-accent)] no-underline hover:text-[var(--color-fg)] transition-colors duration-300 break-all"
-      >
-        contacto@maurouix.com
-      </a>
-      <button
-        id="copy-email-btn"
-        class="copy-btn"
-        data-email="contacto@maurouix.com"
-        aria-label="Copiar email"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-        </svg>
-        <span id="copy-label">Copiar</span>
-      </button>
-    </div>
+<section id="contact" class="contact-canvas section-pad relative z-10 pb-24" data-scene="contact">
+  <div class="contact-canvas__topline reveal-up">
+    <span>04 / CONTACTO</span>
+    <span>Hagamos algo propio</span>
   </div>
 
-  <div class="reveal-up mb-12">
-    <p class="font-mono text-[0.7rem] tracking-[0.18em] uppercase text-[var(--color-muted)] mb-4">
-      WhatsApp
-    </p>
-    <a
-      href="https://wa.me/573023725631"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="font-display font-semibold text-2xl md:text-3xl text-[var(--color-fg)] no-underline hover:text-[var(--color-accent)] transition-colors duration-300"
-    >
-      +57 302 372 5631
-    </a>
+  <div class="contact-canvas__headline reveal-up">
+    <h2>Colaboremos<span>.</span></h2>
+    <p>Una buena idea merece una experiencia digital que se sienta propia, clara y lista para crecer.</p>
   </div>
 
-  <div class="reveal-up">
-    <p class="font-mono text-[0.7rem] tracking-[0.18em] uppercase text-[var(--color-muted)] mb-6">
-      Social
-    </p>
-    <div class="flex flex-wrap gap-6 md:gap-10">
-      {socials.map((social) => (
-        <a
-          href={social.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="font-mono text-sm tracking-[0.1em] uppercase text-[var(--color-fg)] opacity-70 hover:opacity-100 hover:text-[var(--color-accent)] underline underline-offset-4 decoration-[var(--color-gold-dim)] hover:decoration-[var(--color-gold)] transition-[color,opacity,text-decoration-color] duration-300"
+  <div class="contact-canvas__details reveal-up">
+    <div class="contact-channel">
+      <span>Email</span>
+      <div class="contact-channel__value">
+        <a href={`mailto:${siteContact.email}`}>{siteContact.email}</a>
+        <button
+          id="copy-email-btn"
+          class="copy-btn"
+          data-email={siteContact.email}
+          aria-label="Copiar email"
         >
-          {social.label}
-        </a>
-      ))}
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span id="copy-label">Copiar</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="contact-channel">
+      <span>WhatsApp</span>
+      <a href={siteContact.whatsappUrl} target="_blank" rel="noopener noreferrer" class="contact-channel__phone">
+        {siteContact.whatsapp}<span class="sr-only">, abre en otra pestaña</span>
+      </a>
+    </div>
+
+    <div class="contact-channel">
+      <span>Social</span>
+      <div class="contact-socials">
+        {siteContact.socials.map((social) => (
+          <a href={social.url} target="_blank" rel="noopener noreferrer">
+            {social.label}<span class="sr-only">, abre en otra pestaña</span>
+          </a>
+        ))}
+      </div>
     </div>
   </div>
 
 </section>
 
-<!-- Footer -->
-<footer class="pad-x py-8 relative z-10 border-t border-[var(--color-border)]">
-  <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-    <p class="font-mono text-[0.65rem] tracking-[0.15em] uppercase text-[var(--color-muted)]">
-      © 2026 MauroUIX — Todos los derechos reservados
-    </p>
-    <p class="font-mono text-[0.65rem] tracking-[0.15em] uppercase text-[var(--color-muted)]">
-      Cada diseño cuenta una historia. ¿Cuál es la tuya?
-    </p>
-  </div>
+<footer class="site-footer pad-x py-8 relative z-10">
+  <p>© 2026 MauroUIX — Todos los derechos reservados</p>
+  <p>Cada diseño cuenta una historia. ¿Cuál es la tuya?</p>
 </footer>

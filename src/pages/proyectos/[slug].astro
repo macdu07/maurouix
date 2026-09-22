@@ -4,6 +4,7 @@ import Header from '../../components/Header.astro';
 import ProjectActions from '../../components/ProjectActions.astro';
 import ProjectMedia from '../../components/ProjectMedia.astro';
 import { visibleProjects } from '../../data/projects';
+import { siteContact } from '../../data/site';
 import type { Project } from '../../data/projects';
 import { ClientRouter } from 'astro:transitions';
 
@@ -36,7 +37,7 @@ const nextProject = currentIndex < visibleProjects.length - 1 ? visibleProjects[
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
-    <meta name="theme-color" content="#F4EFE6" />
+    <meta name="theme-color" content="#070707" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" />
@@ -91,7 +92,7 @@ const nextProject = currentIndex < visibleProjects.length - 1 ? visibleProjects[
       })(window, document, "clarity", "script", "way9bkhjv4");
     </script>
   </head>
-  <body>
+  <body class="dark-experience black-studio">
     <a href="#project-content" class="skip-link">Saltar al contenido</a>
     <div class="grid-bg" id="grid-bg" aria-hidden="true"></div>
 
@@ -127,6 +128,7 @@ const nextProject = currentIndex < visibleProjects.length - 1 ? visibleProjects[
               priority
               showCaption={false}
               sizes="100vw"
+              transitionName={`project-${project.slug}`}
             />
           </div>
         )}
@@ -220,8 +222,8 @@ const nextProject = currentIndex < visibleProjects.length - 1 ? visibleProjects[
             <h2>Hablemos.<br/><span>Hagámoslo realidad.</span></h2>
           </div>
           <div class="project-actions reveal-up">
-            <a href="mailto:contacto@maurouix.com" class="button button--primary">Escríbeme</a>
-            <a href="https://wa.me/573023725631" target="_blank" rel="noopener noreferrer" class="button button--secondary">
+            <a href={`mailto:${siteContact.email}`} class="button button--primary">Escríbeme</a>
+            <a href={siteContact.whatsappUrl} target="_blank" rel="noopener noreferrer" class="button button--secondary">
               WhatsApp<span class="sr-only">, abre en otra pestaña</span>
             </a>
           </div>
@@ -291,6 +293,18 @@ const nextProject = currentIndex < visibleProjects.length - 1 ? visibleProjects[
 
       gsap.registerPlugin(ScrollTrigger);
 
+      function registerPageCleanup(cleanup: () => void) {
+        const cleanups = ((window as any).__maurouixPageCleanups ||= []) as Array<() => void>;
+        cleanups.push(cleanup);
+      }
+
+      function runPageCleanups() {
+        const cleanups = (window as any).__maurouixPageCleanups as Array<() => void> | undefined;
+        if (!cleanups) return;
+        (window as any).__maurouixPageCleanups = [];
+        cleanups.forEach((cleanup) => cleanup());
+      }
+
       // ─── View Transition lifecycle (set up once per browser session) ───
       if (!(window as any).__transitionsInit) {
         (window as any).__transitionsInit = true;
@@ -303,6 +317,7 @@ const nextProject = currentIndex < visibleProjects.length - 1 ? visibleProjects[
         });
 
         document.addEventListener('astro:before-swap', () => {
+          runPageCleanups();
           ScrollTrigger.getAll().forEach((t) => t.kill());
         });
       }
@@ -325,6 +340,13 @@ const nextProject = currentIndex < visibleProjects.length - 1 ? visibleProjects[
         };
         (window as any).__ambientPointerHandler = pointerHandler;
         window.addEventListener('pointermove', pointerHandler, { passive: true });
+        registerPageCleanup(() => {
+          window.removeEventListener('pointermove', pointerHandler);
+          gsap.killTweensOf(gridBg);
+          if ((window as any).__ambientPointerHandler === pointerHandler) {
+            delete (window as any).__ambientPointerHandler;
+          }
+        });
 
         document.querySelectorAll<HTMLElement>('[data-parallax-media]').forEach((media) => {
           gsap.to(media.querySelector('img'), {

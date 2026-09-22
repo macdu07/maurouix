@@ -18,25 +18,38 @@ const services = [
 ];
 ---
 
-<section id="services" class="section-pad relative z-10">
-  <p class="section-label eyebrow-rule reveal-up">Lo que hago</p>
-  <h2 class="font-display font-semibold text-[clamp(3rem,6vw,6rem)] leading-[0.9] text-[var(--color-accent)] mb-16 reveal-up">
-    Servicios
-  </h2>
+<section id="services" class="services-canvas section-pad relative z-10" data-scene="services">
+  <div class="services-canvas__heading reveal-up">
+    <div>
+      <span class="services-canvas__index">02 / CAPACIDADES</span>
+      <h2>Una idea. Tres formas de hacerla visible.</h2>
+    </div>
+    <p>
+      Tres capacidades conectadas para que una idea conserve su intención desde el primer boceto hasta el sitio publicado.
+    </p>
+  </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
-    {services.map((service) => (
-      <div class="surface-panel reveal-up p-6 md:p-8">
-        <span class="font-mono text-[0.7rem] text-[var(--color-accent)] tracking-[0.18em] mb-4 block">
-          {service.num}
-        </span>
-        <h3 class="font-display font-semibold text-2xl md:text-3xl text-[var(--color-accent)] mb-4 leading-none">
-          {service.title}
-        </h3>
-        <p class="font-body text-base leading-relaxed text-[var(--color-muted)]">
-          {service.description}
-        </p>
+  <div class="motion-marquee" aria-hidden="true">
+    <div class="motion-marquee__track">
+      <div class="motion-marquee__group">
+        <span>Diseño</span><i>✳</i><span>Código</span><i>✳</i><span>Dirección</span><i>✳</i>
       </div>
+      <div class="motion-marquee__group" aria-hidden="true">
+        <span>Diseño</span><i>✳</i><span>Código</span><i>✳</i><span>Dirección</span><i>✳</i>
+      </div>
+    </div>
+  </div>
+
+  <div class="services-canvas__list" data-service-list>
+    {services.map((service, index) => (
+      <article class={`service-card reveal-up ${index === 0 ? 'is-active' : ''}`} data-service-entry={index}>
+        <span class="service-card__number">{service.num}</span>
+        <div class="service-card__body">
+          <h3>{service.title}</h3>
+          <p>{service.description}</p>
+        </div>
+        <span class="service-card__arrow" aria-hidden="true">↗</span>
+      </article>
     ))}
   </div>
 </section>

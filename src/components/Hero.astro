@@ -1,62 +1,57 @@
----
-import { visibleProjects } from '../data/projects';
-import ProjectMedia from './ProjectMedia.astro';
+<section id="hero" class="hero-stage section-pad relative z-10" data-hero-scene>
+  <div class="hero-stage__topline" aria-hidden="true">
+    <span>MAUROUIX / PORTFOLIO 2026</span>
+    <span>Diseño web · UI/UX · Desarrollo</span>
+    <span>01—05</span>
+  </div>
 
-const featuredProjects = visibleProjects.filter((project) => project.cover).slice(0, 3);
----
-
-<section id="hero" class="hero section-pad relative z-10">
-  <img
-    src="/brand/monograma.png"
-    alt=""
-    class="brand-mark brand-mark-hero hero__mark"
-    aria-hidden="true"
-  />
-
-  <div class="hero__grid">
-    <div class="hero__copy">
-      <p class="section-label eyebrow-rule reveal-up">Diseño Web & Desarrollo UI/UX</p>
-      <h1 id="hero-text" class="hero-title hero-text-pending font-display">
+  <div class="hero-stage__body">
+    <div class="hero-stage__statement">
+      <span class="hero-stage__eyebrow">Estudio visual independiente</span>
+      <h1 id="hero-text" class="hero-stage__title hero-text-pending font-display">
         Transformando ideas en experiencias digitales
       </h1>
-      <p class="hero__intro reveal-up">
+      <p class="hero-stage__intro reveal-up">
         Diseño interfaces y construyo sitios que convierten una identidad en una experiencia clara, memorable y lista para crecer.
       </p>
-      <div class="hero__actions reveal-up">
-        <a href="/#work" class="button button--primary">Ver proyectos</a>
-        <a href="/#contact" class="button button--secondary">Hablemos</a>
+      <div class="hero-stage__actions reveal-up">
+        <a href="/#work" class="button button--primary">Ver proyectos <span aria-hidden="true">↘</span></a>
+        <a href="/#contact" class="button button--secondary">Hablemos <span aria-hidden="true">↗</span></a>
       </div>
-      <p class="hero__experience reveal-up">
+      <p class="hero-stage__experience reveal-up">
         <strong>+10 años</strong>
         <span>creando soluciones digitales para marcas y empresas.</span>
       </p>
     </div>
 
-    <div class="hero-collage" aria-label="Selección de proyectos recientes">
-      {featuredProjects.map((project, index) => (
-        <a
-          href={`/proyectos/${project.slug}`}
-          class={`hero-collage__item hero-collage__item--${index + 1}`}
-          data-hero-media
-          aria-label={`Ver caso de estudio de ${project.title}`}
-        >
-          <ProjectMedia
-            media={project.cover!}
-            priority={index === 0}
-            showCaption={false}
-            sizes="(min-width: 1024px) 38vw, 78vw"
-          />
-          <span class="hero-collage__label">
-            <span>{project.num}</span>
-            <strong>{project.title}</strong>
-          </span>
-        </a>
-      ))}
+    <div
+      class="hero-stage__visual hero-signal"
+      data-hero-signal
+      role="img"
+      aria-label="Composición visual generativa de diseño, código y dirección"
+    >
+      <canvas class="hero-signal__canvas" data-hero-signal-canvas aria-hidden="true"></canvas>
+      <div class="hero-signal__core" aria-hidden="true">
+        <span>MU / 01</span>
+      </div>
+      <div class="hero-signal__readout" aria-hidden="true">
+        <span>SEÑAL / 001</span>
+        <span>DISEÑO · CÓDIGO · DIRECCIÓN</span>
+      </div>
+      <div class="hero-stage__visual-note" aria-hidden="true">
+        <span>Movimiento</span>
+        <span>2024—26</span>
+      </div>
     </div>
   </div>
 
-  <a href="/#work" class="hero__scroll" aria-label="Ir a proyectos destacados">
-    <span>Explorar</span>
-    <span class="hero__scroll-line" aria-hidden="true"></span>
-  </a>
+  <div class="hero-stage__footer">
+    <span>Dirección visual / Producto digital</span>
+    <a href="/#work">Desliza para entrar <span aria-hidden="true">↓</span></a>
+    <span>Recorrido 01—04</span>
+  </div>
+
+  <div class="hero__cursor" data-hero-cursor aria-hidden="true">
+    <span>Explora</span>
+  </div>
 </section>

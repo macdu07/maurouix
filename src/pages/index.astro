@@ -6,7 +6,52 @@ import Projects from '../components/Projects.astro';
 import Services from '../components/Services.astro';
 import Philosophy from '../components/Philosophy.astro';
 import Contact from '../components/Contact.astro';
+import { siteContact } from '../data/site';
 import { ClientRouter } from 'astro:transitions';
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': 'https://maurouix.com/#website',
+      url: 'https://maurouix.com',
+      name: 'MauroUIX',
+      description: 'Diseñador Web & Desarrollador UI/UX',
+      inLanguage: 'es',
+      publisher: { '@id': 'https://maurouix.com/#person' },
+    },
+    {
+      '@type': 'Person',
+      '@id': 'https://maurouix.com/#person',
+      name: 'Mauricio Correa',
+      alternateName: 'MauroUIX',
+      url: 'https://maurouix.com',
+      jobTitle: 'Diseñador Web & Desarrollador UI/UX',
+      description: 'Diseñador web y desarrollador UI/UX con más de 10 años de experiencia creando soluciones digitales.',
+      knowsAbout: ['UI/UX Design', 'WordPress', 'Bricks Builder', 'Figma', 'Identidad Corporativa'],
+      email: `mailto:${siteContact.email}`,
+      telephone: siteContact.whatsapp,
+      address: { '@type': 'PostalAddress', addressCountry: 'CO' },
+      sameAs: siteContact.socials.map((social) => social.url),
+    },
+    {
+      '@type': 'ProfessionalService',
+      '@id': 'https://maurouix.com/#service',
+      name: 'MauroUIX',
+      url: 'https://maurouix.com',
+      provider: { '@id': 'https://maurouix.com/#person' },
+      areaServed: { '@type': 'Country', name: 'Colombia' },
+      serviceType: [
+        'Diseño de Interfaces Web (UI/UX)',
+        'Desarrollo de Sitios Web Creativos',
+        'Conceptualización de Imagen Corporativa',
+      ],
+      telephone: siteContact.whatsapp,
+      email: siteContact.email,
+    },
+  ],
+};
 ---
 
 <html lang="es">
@@ -21,7 +66,7 @@ import { ClientRouter } from 'astro:transitions';
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
-    <meta name="theme-color" content="#F4EFE6" />
+    <meta name="theme-color" content="#070707" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" />
@@ -42,55 +87,7 @@ import { ClientRouter } from 'astro:transitions';
     <meta name="twitter:image" content="https://maurouix.com/og-image.jpg" />
 
     <!-- JSON-LD -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "WebSite",
-          "@id": "https://maurouix.com/#website",
-          "url": "https://maurouix.com",
-          "name": "MauroUIX",
-          "description": "Diseñador Web & Desarrollador UI/UX",
-          "inLanguage": "es",
-          "publisher": { "@id": "https://maurouix.com/#person" }
-        },
-        {
-          "@type": "Person",
-          "@id": "https://maurouix.com/#person",
-          "name": "Mauricio Correa",
-          "alternateName": "MauroUIX",
-          "url": "https://maurouix.com",
-          "jobTitle": "Diseñador Web & Desarrollador UI/UX",
-          "description": "Diseñador web y desarrollador UI/UX con más de 10 años de experiencia creando soluciones digitales.",
-          "knowsAbout": ["UI/UX Design", "WordPress", "Bricks Builder", "Figma", "Identidad Corporativa"],
-          "email": "mailto:contacto@maurouix.com",
-          "telephone": "+573023725631",
-          "address": { "@type": "PostalAddress", "addressCountry": "CO" },
-          "sameAs": [
-            "https://www.instagram.com/maurouix",
-            "https://www.linkedin.com/in/mcorread",
-            "https://www.facebook.com/MauricioCorreaD"
-          ]
-        },
-        {
-          "@type": "ProfessionalService",
-          "@id": "https://maurouix.com/#service",
-          "name": "MauroUIX",
-          "url": "https://maurouix.com",
-          "provider": { "@id": "https://maurouix.com/#person" },
-          "areaServed": { "@type": "Country", "name": "Colombia" },
-          "serviceType": [
-            "Diseño de Interfaces Web (UI/UX)",
-            "Desarrollo de Sitios Web Creativos",
-            "Conceptualización de Imagen Corporativa"
-          ],
-          "telephone": "+573023725631",
-          "email": "contacto@maurouix.com"
-        }
-      ]
-    }
-    </script>
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)}></script>
     <ClientRouter />
     <!-- Microsoft Clarity -->
     <script type="text/javascript">
@@ -101,7 +98,7 @@ import { ClientRouter } from 'astro:transitions';
       })(window, document, "clarity", "script", "way9bkhjv4");
     </script>
   </head>
-  <body>
+  <body class="dark-experience black-studio">
     <!-- Skip to main content (accessibility) -->
     <a href="#main-content" class="skip-link">Saltar al contenido</a>
 
@@ -110,7 +107,7 @@ import { ClientRouter } from 'astro:transitions';
 
     <Header />
 
-    <main id="main-content">
+    <main id="main-content" data-scroll-progress>
       <Hero />
       <div class="section-divider"></div>
       <Projects />
@@ -129,6 +126,18 @@ import { ClientRouter } from 'astro:transitions';
 
       gsap.registerPlugin(ScrollTrigger);
 
+      function registerPageCleanup(cleanup: () => void) {
+        const cleanups = ((window as any).__maurouixPageCleanups ||= []) as Array<() => void>;
+        cleanups.push(cleanup);
+      }
+
+      function runPageCleanups() {
+        const cleanups = (window as any).__maurouixPageCleanups as Array<() => void> | undefined;
+        if (!cleanups) return;
+        (window as any).__maurouixPageCleanups = [];
+        cleanups.forEach((cleanup) => cleanup());
+      }
+
       // ─── View Transition lifecycle (set up once per browser session) ───
       if (!(window as any).__transitionsInit) {
         (window as any).__transitionsInit = true;
@@ -141,6 +150,7 @@ import { ClientRouter } from 'astro:transitions';
         });
 
         document.addEventListener('astro:before-swap', () => {
+          runPageCleanups();
           ScrollTrigger.getAll().forEach((t) => t.kill());
         });
       }
@@ -192,14 +202,216 @@ import { ClientRouter } from 'astro:transitions';
           }
         );
 
-        gsap.fromTo('[data-hero-media]',
-          { opacity: 0, y: 34, clipPath: 'inset(12% 0 0 0)' },
-          { opacity: 1, y: 0, clipPath: 'inset(0% 0 0 0)', duration: 0.9, stagger: 0.1, ease: 'power3.out', delay: 0.35 }
-        );
       }
 
       // ─────────────────────────────────────
-      // 2. Scroll Reveal for sections
+      // 2. HERO — Generative signal field
+      // ─────────────────────────────────────
+      function initHeroSignal() {
+        const scenes = Array.from(document.querySelectorAll<HTMLElement>('[data-hero-signal]'));
+
+        scenes.forEach((scene) => {
+          const canvas = scene.querySelector<HTMLCanvasElement>('[data-hero-signal-canvas]');
+          const context = canvas?.getContext('2d');
+          if (!canvas || !context || canvas.dataset.initialized === 'true') return;
+
+          canvas.dataset.initialized = 'true';
+
+          const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+          const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
+          let reducedMotion = motionQuery.matches;
+          let visible = true;
+          let width = 0;
+          let height = 0;
+          let dpr = 1;
+          let frameId = 0;
+          let lastTime = 0;
+          let pointerX = 0.5;
+          let pointerY = 0.5;
+          let targetX = 0.5;
+          let targetY = 0.5;
+
+          const nodes = Array.from({ length: 68 }, (_, index) => {
+            const normalizedY = 1 - (index / 67) * 2;
+            return {
+              y: normalizedY,
+              radius: Math.sqrt(Math.max(0, 1 - normalizedY * normalizedY)),
+              angle: index * Math.PI * (3 - Math.sqrt(5)),
+            };
+          });
+
+          const draw = (time = 0) => {
+            if (!width || !height) return;
+
+            const motionTime = reducedMotion ? 0 : time * 0.00045;
+            pointerX += (targetX - pointerX) * 0.045;
+            pointerY += (targetY - pointerY) * 0.045;
+
+            context.clearRect(0, 0, width, height);
+            context.save();
+
+            const centerX = width * (0.52 + (pointerX - 0.5) * 0.035);
+            const centerY = height * (0.5 + (pointerY - 0.5) * 0.035);
+            const radius = Math.min(width, height) * 0.34;
+            context.translate(centerX, centerY);
+
+            const glow = context.createRadialGradient(0, 0, radius * 0.08, 0, 0, radius * 1.2);
+            glow.addColorStop(0, 'rgba(200, 164, 93, 0.15)');
+            glow.addColorStop(0.5, 'rgba(200, 164, 93, 0.035)');
+            glow.addColorStop(1, 'rgba(200, 164, 93, 0)');
+            context.fillStyle = glow;
+            context.beginPath();
+            context.arc(0, 0, radius * 1.2, 0, Math.PI * 2);
+            context.fill();
+
+            // Orbit rings establish a slow, dimensional field behind the nodes.
+            for (let index = 0; index < 6; index += 1) {
+              context.save();
+              context.rotate(motionTime * (index % 2 ? -0.15 : 0.1) + (pointerX - 0.5) * 0.3);
+              context.scale(1, 0.18 + index * 0.1);
+              context.strokeStyle = `rgba(200, 164, 93, ${0.16 - index * 0.014})`;
+              context.lineWidth = index === 2 ? 1.2 : 0.7;
+              context.beginPath();
+              context.arc(0, 0, radius * (0.58 + index * 0.095), 0, Math.PI * 2);
+              context.stroke();
+              context.restore();
+            }
+
+            const projected = nodes.map((node) => {
+              const angle = node.angle + motionTime * 0.7 + (pointerX - 0.5) * 0.5;
+              const depth = Math.sin(angle) * node.radius;
+              const perspective = 1 / (1.18 - depth * 0.22);
+              return {
+                x: Math.cos(angle) * node.radius * radius * perspective,
+                y: node.y * radius * perspective,
+                depth,
+                size: 0.8 + (depth + 1) * 1.05,
+              };
+            });
+
+            context.lineWidth = 0.55;
+            projected.forEach((node, index) => {
+              const next = projected[(index + 1) % projected.length];
+              if (Math.abs(node.y - next.y) > radius * 0.5) return;
+              context.strokeStyle = `rgba(244, 239, 230, ${0.04 + ((node.depth + 1) / 2) * 0.12})`;
+              context.beginPath();
+              context.moveTo(node.x, node.y);
+              context.lineTo(next.x, next.y);
+              context.stroke();
+            });
+
+            projected.forEach((node) => {
+              const alpha = 0.18 + ((node.depth + 1) / 2) * 0.72;
+              context.fillStyle = node.depth > 0
+                ? `rgba(244, 239, 230, ${alpha})`
+                : `rgba(200, 164, 93, ${alpha * 0.62})`;
+              context.beginPath();
+              context.arc(node.x, node.y, node.size, 0, Math.PI * 2);
+              context.fill();
+            });
+
+            context.strokeStyle = 'rgba(200, 164, 93, 0.45)';
+            context.lineWidth = 0.8;
+            context.beginPath();
+            context.moveTo(-radius * 1.1, 0);
+            context.lineTo(radius * 1.1, 0);
+            context.moveTo(0, -radius * 1.1);
+            context.lineTo(0, radius * 1.1);
+            context.stroke();
+
+            context.fillStyle = 'rgba(200, 164, 93, 0.9)';
+            context.beginPath();
+            context.arc(radius * 0.94, 0, 2.4, 0, Math.PI * 2);
+            context.fill();
+            context.restore();
+          };
+
+          const resize = () => {
+            const bounds = canvas.getBoundingClientRect();
+            width = Math.max(1, bounds.width);
+            height = Math.max(1, bounds.height);
+            dpr = Math.min(window.devicePixelRatio || 1, 2);
+            canvas.width = Math.round(width * dpr);
+            canvas.height = Math.round(height * dpr);
+            context.setTransform(dpr, 0, 0, dpr, 0, 0);
+            draw(lastTime);
+          };
+
+          const render = (time: number) => {
+            frameId = 0;
+            if (!visible) return;
+            lastTime = time;
+            draw(time);
+            if (!reducedMotion) frameId = requestAnimationFrame(render);
+          };
+
+          const start = () => {
+            if (!reducedMotion && visible && !frameId) frameId = requestAnimationFrame(render);
+          };
+
+          const onPointerMove = (event: PointerEvent) => {
+            const bounds = scene.getBoundingClientRect();
+            targetX = Math.min(1, Math.max(0, (event.clientX - bounds.left) / bounds.width));
+            targetY = Math.min(1, Math.max(0, (event.clientY - bounds.top) / bounds.height));
+          };
+          const onPointerLeave = () => {
+            targetX = 0.5;
+            targetY = 0.5;
+          };
+          const onMotionPreferenceChange = (event: MediaQueryListEvent) => {
+            reducedMotion = event.matches;
+            if (reducedMotion && frameId) {
+              cancelAnimationFrame(frameId);
+              frameId = 0;
+            }
+            draw(reducedMotion ? 0 : lastTime);
+            start();
+          };
+
+          const resizeObserver = typeof ResizeObserver !== 'undefined'
+            ? new ResizeObserver(resize)
+            : null;
+          const visibilityObserver = typeof IntersectionObserver !== 'undefined'
+            ? new IntersectionObserver(([entry]) => {
+              visible = entry.isIntersecting;
+              if (visible) {
+                draw(lastTime);
+                start();
+              } else if (frameId) {
+                cancelAnimationFrame(frameId);
+                frameId = 0;
+              }
+            }, { threshold: 0.01 })
+            : null;
+
+          resize();
+          resizeObserver?.observe(scene);
+          visibilityObserver?.observe(scene);
+          window.addEventListener('resize', resize, { passive: true });
+          if (hasFinePointer) {
+            scene.addEventListener('pointermove', onPointerMove, { passive: true });
+            scene.addEventListener('pointerleave', onPointerLeave, { passive: true });
+          }
+          motionQuery.addEventListener?.('change', onMotionPreferenceChange);
+          start();
+
+          registerPageCleanup(() => {
+            if (frameId) cancelAnimationFrame(frameId);
+            resizeObserver?.disconnect();
+            visibilityObserver?.disconnect();
+            window.removeEventListener('resize', resize);
+            if (hasFinePointer) {
+              scene.removeEventListener('pointermove', onPointerMove);
+              scene.removeEventListener('pointerleave', onPointerLeave);
+            }
+            motionQuery.removeEventListener?.('change', onMotionPreferenceChange);
+            delete canvas.dataset.initialized;
+          });
+        });
+      }
+
+      // ─────────────────────────────────────
+      // 3. Scroll Reveal for sections
       // ─────────────────────────────────────
       function initScrollReveals() {
         const hash = window.location.hash;
@@ -231,27 +443,32 @@ import { ClientRouter } from 'astro:transitions';
       }
 
       // ─────────────────────────────────────
-      // 3. Ambient background motion
+      // 4. Ambient background motion
       // ─────────────────────────────────────
       function initAmbientMotion() {
         const gridBg = document.getElementById('grid-bg');
         const heroMark = document.querySelector('.brand-mark-hero');
 
-        if (gridBg) {
+        if (gridBg && window.matchMedia('(pointer: fine)').matches) {
           const previousHandler = (window as any).__ambientPointerHandler;
           if (previousHandler) window.removeEventListener('pointermove', previousHandler);
+          const moveX = gsap.quickTo(gridBg, 'x', { duration: 1.4, ease: 'power3.out' });
+          const moveY = gsap.quickTo(gridBg, 'y', { duration: 1.4, ease: 'power3.out' });
           const pointerHandler = (event: PointerEvent) => {
             const x = (event.clientX / window.innerWidth - 0.5) * 18;
             const y = (event.clientY / window.innerHeight - 0.5) * 18;
-            gsap.to(gridBg, {
-              x,
-              y,
-              duration: 1.8,
-              ease: 'power3.out',
-            });
+            moveX(x);
+            moveY(y);
           };
           (window as any).__ambientPointerHandler = pointerHandler;
           window.addEventListener('pointermove', pointerHandler, { passive: true });
+          registerPageCleanup(() => {
+            window.removeEventListener('pointermove', pointerHandler);
+            gsap.killTweensOf(gridBg);
+            if ((window as any).__ambientPointerHandler === pointerHandler) {
+              delete (window as any).__ambientPointerHandler;
+            }
+          });
         }
 
         if (heroMark) {
@@ -282,8 +499,36 @@ import { ClientRouter } from 'astro:transitions';
         });
       }
 
+      function initDarkScene() {
+        const hero = document.querySelector<HTMLElement>('[data-hero-scene]');
+        const cursor = document.querySelector<HTMLElement>('[data-hero-cursor]');
+        if (!hero || !cursor || !window.matchMedia('(pointer: fine)').matches) return;
+
+        const moveX = gsap.quickTo(cursor, 'x', { duration: 0.55, ease: 'power3.out' });
+        const moveY = gsap.quickTo(cursor, 'y', { duration: 0.55, ease: 'power3.out' });
+        const onMove = (event: PointerEvent) => {
+          const bounds = hero.getBoundingClientRect();
+          moveX(event.clientX - bounds.left - bounds.width / 2);
+          moveY(event.clientY - bounds.top - bounds.height / 2);
+        };
+        const onEnter = () => gsap.to(cursor, { autoAlpha: 1, scale: 1, duration: 0.35, ease: 'power3.out' });
+        const onLeave = () => gsap.to(cursor, { autoAlpha: 0, scale: 0.7, duration: 0.35, ease: 'power3.out' });
+
+        hero.addEventListener('pointermove', onMove, { passive: true });
+        hero.addEventListener('pointerenter', onEnter, { passive: true });
+        hero.addEventListener('pointerleave', onLeave, { passive: true });
+        gsap.set(cursor, { xPercent: -50, yPercent: -50, scale: 0.7, autoAlpha: 0 });
+
+        registerPageCleanup(() => {
+          hero.removeEventListener('pointermove', onMove);
+          hero.removeEventListener('pointerenter', onEnter);
+          hero.removeEventListener('pointerleave', onLeave);
+          gsap.killTweensOf(cursor);
+        });
+      }
+
       // ─────────────────────────────────────
-      // 4. Smooth anchor scrolling
+      // 5. Smooth anchor scrolling
       // ─────────────────────────────────────
       function initSmoothAnchors() {
         if ((window as any).__smoothAnchorsInit) return;
@@ -329,47 +574,132 @@ import { ClientRouter } from 'astro:transitions';
         });
       }
 
-      // ─────────────────────────────────────
-      // 5. Editorial project showcase
-      // ─────────────────────────────────────
-      function initProjectShowcase() {
-        const entries = Array.from(document.querySelectorAll<HTMLElement>('[data-project-entry]'));
-        const previews = Array.from(document.querySelectorAll<HTMLElement>('[data-project-preview]'));
-        if (!entries.length || !previews.length) return;
-
-        let activeIndex = 0;
-        const activate = (index: number) => {
-          if (index === activeIndex && previews[index]?.classList.contains('is-active')) return;
-          activeIndex = index;
-          previews.forEach((preview, previewIndex) => {
-            const active = previewIndex === index;
-            preview.classList.toggle('is-active', active);
-            gsap.to(preview, {
-              autoAlpha: active ? 1 : 0,
-              scale: active ? 1 : 1.025,
-              clipPath: active ? 'inset(0% 0 0 0)' : 'inset(7% 0 7% 0)',
-              duration: 0.5,
-              ease: 'power3.out',
-              overwrite: true,
-            });
-          });
-          entries.forEach((entry, entryIndex) => entry.classList.toggle('is-active', entryIndex === index));
-        };
+      function initServiceSequence() {
+        const entries = Array.from(document.querySelectorAll<HTMLElement>('[data-service-entry]'));
+        const list = document.querySelector<HTMLElement>('[data-service-list]');
+        if (!entries.length || !list || list.dataset.initialized === 'true') return;
+        list.dataset.initialized = 'true';
 
         const media = gsap.matchMedia();
-        media.add('(min-width: 1024px) and (prefers-reduced-motion: no-preference)', () => {
+        media.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
+          const activate = (index: number) => {
+            entries.forEach((entry, entryIndex) => {
+              entry.classList.toggle('is-active', entryIndex === index);
+            });
+          };
+
           entries.forEach((entry, index) => {
-            entry.addEventListener('pointerenter', () => activate(index));
-            entry.addEventListener('focusin', () => activate(index));
             ScrollTrigger.create({
               trigger: entry,
-              start: 'top 58%',
-              end: 'bottom 42%',
+              start: 'top 68%',
+              end: 'bottom 32%',
               onEnter: () => activate(index),
               onEnterBack: () => activate(index),
             });
           });
         });
+        registerPageCleanup(() => media.revert());
+      }
+
+      // ─────────────────────────────────────
+      // 6. Infinite marquee — clones enough content to avoid a visible reset
+      // ─────────────────────────────────────
+      function initMarquee() {
+        const marquees = Array.from(document.querySelectorAll<HTMLElement>('.motion-marquee'));
+
+        marquees.forEach((marquee) => {
+          const track = marquee.querySelector<HTMLElement>('.motion-marquee__track');
+          const source = track?.querySelector<HTMLElement>('.motion-marquee__group');
+          if (!track || !source || track.dataset.initialized === 'true') return;
+
+          track.dataset.initialized = 'true';
+
+          const sync = () => {
+            if (!document.body.contains(track)) return;
+
+            // Keep one canonical group and rebuild the clones from it. This also
+            // handles font loading and viewport changes without accumulating nodes.
+            track.querySelectorAll<HTMLElement>('.motion-marquee__group').forEach((group, index) => {
+              if (index > 0) group.remove();
+            });
+
+            const groupWidth = source.getBoundingClientRect().width;
+            if (!groupWidth) return;
+
+            const requiredWidth = window.innerWidth + groupWidth;
+            let cloneCount = 0;
+            while (track.scrollWidth < requiredWidth && cloneCount < 24) {
+              const clone = source.cloneNode(true) as HTMLElement;
+              clone.setAttribute('aria-hidden', 'true');
+              track.appendChild(clone);
+              cloneCount += 1;
+            }
+
+            // Move exactly one group per cycle. The next clone is already in
+            // the same visual position when the animation starts over.
+            track.style.setProperty('--marquee-end', `-${groupWidth}px`);
+          };
+
+          sync();
+          window.addEventListener('resize', sync, { passive: true });
+          document.fonts?.ready.then(sync);
+
+          const resizeObserver = typeof ResizeObserver !== 'undefined'
+            ? new ResizeObserver(sync)
+            : null;
+          resizeObserver?.observe(source);
+
+          registerPageCleanup(() => {
+            window.removeEventListener('resize', sync);
+            resizeObserver?.disconnect();
+            track.querySelectorAll<HTMLElement>('.motion-marquee__group').forEach((group, index) => {
+              if (index > 0) group.remove();
+            });
+            track.style.removeProperty('--marquee-end');
+            delete track.dataset.initialized;
+          });
+        });
+      }
+
+      // ─────────────────────────────────────
+      // 7. Black studio work cards
+      // ─────────────────────────────────────
+      function initWorkCards() {
+        const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-work-card]'));
+        if (!cards.length) return;
+
+        const media = gsap.matchMedia();
+        media.add('(min-width: 768px) and (prefers-reduced-motion: no-preference)', () => {
+          const activate = (index: number) => {
+            cards.forEach((card, cardIndex) => card.classList.toggle('is-active', cardIndex === index));
+          };
+
+          cards.forEach((card, index) => {
+            const image = card.querySelector<HTMLElement>('.project-media__image');
+            ScrollTrigger.create({
+              trigger: card,
+              start: 'top 68%',
+              end: 'bottom 32%',
+              onEnter: () => activate(index),
+              onEnterBack: () => activate(index),
+            });
+
+            if (image) {
+              gsap.to(image, {
+                yPercent: index % 2 === 0 ? -5 : 5,
+                ease: 'none',
+                scrollTrigger: {
+                  trigger: card,
+                  start: 'top bottom',
+                  end: 'bottom top',
+                  scrub: 1.2,
+                },
+              });
+            }
+          });
+        });
+
+        registerPageCleanup(() => media.revert());
       }
 
       function initMediaReveals() {
@@ -395,7 +725,8 @@ import { ClientRouter } from 'astro:transitions';
       function initCopyEmail() {
         const btn = document.getElementById('copy-email-btn');
         const label = document.getElementById('copy-label');
-        if (!btn || !label) return;
+        if (!btn || !label || btn.dataset.initialized === 'true') return;
+        btn.dataset.initialized = 'true';
 
         function copyWithFallback(text: string) {
           const textarea = document.createElement('textarea');
@@ -434,52 +765,6 @@ import { ClientRouter } from 'astro:transitions';
         });
       }
 
-      // ─────────────────────────────────────
-      // 7. Mobile menu
-      // ─────────────────────────────────────
-      function initMobileMenu() {
-        const btn = document.getElementById('mobile-menu-btn');
-        const menu = document.getElementById('mobile-menu');
-        if (!btn || !menu) return;
-
-        let isOpen = false;
-
-        function openMenu() {
-          isOpen = true;
-          menu.hidden = false;
-          menu.style.height = '0px';
-          requestAnimationFrame(() => { menu.style.height = menu.scrollHeight + 'px'; });
-          btn.setAttribute('aria-expanded', 'true');
-          btn.setAttribute('aria-label', 'Cerrar menú de navegación');
-          menu.setAttribute('aria-hidden', 'false');
-        }
-
-        function closeMenu() {
-          isOpen = false;
-          menu.style.height = '0px';
-          btn.setAttribute('aria-expanded', 'false');
-          btn.setAttribute('aria-label', 'Abrir menú de navegación');
-          menu.setAttribute('aria-hidden', 'true');
-          window.setTimeout(() => {
-            if (!isOpen) menu.hidden = true;
-          }, 520);
-        }
-
-        btn.addEventListener('click', () => {
-          isOpen ? closeMenu() : openMenu();
-        });
-
-        // Close on link click
-        menu.querySelectorAll('a').forEach((link) => {
-          link.addEventListener('click', closeMenu);
-        });
-
-        // Close on Escape
-        document.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape' && isOpen) closeMenu();
-        });
-      }
-
       // ─── Initialize everything ───
       document.addEventListener('astro:page-load', () => {
         const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -488,6 +773,7 @@ import { ClientRouter } from 'astro:transitions';
           initHeroReveal();
           initScrollReveals();
           initAmbientMotion();
+          initDarkScene();
         } else {
           const heroEl = document.getElementById('hero-text');
           if (heroEl) {
@@ -501,7 +787,10 @@ import { ClientRouter } from 'astro:transitions';
           });
         }
 
-        initProjectShowcase();
+        initHeroSignal();
+        initWorkCards();
+        initServiceSequence();
+        initMarquee();
         if (!reducedMotion) initMediaReveals();
         initCopyEmail();
         initSmoothAnchors();

@@ -1,55 +1,49 @@
 ---
-import { visibleProjects } from '../data/projects';
+import { featuredProjects, visibleProjects } from '../data/projects';
+import { siteContact } from '../data/site';
 import ProjectActions from './ProjectActions.astro';
 import ProjectMedia from './ProjectMedia.astro';
+
+const archiveProjects = visibleProjects.filter((project) => !project.featured);
 ---
 
-<section id="work" class="projects-section section-pad relative z-10">
-  <div class="projects-heading">
+<section id="work" class="work-canvas section-pad relative z-10" data-scene="work">
+  <div class="work-canvas__intro reveal-up">
     <div>
-      <p class="section-label eyebrow-rule reveal-up">Portfolio seleccionado</p>
-      <h2 class="section-title reveal-up">Proyectos que se pueden explorar.</h2>
+      <span class="work-canvas__index">01 / TRABAJO SELECCIONADO</span>
+      <h2>El trabajo habla primero.</h2>
     </div>
-    <p class="projects-heading__note reveal-up">
+    <p>
       Cada caso conecta el concepto, las decisiones de interfaz y el sitio real. Sin pasos ocultos.
     </p>
   </div>
 
-  <div class="projects-showcase">
-    <div class="projects-preview" aria-hidden="true">
-      <div class="projects-preview__stage">
-        {visibleProjects.map((project, index) => project.cover && (
-          <div class={`projects-preview__item ${index === 0 ? 'is-active' : ''}`} data-project-preview={index}>
-            <ProjectMedia
-              media={project.cover}
-              priority={index === 0}
-              showCaption={false}
-              sizes="(min-width: 1024px) 50vw, 100vw"
-            />
-            <span class="projects-preview__counter">{project.num} / {String(visibleProjects.length).padStart(2, '0')}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-
-    <div class="projects-index" aria-label="Proyectos destacados">
-      {visibleProjects.map((project, index) => (
-        <article class="project-entry reveal-up" data-project-entry={index}>
+  <div class="work-cards" aria-label="Proyectos destacados">
+    {featuredProjects.map((project, index) => (
+      <article
+        class={`work-card reveal-up ${index % 2 === 1 ? 'work-card--reverse' : ''}`}
+        data-work-card={index}
+      >
+        <div class="work-card__media">
           {project.cover && (
             <ProjectMedia
               media={project.cover}
-              class="project-entry__media"
+              class="work-card__image"
               showCaption={false}
-              sizes="(max-width: 1023px) 92vw, 1px"
+              sizes="(min-width: 1024px) 54vw, 92vw"
             />
           )}
-          <div class="project-entry__topline">
-            <span>{project.num}</span>
+          <span class="work-card__number">{String(index + 1).padStart(2, '0')} / 0{featuredProjects.length}</span>
+        </div>
+
+        <div class="work-card__content">
+          <div class="work-card__meta">
             <span>{project.meta}</span>
+            <span>{project.year || 'MauroUIX'}</span>
           </div>
-          <h3 class="project-entry__title">{project.title}</h3>
-          <p class="project-entry__description">{project.description}</p>
-          <div class="project-entry__tags" aria-label={`Tecnologías utilizadas en ${project.title}`}>
+          <h3>{project.title}</h3>
+          <p>{project.description}</p>
+          <div class="work-card__tags" aria-label={`Tecnologías utilizadas en ${project.title}`}>
             {project.tags.slice(0, 4).map((tag) => <span>{tag}</span>)}
           </div>
           <ProjectActions
@@ -57,22 +51,43 @@ import ProjectMedia from './ProjectMedia.astro';
             title={project.title}
             url={project.url}
             compact
+            active={index === 0}
           />
-        </article>
-      ))}
-    </div>
+        </div>
+      </article>
+    ))}
   </div>
 
-  <aside class="conversion-panel reveal-up" aria-labelledby="conversion-title">
-    <div>
-      <p class="section-label">El próximo puede ser el tuyo</p>
-      <h2 id="conversion-title">¿Tienes un proyecto en mente?</h2>
+  {archiveProjects.length > 0 && (
+    <div class="work-archive reveal-up">
+      <div class="work-archive__heading">
+        <span class="work-canvas__index">ARCHIVO</span>
+        <h3>Más proyectos</h3>
+        <p>Una selección adicional de interfaces, tiendas y experiencias digitales.</p>
+      </div>
+      <nav class="work-archive__list" aria-label="Archivo de proyectos">
+        {archiveProjects.map((project) => (
+          <a href={`/proyectos/${project.slug}`} class="archive-project">
+            <span class="archive-project__number">{project.num}</span>
+            <strong>{project.title}</strong>
+            <span class="archive-project__meta">{project.meta}</span>
+            <span class="archive-project__action">Abrir caso <span aria-hidden="true">↗</span></span>
+          </a>
+        ))}
+      </nav>
     </div>
-    <p>Conversemos sobre el objetivo, la experiencia y la forma más clara de llevarlo a la web.</p>
+  )}
+
+  <aside class="work-canvas__cta reveal-up" aria-labelledby="conversion-title">
+    <span class="work-canvas__index">SIGUIENTE / TU PROYECTO</span>
+    <div class="work-canvas__cta-main">
+      <h2 id="conversion-title">¿Tienes un proyecto en mente?</h2>
+      <p>Conversemos sobre el objetivo, la experiencia y la forma más clara de llevarlo a la web.</p>
+    </div>
     <div class="project-actions">
-      <a href="mailto:contacto@maurouix.com" class="button button--light">Escríbeme</a>
-      <a href="https://wa.me/573023725631" target="_blank" rel="noopener noreferrer" class="button button--ghost-light">
-        WhatsApp<span class="sr-only">, abre en otra pestaña</span>
+      <a href={`mailto:${siteContact.email}`} class="button button--light">Escríbeme <span aria-hidden="true">↗</span></a>
+      <a href={siteContact.whatsappUrl} target="_blank" rel="noopener noreferrer" class="button button--ghost-light">
+        WhatsApp <span aria-hidden="true">↗</span><span class="sr-only">, abre en otra pestaña</span>
       </a>
     </div>
   </aside>

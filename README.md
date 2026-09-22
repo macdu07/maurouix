@@ -52,7 +52,7 @@ public/
 
 ## Contacto
 
-- **Email:** contacto@maurouix.com
+- **Email:** info@maurouix.com
 - **WhatsApp:** +57 302 372 5631
 - **Instagram:** [@maurouix](https://www.instagram.com/maurouix)
 - **LinkedIn:** [/in/mcorread](https://www.linkedin.com/in/mcorread/)
